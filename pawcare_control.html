@@ -1,0 +1,1160 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>정선 AIGO | ON &amp; OUT 통합 서비스</title>
+<style>
+:root{--bg:#f3f6f8;--panel:#fff;--ink:#18242c;--muted:#78868f;--line:#e5ebee;--teal:#16877f;--teal2:#e4f5f2;--orange:#ec9b43;--red:#d95757;--blue:#5584be;--shadow:0 12px 30px #1d37440c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{min-height:100vh;display:grid;grid-template-columns:230px 1fr}.sidebar{background:#172a31;color:#e9f4f4;padding:25px 16px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:11px;padding:0 10px 28px;font-size:18px;font-weight:750}.brand-mark{width:34px;height:34px;border-radius:11px;background:#1c988d;display:grid;place-items:center;font-size:18px}.nav-label{color:#82969b;font-size:10px;letter-spacing:1.5px;padding:13px 12px 8px}.nav-item{padding:11px 12px;border-radius:10px;color:#c4d1d3;margin:2px 0;display:flex;gap:11px;align-items:center}.nav-item.active{background:#24434a;color:white}.nav-icon{width:18px;text-align:center;font-size:16px}.side-foot{margin-top:auto;border-top:1px solid #355057;padding:16px 11px;color:#93a9ad;font-size:12px}.main{padding:28px 34px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:23px}.eyebrow{font-size:11px;color:var(--teal);font-weight:700;letter-spacing:1.4px}.top h1{margin:4px 0 0;font-size:26px;letter-spacing:-.6px}.top-actions{display:flex;gap:10px;align-items:center}.clock{color:var(--muted);font-variant-numeric:tabular-nums;margin-right:5px}.btn{border:1px solid var(--line);background:white;color:var(--ink);border-radius:9px;padding:10px 14px;font-weight:650;cursor:pointer;box-shadow:0 2px 4px #1a303808}.btn:hover{transform:translateY(-1px)}.btn.primary{background:var(--teal);border-color:var(--teal);color:white}.btn.danger{background:#fff4f3;color:#be4545;border-color:#f3d0cc}.btn:disabled{opacity:.5;cursor:not-allowed}.status-banner{background:#e6f5f0;border:1px solid #cdebe1;border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:10px;margin-bottom:18px}.pulse{height:9px;width:9px;border-radius:50%;background:#22a882;box-shadow:0 0 0 4px #22a88220}.banner-text{font-weight:650}.banner-sub{color:#638078;font-size:12px;margin-left:auto}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}.metric{padding:16px 18px}.metric-head{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.metric-value{font-size:24px;font-weight:750;margin-top:8px;letter-spacing:-.5px}.metric-foot{font-size:11px;color:#94a0a6;margin-top:3px}.content{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(310px,.85fr);gap:16px}.panel-head{padding:17px 19px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panel-title{font-size:15px;font-weight:730}.panel-note{color:var(--muted);font-size:11px;margin-top:3px}.map-wrap{padding:13px 16px 4px}.map{width:100%;height:auto;display:block;background:linear-gradient(0deg,transparent 24%,#edf2f4 25%,#edf2f4 26%,transparent 27%,transparent 74%,#edf2f4 75%,#edf2f4 76%,transparent 77%),linear-gradient(90deg,transparent 24%,#edf2f4 25%,#edf2f4 26%,transparent 27%,transparent 74%,#edf2f4 75%,#edf2f4 76%,transparent 77%);background-size:52px 52px;border-radius:9px}.route-line{fill:none;stroke:#a8c9c5;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2 0}.route-line.active{stroke:var(--teal);stroke-dasharray:9 7;animation:dash 1s linear infinite}@keyframes dash{to{stroke-dashoffset:-32}}.point circle{fill:white;stroke:#b9c6cb;stroke-width:3}.point.done circle{fill:#16877f;stroke:#16877f}.point.current circle{fill:#fff;stroke:#ec9b43;stroke-width:5}.point text{font-size:12px;font-weight:700;fill:#52636a}.point.done text{fill:#16877f}.robot{transition:transform .7s ease}.robot circle{fill:#18363c}.robot text{font-size:17px}.map-legend{display:flex;gap:17px;padding:6px 19px 16px;color:var(--muted);font-size:11px}.legend-item{display:flex;align-items:center;gap:6px}.dot{width:8px;height:8px;border-radius:50%;background:var(--teal)}.dot.grey{background:#aab8bd}.dot.orange{background:var(--orange)}.side-stack{display:flex;flex-direction:column;gap:14px}.section{padding:16px 18px}.section h3{font-size:13px;margin:0 0 13px}.destination{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid #f0f3f4}.destination:last-child{border:0}.badge{height:30px;width:30px;border-radius:9px;background:#edf3f5;color:#687980;display:grid;place-items:center;font-weight:750}.destination.active .badge{background:#fff0dc;color:#bd7722}.destination.done .badge{background:var(--teal2);color:var(--teal)}.dest-name{font-weight:650;font-size:12px}.dest-sub{color:var(--muted);font-size:10px}.dest-state{margin-left:auto;font-size:10px;color:var(--muted)}.destination.active .dest-state{color:#bd7722;font-weight:700}.tilt-head{display:flex;justify-content:space-between;align-items:center}.tilt-values{display:flex;gap:12px;font-size:11px;color:var(--muted)}.tilt-values strong{font-size:13px;color:var(--ink)}.chart{width:100%;height:80px;margin-top:10px}.events{max-height:250px;overflow:auto}.event{display:grid;grid-template-columns:48px 9px 1fr;gap:9px;padding:10px 0;border-bottom:1px solid #f0f3f4}.event:last-child{border:0}.event-time{font:10px ui-monospace,monospace;color:#98a4a9;padding-top:2px}.event-dot{height:8px;width:8px;border-radius:50%;background:#aebbc0;margin-top:4px}.event-dot.ok{background:#27a982}.event-dot.warn{background:var(--orange)}.event-dot.bad{background:var(--red)}.event-title{font-size:11px;font-weight:650}.event-detail{font-size:10px;color:var(--muted);margin-top:2px}.bottom{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin:0 0 16px}.controls{padding:15px 18px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}.control-label{font-size:12px;font-weight:700;margin-right:auto}.serial-hint{font-size:10px;color:var(--muted);width:100%;padding-top:2px}.serial-pill{font-size:10px;border-radius:99px;padding:4px 8px;background:#f1f4f5;color:#708087}.serial-pill.on{background:var(--teal2);color:var(--teal)}.notice{padding:14px 17px;color:#66777e;font-size:11px;line-height:1.65}.notice strong{color:#35464d}.toast{position:fixed;right:24px;bottom:24px;background:#18343b;color:white;padding:12px 16px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1050px){.app{grid-template-columns:190px 1fr}.content{grid-template-columns:1fr}.side-stack{display:grid;grid-template-columns:1fr 1fr}.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.app{display:block}.sidebar{display:none}.main{padding:20px 14px}.top{align-items:flex-start;gap:12px;flex-direction:column}.top-actions{width:100%;flex-wrap:wrap}.content,.bottom{grid-template-columns:1fr}.side-stack{grid-template-columns:1fr}.banner-sub{display:none}}
+</style>
+<style>
+.course-config{margin:16px 0;padding:17px 19px}.course-config-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:13px}.course-fields{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:10px;color:var(--muted);font-weight:650}.field select,.field input{height:38px;border:1px solid var(--line);border-radius:8px;background:white;padding:0 10px;color:var(--ink);font:inherit}.field input{width:100px}.course-help{color:var(--muted);font-size:11px;margin-left:auto;align-self:center}@media(max-width:720px){.course-help{width:100%;margin-left:0}}
+.course-actions{display:flex;gap:7px;align-items:end;flex-wrap:wrap}.course-actions .btn{padding:9px 11px;font-size:11px}.course-editor-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(330px,.9fr);gap:16px;margin-top:16px}.editor-map-box{border:1px solid var(--line);border-radius:11px;background:#fbfcfc;padding:10px}.editor-map{width:100%;height:auto;display:block;touch-action:none}.editor-grid{stroke:#e4ebed;stroke-width:1}.editor-boundary{fill:#fff;stroke:#9eb0b5;stroke-width:2}.editor-axis{stroke:#a8b8bd;stroke-width:1.2}.editor-axis-label{font-size:10px;fill:#7d8a90}.editor-route{fill:none;stroke:#e87d59;stroke-width:3;stroke-dasharray:7 5;stroke-linecap:round;stroke-linejoin:round}.point-label{font-size:11px;font-weight:750;fill:#31434a;paint-order:stroke;stroke:white;stroke-width:3px;stroke-linejoin:round}.point.editable{cursor:grab;touch-action:none}.point.editable:active{cursor:grabbing}.point.editable circle{stroke-width:2.5}.point#homePoint circle,.point#editStart circle{fill:#ffc94c;stroke:#dda92e}.point#pointA circle,.point#editA circle{fill:#80c9a7;stroke:#3c9b76}.point#pointB circle,.point#editB circle{fill:#62c5df;stroke:#319ebd}.point#pointC circle,.point#editC circle{fill:#b997e8;stroke:#8d6cc3}.point text{text-anchor:middle}.editor-help{font-size:11px;color:var(--muted);padding:8px 2px 1px}.point-controls{display:flex;flex-direction:column;gap:8px}.point-row{border:1px solid var(--line);border-radius:10px;padding:9px 10px;display:grid;grid-template-columns:minmax(86px,1fr) auto auto;gap:8px;align-items:center}.point-row-label{font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}.point-chip{width:10px;height:10px;border-radius:50%;background:#ffc94c}.point-row[data-key="A"] .point-chip{background:#80c9a7}.point-row[data-key="B"] .point-chip{background:#62c5df}.point-row[data-key="C"] .point-chip{background:#b997e8}.coordinate-field{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:10px}.coordinate-field input{width:66px;height:32px;padding:0 7px}.coordinate-summary{margin-top:3px;padding:11px 12px;background:#f3f7f8;border-radius:9px;color:#586970;font-size:11px;line-height:1.6}.coordinate-summary strong{color:#263a40}.point-controls .btn{margin-top:auto}.map{background:none}.point{transition:transform .18s ease}
+@media(max-width:900px){.course-editor-layout{grid-template-columns:1fr}.point-controls{display:grid;grid-template-columns:1fr 1fr}.coordinate-summary,.point-controls .btn{grid-column:1/-1}}@media(max-width:520px){.point-controls{grid-template-columns:1fr}.point-row{grid-template-columns:1fr auto auto}.course-actions{width:100%}.course-actions .field{flex:1}}
+</style>
+<style>
+.grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.map-telemetry{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;font-size:10px;color:var(--muted)}
+.telemetry-pill,.route-mode-pill{border:1px solid var(--line);border-radius:999px;background:#f7f9fa;padding:5px 9px;white-space:nowrap}
+.route-mode-pill{color:var(--teal);font-weight:700;background:var(--teal2);border-color:#cae9e3}
+.trail-line{fill:none;stroke:#ec9b43;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:3 7;opacity:.9}
+.robot-direction{fill:none;stroke:#18363c;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.map-legend .dot.route{background:#a8c9c5}.map-legend .dot.trail{background:#ec9b43}
+.metric-value.coordinate{font-size:20px;letter-spacing:-.4px}
+.destination .dest-progress{font-size:10px;color:var(--muted);margin-top:2px}
+.destination.warn .dest-state,.destination.warn .dest-progress{color:var(--red)}
+.destination.done .dest-state{color:var(--teal);font-weight:700}
+.robot-direction{stroke:#ec9b43;stroke-width:4;fill:none}
+.map-heading-note{font-size:10px;color:var(--muted);margin-top:3px}
+.course-config.busy .editable{pointer-events:none;opacity:.55}
+.region-quick-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;width:100%}
+.region-direct{min-height:66px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);padding:9px 11px;display:grid;grid-template-columns:35px 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;text-align:left;cursor:pointer;transition:.15s ease}
+.region-direct:hover{transform:translateY(-2px);box-shadow:0 5px 14px #1d374410}
+.region-direct:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.region-direct .region-code{grid-row:1/3;font-size:22px;font-weight:800;line-height:1}
+.region-direct .region-name{font-size:12px;font-weight:750}
+.region-direct small{font-size:10px;color:var(--muted)}
+.region-direct[data-direct-area="A"] .region-code{color:#3c9b76}
+.region-direct[data-direct-area="B"] .region-code{color:#319ebd}
+.region-direct[data-direct-area="C"] .region-code{color:#8d6cc3}
+.region-direct.selected{border-color:var(--teal);box-shadow:0 0 0 2px #16877f20;background:#f2fbf8}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.map-telemetry{justify-content:flex-start}.panel-head{gap:8px;align-items:flex-start}}
+</style>
+<style>
+.emergency-panel{margin:0 0 16px;padding:14px 17px;border:1px solid #ead9c2;background:#fffdf9;transition:.2s ease}
+.emergency-panel.active{border-color:#e9a184;background:#fff6f2;box-shadow:0 0 0 3px #d9575710}
+.emergency-panel-head{display:flex;align-items:center;gap:12px}
+.emergency-symbol{width:36px;height:36px;flex:0 0 36px;border-radius:11px;background:#f3f5f5;color:#78868f;display:grid;place-items:center;font-size:20px;font-weight:850}
+.emergency-panel.active .emergency-symbol{background:#ffe1d7;color:#bd4339}
+.emergency-main{min-width:0;flex:1}
+.emergency-pill{border-radius:99px;padding:5px 10px;background:#f0f3f4;color:#75838a;font-size:11px;font-weight:750;white-space:nowrap}
+.emergency-panel.active .emergency-pill{background:#ffe3dc;color:#ad392f}
+.emergency-location{font-size:12px;color:#516168;margin:10px 0 0 48px}
+.emergency-zone-settings{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;margin:10px 0 0 48px;padding:9px 11px;border:1px solid #edf0f1;border-radius:9px;background:#fff;font-size:11px;color:#68777e}
+.emergency-zone-settings strong{color:#33444b}
+.emergency-zone-settings label{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.emergency-zone-settings input{width:55px;padding:4px 5px;border:1px solid #dce4e6;border-radius:6px;color:#27383f;background:#fbfcfc}
+.emergency-zone{pointer-events:none;filter:drop-shadow(0 2px 2px #1c343322)}
+.emergency-zone circle{fill:#fff;stroke:#d95757;stroke-width:3}
+.emergency-zone text{fill:#b83e3e;font-size:12px;font-weight:900;text-anchor:middle;dominant-baseline:central}
+.map-legend .dot.zone{background:#fff;border:2px solid #d95757}
+.emergency-history{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0 48px}
+.emergency-history:empty{display:none}
+.emergency-history-item{border:1px solid #e9edef;border-radius:8px;padding:5px 8px;background:#fff;color:#69777e;font-size:10px}
+.emergency-active-list{display:grid;gap:7px;margin:10px 0 0 48px}
+.emergency-active-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid #f0d1c7;border-radius:9px;padding:8px 10px;background:#fff8f5}
+.emergency-active-copy{flex:1;min-width:170px;font-size:11px;color:#5d5551}
+.emergency-active-copy strong{color:#a73c32}
+.emergency-active-row .btn{padding:5px 9px;font-size:10px}
+.destination.emergency-target{background:#fff7f3;outline:1px solid #f0c0b3;border-radius:9px;padding-left:8px;padding-right:8px}
+.destination.emergency-target .dest-name:after{content:' · 대피 대상';color:#b94035;font-size:10px}
+.emergency-zone.active circle{fill:#ffe0d8;stroke:#d95757;stroke-width:4}
+.emergency-zone.active text{fill:#a32f2f}
+.emergency-map-marker{pointer-events:none;filter:drop-shadow(0 2px 3px #9b332955)}
+.emergency-map-marker circle{fill:#d95757;stroke:#fff;stroke-width:3}
+.emergency-map-marker .emergency-exclamation{fill:#fff;font-size:19px;font-weight:900;text-anchor:middle}
+.emergency-map-marker .emergency-map-label{fill:#a32f2f;font-size:11px;font-weight:800;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.map-legend .dot.emergency{background:#d95757}
+.status-banner.emergency-active{background:#fff1ed;border-color:#f3c9bd}
+.status-banner.emergency-active .pulse{background:#d95757;box-shadow:0 0 0 4px #d9575720}
+@media(max-width:520px){.emergency-panel-head{align-items:flex-start;flex-wrap:wrap}.emergency-location,.emergency-history,.emergency-zone-settings,.emergency-active-list{margin-left:0}}
+</style>
+<style>
+.observation-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:13px 16px 8px}
+.observation-station{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fbfcfc}
+.observation-station.fire{border-color:#e8a092;background:#fff5f2}
+.observation-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px}
+.observation-head span{color:var(--muted);margin-right:auto}
+.observation-head b{font-size:10px;color:var(--teal)}
+.observation-station.fire .observation-head b,.observation-station.fire #observationFlame1,.observation-station.fire #observationFlame2{color:var(--red)}
+.observation-values{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px;color:var(--muted);font-size:10px}
+.observation-values strong{display:block;margin-top:3px;color:var(--ink);font-size:14px}
+.observation-note{padding:0 16px 14px;color:var(--muted);font-size:10px}
+@media(max-width:520px){.observation-grid{grid-template-columns:1fr}}
+</style>
+<style>
+.manual-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;margin:0 0 16px}
+.manual-controls>div:first-child{margin-right:auto}
+.manual-controls strong{font-size:12px}
+.manual-controls-note{color:var(--muted);font-size:10px;margin-top:2px}
+.nav-item{width:100%;border:0;background:transparent;font:inherit;text-align:left;cursor:pointer}
+.nav-item:hover{background:#203b42;color:#fff}
+.nav-item:focus-visible{outline:2px solid #75cfc4;outline-offset:2px}
+.sidebar{position:sticky;top:0;height:100vh;align-self:start;overflow:auto}
+[hidden]{display:none!important}
+.run-history-card{overflow:hidden}
+.run-history-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 18px;color:var(--muted);font-size:11px}
+.run-history-toolbar .btn{margin-left:auto}
+.run-history-table-wrap{overflow-x:auto;padding:0 18px 18px}
+.run-history-table{width:100%;border-collapse:collapse;min-width:720px;text-align:left}
+.run-history-table th,.run-history-table td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:12px}
+.run-history-table th{color:var(--muted);font-size:10px;font-weight:700;white-space:nowrap}
+.run-history-table td:first-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.run-history-id{display:block;color:#9aa6aa;font:10px ui-monospace,monospace;margin-top:3px}
+.run-outcome{display:inline-block;border-radius:999px;padding:4px 8px;background:#f1f4f5;color:#65747a;font-size:10px;font-weight:700;white-space:nowrap}
+.run-outcome.good{background:var(--teal2);color:var(--teal)}.run-outcome.bad{background:#fff0ed;color:#b7473e}.run-outcome.active{background:#fff4df;color:#a66b1f}
+.run-details summary{color:var(--teal);cursor:pointer;font-size:11px;white-space:nowrap}
+.run-event-list{margin:8px 0 0;padding-left:18px;min-width:200px;color:#617078;font-size:10px;line-height:1.7}
+.run-event-list time{color:#9aa6aa;margin-right:5px}
+</style>
+<style>
+html,body{height:100%}body{margin:0;overflow:hidden;display:flex;flex-direction:column}
+.pc-header{height:76px;flex-shrink:0;background:#fff;border-bottom:1px solid #e5ebee;display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:20px}
+.pc-header strong{font-size:23px;letter-spacing:-.7px;color:#193d42}.pc-header small{display:block;color:#78868f;font-size:11px;letter-spacing:1.2px;margin-top:2px}.pc-package{font-size:13px;color:#476a6e;font-weight:650}
+.pc-layout{display:grid;grid-template-columns:230px minmax(0,1fr);flex:1;min-height:0}.pc-layout>.sidebar{overflow:auto;display:flex}.pc-brand-sub{display:block;font-size:10px;font-weight:400;color:#93a9ad;margin-top:4px}.pc-nav-sub{display:block;font-size:11px;color:#93a9ad;margin-top:2px}
+.pc-workspace{min-width:0;min-height:0;display:flex;flex-direction:column}.pc-service-panel{flex:1;min-height:0;overflow:auto}.pc-service-panel[hidden]{display:none!important}#pc-panel-on{width:100%;border:0;background:#f3f6f8}.app{display:block;min-height:100%}.main{margin:0 auto}.pc-on-nav.active{background:#24434a;color:#fff}
+@media(max-width:720px){.pc-header{height:auto;min-height:76px;padding:12px 16px;flex-wrap:wrap;gap:4px}.pc-header strong{font-size:20px}.pc-package{font-size:11px}.pc-layout{grid-template-columns:165px minmax(0,1fr)}.pc-layout>.sidebar{padding:18px 8px}.sidebar .brand{padding:0 4px 20px;font-size:15px;gap:6px}.sidebar .brand-mark{display:none}.sidebar .nav-item{font-size:12px;padding:10px 8px;gap:6px}.sidebar .side-foot{padding:12px 4px;font-size:10px}}
+</style></head>
+<body><script>
+window.aigoIsLocal=location.protocol==='http:'&&location.hostname==='127.0.0.1'&&location.port==='8765';
+window.aigoBridgeReady=async()=>{try{const response=await fetch('http://127.0.0.1:8765/api/bridge-handshake',{signal:AbortSignal.timeout(1800)});if(!response.ok)return false;const data=await response.json();return data.bridge==='jeongseon-aigo-v1'}catch{return false}};
+window.showAigoLaunchFallback=(target)=>{let box=document.getElementById('aigo-launch-help');if(!box){box=document.createElement('div');box.id='aigo-launch-help';box.style.cssText='position:fixed;bottom:20px;left:20px;right:20px;z-index:10000;background:#fff;padding:18px;border:2px solid #16877f;border-radius:12px;box-shadow:0 8px 30px #0002';document.body.append(box)}box.replaceChildren();const text=document.createElement('p');text.textContent='연결 도우미 실행 요청을 보냈습니다. 반응이 없으면 Chrome·Edge에서 이 파일을 열어 실행을 허용하세요. 도우미가 실행 중이면 아래 링크로 연결할 수 있습니다.';const link=document.createElement('a');link.href=target;link.textContent='로컬 관제 열기';link.style.cssText='display:inline-block;background:#16877f;color:#fff;padding:10px 14px;border-radius:8px';box.append(text,link)};
+</script><header class="pc-header"><div><strong>정선 AIGO</strong><small>ON &amp; OUT</small></div><span class="pc-package">생활을 잇는 통합 로봇 서비스 · <a id="aigo-package-download" href="README.md" title="처음 사용하는 PC는 압축을 풀고 AIGO_Install.cmd를 한 번 실행하세요.">연결 도우미 설치 파일 ↓</a> · <a href="receiver_test_original.hex" download="receiver_test_original.hex">수신 마빗 HEX ↓</a> · <a href="microbit-receiver-check.html" target="_blank" rel="noopener">USB 단독 진단</a></span></header>
+<div class="pc-layout"><aside class="sidebar">
+    <div class="brand"><div class="brand-mark">🐾</div><span>정선 AIGO<small class="pc-brand-sub">통합 관제센터</small></span></div>
+    <div class="nav-label">운영</div>
+    <button class="nav-item active" type="button" data-nav-target="dashboard"><span class="nav-icon">▦</span>OUT · 배송서비스</button>
+<button class="nav-item pc-on-nav" id="pc-on-nav" type="button" aria-controls="pc-panel-on" aria-pressed="false"><span class="nav-icon">◉</span><span>ON · 순찰 및 재난<small class="pc-nav-sub">대피 안내 관제</small></span></button>
+    <button class="nav-item" type="button" data-nav-target="history"><span class="nav-icon">◷</span>운행 기록</button>
+    <div class="nav-label">장치</div>
+    <button class="nav-item" type="button" data-nav-target="connection"><span class="nav-icon">⌁</span>Python 연결</button>
+    <div class="side-foot">ON &amp; OUT · 통합 서비스<br><span style="opacity:.65">프로토타입 화면</span></div>
+  </aside><div class="pc-workspace"><div class="pc-service-panel" id="pc-panel-out">
+<div class="app">
+  
+  <main class="main">
+    <header class="top">
+      <div><div class="eyebrow">OUT · DELIVERY SERVICE</div><h1 id="pageTitle">관제 대시보드</h1></div>
+      <div class="top-actions"><span class="clock" id="clock">--:--:--</span><span id="serialPill" class="serial-pill">파이썬 연결 확인 중</span></div>
+    </header>
+<section class="card" style="padding:16px 18px;margin-bottom:16px" aria-label="로보독 연결">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><strong>로보독 연결</strong>
+<label for="robotPort">포트</label><input id="robotPort" value="" placeholder="포트 선택" list="robotPorts" pattern="COM[1-9][0-9]{0,3}" style="width:92px;padding:9px;border:1px solid #dce5e8;border-radius:8px"><datalist id="robotPorts"></datalist>
+<button class="btn" id="refreshRobotPorts" type="button">포트 찾기</button><button class="btn primary" id="connectRobotBtn" type="button">로보독 연결</button><button class="btn" id="disconnectRobotBtn" type="button" disabled>연결 해제</button>
+<span id="robotConnectionInfo" role="status" aria-live="polite" style="font-size:12px;color:#657980">로보독 USB를 연결하고 포트를 선택하세요.</span></div>
+<details style="margin-top:10px;font-size:12px;color:#657980"><summary>처음 사용하는 PC인가요?</summary><p>배포 폴더의 <strong>AIGO_Install.cmd</strong>를 한 번 실행한 뒤 ‘로보독 연결’을 누르세요. 브라우저가 연결 도우미 실행을 물으면 허용해 주세요. 연결 도우미가 시작되면 로컬 관제 화면이 열립니다.</p><button class="btn" id="retryRobotHelper" type="button">연결 도우미 다시 열기</button></details></section>
+    <div id="dashboardPage">
+    <div class="status-banner"><span class="pulse" id="pulse"></span><span class="banner-text" id="bannerText">대기 중</span><span class="banner-sub" id="bannerSub">Python 관제 서버를 통해 로보독 상태를 표시합니다.</span></div>
+    <section class="card emergency-panel" id="emergencyPanel" aria-live="assertive" aria-atomic="true">
+      <div class="emergency-panel-head">
+        <div class="emergency-symbol" id="emergencySymbol">!</div>
+        <div class="emergency-main"><div class="panel-title" id="emergencyTitle">재난 신호 대기</div><div class="panel-note" id="emergencyMessage">EMERGENCY:E1/F2/G1/H2 수신 시 로보독이 정지하고 관제 명령을 기다립니다.</div></div>
+        <span class="emergency-pill" id="emergencyPill">대기</span>
+        <button class="btn danger" id="emergencyAckBtn" disabled>최근 신호 확인</button>
+      </div>
+      <div class="emergency-location" id="emergencyLocation">E 지진 · F 화재 · G 가스 유출 · H 무더위 / 위치 1은 A·B, 위치 2는 B·C에 적용됩니다.</div>
+      <div class="emergency-zone-settings"><strong>재난 위치 좌표 (cm)</strong><label>1번 X <input id="emergencyX1" type="number" min="0" max="300" value="12"> Y <input id="emergencyY1" type="number" min="0" max="300" value="12"></label><label>2번 X <input id="emergencyX2" type="number" min="0" max="300" value="38"> Y <input id="emergencyY2" type="number" min="0" max="300" value="38"></label></div>
+      <div class="emergency-active-list" id="emergencyActiveList"></div>
+      <div class="emergency-history" id="emergencyHistory"></div>
+    </section>
+    <section class="card manual-controls" aria-label="로보독 수동 제어">
+      <div><strong>로보독 수동 제어</strong><div class="manual-controls-note">눈 LED는 로보독 연결 후 운행 중에도 켜고 끌 수 있습니다. 귀환은 운행 중 요청할 수 있고, 위험 정지 중에는 사용할 수 없습니다.</div></div>
+      <span class="serial-pill" id="headLedState">꺼짐</span>
+      <button class="btn primary" id="headLedOnBtn" type="button">눈 LED 켜기</button>
+      <button class="btn" id="headLedOffBtn" type="button">눈 LED 끄기</button>
+      <button class="btn danger" id="returnHomeBtn" type="button" disabled>⌂ 출발점으로 귀환</button>
+    </section>
+    <section class="bottom">
+      <div class="card controls"><span class="control-label">로보독 운행 제어</span><button class="btn primary" id="startSeqBtn">▶ A→B→C 순차 배송</button><div class="region-quick-actions" aria-label="배송 지역 바로 선택"><button class="region-direct" type="button" data-direct-area="A" aria-label="A 지역 배송 바로 시작"><strong class="region-code">A</strong><span class="region-name">A 지역 바로 배송</span><small>CLASS2 인물 카드</small></button><button class="region-direct" type="button" data-direct-area="B" aria-label="B 지역 배송 바로 시작"><strong class="region-code">B</strong><span class="region-name">B 지역 바로 배송</span><small>CLASS3 인물 카드</small></button><button class="region-direct" type="button" data-direct-area="C" aria-label="C 지역 배송 바로 시작"><strong class="region-code">C</strong><span class="region-name">C 지역 바로 배송</span><small>CLASS4 인물 카드</small></button></div><button class="btn danger" id="stopBtn">■ 정지</button><button class="btn" id="resumeBtn" disabled>CLASS1 제거 확인 후 재개</button><div class="serial-hint" id="regionHint">A/B/C 버튼은 해당 지역으로 바로 배송하고 출발점으로 복귀합니다. 이동 중 누르면 목적지를 바꿉니다.</div><div class="serial-hint" id="microbitHint">PC 수신 micro:bit → USB Serial → Python · 선택한 수신기 포트 / 115200</div></div>
+      <div class="card notice" id="connectionPanel"><strong>연결 상태</strong><br>처음 한 번 <code>AIGO_Install.cmd</code>를 실행한 뒤 위의 <strong>로보독 연결</strong> 버튼을 누르세요. Python은 RoboDog를 제어하고 관제 페이지를 제공합니다. 재난 수신 게이트웨이 micro:bit는 이 PC의 장치 목록에서 포트를 확인해 연결하세요(115200 baud). 관측소 송신 micro:bit는 라디오 그룹 1을 사용합니다. RoboDog 포트도 이 PC의 목록에서 별도로 선택하세요. 주소는 <code>http://127.0.0.1:8765/</code>입니다.<br><br><strong>재난 대응</strong><br>신호가 오면 로보독이 멈추고, 관제에서 ‘대피 안내’ 또는 ‘출발점 복귀’를 선택할 때까지 기다립니다. 위치 1은 A→B, 위치 2는 B→C 순서로 이동해 각 배송지에서 안내합니다.</div>
+    </section>
+    <section class="grid">
+      <div class="card metric"><div class="metric-head"><span>로보독 상태</span><span>●</span></div><div class="metric-value" id="robotState">대기</div><div class="metric-foot">현재 배송 작업 상태</div></div>
+      <div class="card metric"><div class="metric-head"><span>현재 배송지</span><span>⌖</span></div><div class="metric-value" id="currentArea">출발점</div><div class="metric-foot">도착 순서 A → B → C</div></div>
+      <div class="card metric"><div class="metric-head"><span>AI 클래스</span><span>◉</span></div><div class="metric-value" id="aiClass">대기</div><div class="metric-foot">CLASS1 위험 · CLASS2/3/4 A/B/C</div></div>
+      <div class="card metric"><div class="metric-head"><span>기울기</span><span>↗</span></div><div class="metric-value"><span id="rollValue">0.0</span>° <small style="font-size:13px;color:#89979d">/</small> <span id="pitchValue">0.0</span>°</div><div class="metric-foot">ROLL / PITCH</div></div>
+      <div class="card metric"><div class="metric-head"><span>현재 좌표</span><span>⌖</span></div><div class="metric-value coordinate" id="positionValue">(4.0, 4.0)</div><div class="metric-foot">cm · 이동량 기반 추정</div></div>
+    </section>
+    <section class="content">
+      <article class="card">
+        <div class="panel-head"><div><div class="panel-title">2D 배송 지도</div><div class="panel-note">원점은 왼쪽 위 · +Y는 아래쪽 · 방향 0°는 오른쪽, 양수는 시계 방향</div></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><span class="route-mode-pill" id="routeModePill">순차 경로 · 출발→A→B→C→출발</span><span class="telemetry-pill" id="mapPosition">추정 위치 (4.0, 4.0)cm · 방향 0°</span><button class="btn" id="resetBtn">점 설정 초기화</button></div></div>
+        <div class="map-wrap">
+          <svg class="map" id="mainMap" viewBox="0 0 600 390" role="img" aria-label="배송 경로와 로보독 위치 지도">
+            <g id="mainGrid"></g><path id="route" class="route-line"/><polyline id="trail" class="trail-line" points=""/>
+            <g class="point" id="homePoint"><circle r="12"/><text class="point-label">출발점</text></g>
+            <g class="point" id="pointA"><circle r="12"/><text class="point-label">A</text></g>
+            <g class="point" id="pointB"><circle r="12"/><text class="point-label">B</text></g>
+            <g class="point" id="pointC"><circle r="12"/><text class="point-label">C</text></g>
+            <g class="robot" id="robotMarker"><circle r="16"/><text text-anchor="middle" dominant-baseline="central">🐕</text><path id="robotDirection" class="robot-direction" d="M8 0L28 0M21 -6L28 0L21 6"/></g>
+            <g class="emergency-zone" id="emergencyZone1"><circle r="13"/><text x="0" y="1">1</text></g>
+            <g class="emergency-zone" id="emergencyZone2"><circle r="13"/><text x="0" y="1">2</text></g>
+            <g class="emergency-map-marker" id="emergencyMarker" style="display:none"><circle r="18"/><text class="emergency-exclamation" x="0" y="7">!</text><text class="emergency-map-label" id="emergencyMarkerLabel" x="0" y="-27">재난</text></g>
+            <text id="mapSizeLabel" x="300" y="375" text-anchor="middle" fill="#718087" font-size="11">50 × 50 cm</text>
+          </svg>
+        </div>
+        <div class="map-legend"><span class="legend-item"><i class="dot route"></i>설정 경로</span><span class="legend-item"><i class="dot trail"></i>추정 이동 궤적</span><span class="legend-item"><i class="dot orange"></i>현재 추정 위치</span><span class="legend-item"><i class="dot grey"></i>배송지 대기</span><span class="legend-item"><i class="dot zone"></i>재난 위치 1·2</span><span class="legend-item"><i class="dot emergency"></i>수신 재난</span></div>
+      </article>
+      <div class="side-stack">
+        <article class="card"><div class="panel-head"><div><div class="panel-title">배송 순서</div><div class="panel-note">각 지점에서 해당 인물 카드와 GO QR 확인</div></div></div>
+          <div class="section">
+            <div class="destination" id="destA"><div class="badge">A</div><div><div class="dest-name">A 배송지</div><div class="dest-sub">인물 카드 CLASS2</div><div class="dest-progress">인물 확인 · GO QR 대기</div></div><div class="dest-state">대기</div></div>
+            <div class="destination" id="destB"><div class="badge">B</div><div><div class="dest-name">B 배송지</div><div class="dest-sub">인물 카드 CLASS3</div><div class="dest-progress">인물 확인 · GO QR 대기</div></div><div class="dest-state">대기</div></div>
+            <div class="destination" id="destC"><div class="badge">C</div><div><div class="dest-name">C 배송지</div><div class="dest-sub">인물 카드 CLASS4</div><div class="dest-progress">인물 확인 · GO QR 대기</div></div><div class="dest-state">대기</div></div>
+          </div>
+        </article>
+        <article class="card"><div class="section">
+          <div class="tilt-head"><h3>기울기 추이</h3><div class="tilt-values">R <strong id="rollMini">0.0°</strong> P <strong id="pitchMini">0.0°</strong></div></div>
+          <canvas id="tiltChart" class="chart" width="400" height="100"></canvas>
+        </div></article>
+        <article class="card"><div class="panel-head"><div><div class="panel-title">관제 이벤트</div><div class="panel-note">최근 상태 및 보고</div></div><button class="btn" id="clearEvents" style="padding:6px 9px;font-size:10px">지우기</button></div><div class="section events" id="events"></div></article>
+      </div>
+    </section>
+    <section class="card course-config" id="courseConfig">
+      <div class="course-config-head"><div><div class="panel-title">배송 코스 설정</div><div class="panel-note">점을 지도에서 끌거나 좌표를 입력해 주세요. 배송 순서는 출발점 → A → B → C → 출발점입니다.</div></div><span class="serial-pill">점 위치 지정</span></div>
+      <div class="course-fields">
+        <div class="field"><label for="courseWidth">지도 가로 (cm)</label><input id="courseWidth" type="number" min="10" max="300" step="5" value="50"></div>
+        <div class="field"><label for="courseHeight">지도 세로 (cm)</label><input id="courseHeight" type="number" min="10" max="300" step="5" value="50"></div>
+        <div class="course-actions">
+          <button class="btn" type="button" data-size="50,50">50 × 50</button>
+          <button class="btn" type="button" data-size="100,50">100 × 50</button>
+          <button class="btn" type="button" data-size="50,100">50 × 100</button>
+          <button class="btn" type="button" id="examplePointsBtn">예시 점 불러오기</button>
+        </div>
+        <div class="course-help" id="courseSummary">지도 안의 점을 옮겨 위치를 정하세요.</div>
+      </div>
+      <div class="course-editor-layout">
+        <div>
+          <div class="editor-map-box">
+            <svg class="editor-map" id="courseEditorMap" viewBox="0 0 600 390" role="img" aria-label="드래그해서 배송 지점을 설정하는 지도">
+              <g id="editorGrid"></g><path id="editorRoute" class="editor-route"/>
+              <g class="point editable" id="editStart" data-key="start" tabindex="0" role="slider" aria-label="출발점"><circle r="11"/><text class="point-label">출발점</text></g>
+              <g class="point editable" id="editA" data-key="A" tabindex="0" role="slider" aria-label="A 배송지"><circle r="11"/><text class="point-label">A</text></g>
+              <g class="point editable" id="editB" data-key="B" tabindex="0" role="slider" aria-label="B 배송지"><circle r="11"/><text class="point-label">B</text></g>
+              <g class="point editable" id="editC" data-key="C" tabindex="0" role="slider" aria-label="C 배송지"><circle r="11"/><text class="point-label">C</text></g>
+            </svg>
+          </div>
+          <div class="editor-help">점을 끌거나 방향키로 옮기세요. Y+는 화면 아래쪽이며, 좌표의 (0, 0)은 지도 왼쪽 위입니다. 방향키를 누르면 지도 점도 같은 방향으로 움직여요.</div>
+        </div>
+        <div class="point-controls">
+          <div class="point-row" data-key="start"><div class="point-row-label"><i class="point-chip"></i>출발점</div><label class="coordinate-field">X <input type="number" min="0" step="1" data-coordinate="x" aria-label="출발점 X 좌표">cm</label><label class="coordinate-field">Y <input type="number" min="0" step="1" data-coordinate="y" aria-label="출발점 Y 좌표">cm</label></div>
+          <div class="point-row" data-key="A"><div class="point-row-label"><i class="point-chip"></i>A 배송지</div><label class="coordinate-field">X <input type="number" min="0" step="1" data-coordinate="x" aria-label="A X 좌표">cm</label><label class="coordinate-field">Y <input type="number" min="0" step="1" data-coordinate="y" aria-label="A Y 좌표">cm</label></div>
+          <div class="point-row" data-key="B"><div class="point-row-label"><i class="point-chip"></i>B 배송지</div><label class="coordinate-field">X <input type="number" min="0" step="1" data-coordinate="x" aria-label="B X 좌표">cm</label><label class="coordinate-field">Y <input type="number" min="0" step="1" data-coordinate="y" aria-label="B Y 좌표">cm</label></div>
+          <div class="point-row" data-key="C"><div class="point-row-label"><i class="point-chip"></i>C 배송지</div><label class="coordinate-field">X <input type="number" min="0" step="1" data-coordinate="x" aria-label="C X 좌표">cm</label><label class="coordinate-field">Y <input type="number" min="0" step="1" data-coordinate="y" aria-label="C Y 좌표">cm</label></div>
+          <div class="coordinate-summary" id="pointSummary"></div>
+        </div>
+      </div>
+    </section>
+    </div>
+    <section id="runHistoryPage" hidden>
+      <article class="card run-history-card">
+        <div class="panel-head"><div><div class="panel-title">운행 기록</div><div class="panel-note">운행을 시작할 때마다 CSV에 누적 저장합니다. 최근 30회가 여기에 표시됩니다.</div></div></div>
+        <div class="run-history-toolbar"><span id="runHistoryStatus">기록을 불러오는 중…</span><a class="btn" href="/api/runs.csv">CSV 내려받기</a></div>
+        <div class="run-history-table-wrap"><table class="run-history-table"><thead><tr><th>시작 시간</th><th>배송 방식</th><th>도착 기록</th><th>결과</th><th>상세</th></tr></thead><tbody id="runHistoryRows"></tbody></table></div>
+      </article>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $ = id => document.getElementById(id);
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const KEYS = ['start', 'A', 'B', 'C'];
+const LABELS = {start:'출발점', A:'A', B:'B', C:'C'};
+const ELEMENTS = {start:['homePoint','editStart'], A:['pointA','editA'], B:['pointB','editB'], C:['pointC','editC']};
+const DEFAULT_POINTS = {start:{x:4,y:4}, A:{x:46,y:4}, B:{x:46,y:46}, C:{x:4,y:46}};
+let points = loadPoints();
+const DEFAULT_EMERGENCY_LOCATIONS = {1:{x:12,y:12},2:{x:38,y:38}};
+let emergencyLocations = loadEmergencyLocations();
+let lastEventId = 0;
+let routePreviewMode = 'sequential';
+let selectedArea = 'A';
+let lastStatus = null;
+let startPending = false;
+const plot = {left:80, right:520, top:35, bottom:345};
+function now(){return new Date().toLocaleTimeString('ko-KR',{hour12:false})}
+function toast(text){const el=$('toast');el.textContent=text;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function addEvent(title,detail='',kind='ok',time=now()){
+  const row=document.createElement('div');row.className='event';
+  const t=document.createElement('div');t.className='event-time';t.textContent=time;
+  const dot=document.createElement('i');dot.className='event-dot '+kind;
+  const body=document.createElement('div');const head=document.createElement('div');head.className='event-title';head.textContent=title;
+  const sub=document.createElement('div');sub.className='event-detail';sub.textContent=detail;body.append(head,sub);row.append(t,dot,body);$('events').prepend(row);
+}
+function setBanner(title,sub){$('bannerText').textContent=title;$('bannerSub').textContent=sub}
+function getCourseDims(){return {w:Number($('courseWidth').value)||50,h:Number($('courseHeight').value)||50}}
+function loadPoints(){
+  try{const saved=JSON.parse(localStorage.getItem('pawcare-course-points')||'null');if(saved){const savedPoints=saved.points||saved;if(KEYS.every(k=>savedPoints[k]&&Number.isFinite(Number(savedPoints[k].x))&&Number.isFinite(Number(savedPoints[k].y)))){if(saved.width>=10&&saved.width<=300)$('courseWidth').value=saved.width;if(saved.height>=10&&saved.height<=300)$('courseHeight').value=saved.height;return Object.fromEntries(KEYS.map(k=>[k,{x:Number(savedPoints[k].x),y:Number(savedPoints[k].y)}]))}}}catch{}
+  return Object.fromEntries(KEYS.map(k=>[k,{...DEFAULT_POINTS[k]}]));
+}
+function savePoints(){try{const {w,h}=getCourseDims();localStorage.setItem('pawcare-course-points',JSON.stringify({points,width:w,height:h}))}catch{}}
+function loadEmergencyLocations(){
+  try{const saved=JSON.parse(localStorage.getItem('pawcare-emergency-locations')||'null');if(saved&&['1','2'].every(k=>saved[k]&&Number.isFinite(Number(saved[k].x))&&Number.isFinite(Number(saved[k].y))))return Object.fromEntries(['1','2'].map(k=>[k,{x:clamp(Number(saved[k].x),0,300),y:clamp(Number(saved[k].y),0,300)}]))}catch{}
+  return {1:{...DEFAULT_EMERGENCY_LOCATIONS[1]},2:{...DEFAULT_EMERGENCY_LOCATIONS[2]}};
+}
+function saveEmergencyLocations(){try{localStorage.setItem('pawcare-emergency-locations',JSON.stringify(emergencyLocations))}catch{}}
+function updateEmergencyLocationInputs(){for(const id of ['1','2']){$(`emergencyX${id}`).value=emergencyLocations[id].x;$(`emergencyY${id}`).value=emergencyLocations[id].y}}
+function transform(x,y,w,h){
+  const scale=Math.min((plot.right-plot.left)/w,(plot.bottom-plot.top)/h);
+  const x0=(600-w*scale)/2;
+  const y0=(390-h*scale)/2;
+  return {x:x0+x*scale,y:y0+y*scale,scale,x0,y0};
+}
+function svgEl(name,attrs={}){const el=document.createElementNS(SVG_NS,name);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);return el}
+function drawGrid(id,w,h){
+  const root=$(id);root.replaceChildren();
+  const a=transform(0,0,w,h),b=transform(w,h,w,h),left=a.x,right=b.x,top=a.y,bottom=b.y;
+  root.append(svgEl('rect',{x:left,y:top,width:right-left,height:bottom-top,class:'editor-boundary'}));
+  const stepX=w<=100?10:50,stepY=h<=100?10:50;
+  for(let x=stepX;x<w;x+=stepX){const p=transform(x,0,w,h);root.append(svgEl('line',{x1:p.x,y1:top,x2:p.x,y2:bottom,class:'editor-grid'}))}
+  for(let y=stepY;y<h;y+=stepY){const p=transform(0,y,w,h);root.append(svgEl('line',{x1:left,y1:p.y,x2:right,y2:p.y,class:'editor-grid'}))}
+  root.append(svgEl('line',{x1:left,y1:bottom,x2:right,y2:bottom,class:'editor-axis'}),svgEl('line',{x1:left,y1:top,x2:left,y2:bottom,class:'editor-axis'}));
+  const x0=svgEl('text',{x:left,y:bottom+16,class:'editor-axis-label','text-anchor':'middle'});x0.textContent='0';root.append(x0);
+  const xmax=svgEl('text',{x:right,y:bottom+16,class:'editor-axis-label','text-anchor':'middle'});xmax.textContent=`${w} cm`;root.append(xmax);
+  const y0=svgEl('text',{x:left-8,y:top+3,class:'editor-axis-label','text-anchor':'end'});y0.textContent='0';root.append(y0);
+  const ymax=svgEl('text',{x:left-8,y:bottom+3,class:'editor-axis-label','text-anchor':'end'});ymax.textContent=`${h} cm`;root.append(ymax);
+}
+function routePath(w,h,mode=routePreviewMode,area=selectedArea){
+  const routeKeys=mode==='single'?['start',area,'start']:['start','A','B','C','start'];
+  return routeKeys.map((key,i)=>{const p=transform(points[key].x,points[key].y,w,h);return `${i?'L':'M'}${p.x} ${p.y}`}).join(' ');
+}
+function placePoint(id,key,w,h){
+  const group=$(id),p=transform(points[key].x,points[key].y,w,h);
+  group.setAttribute('transform',`translate(${p.x} ${p.y})`);
+  const text=group.querySelector('text');text.setAttribute('x','0');text.setAttribute('y','-15');text.textContent=LABELS[key];
+}
+function updatePointInputs(){
+  for(const key of KEYS){const row=document.querySelector(`.point-row[data-key="${key}"]`);row.querySelector('[data-coordinate="x"]').value=points[key].x;row.querySelector('[data-coordinate="y"]').value=points[key].y;}
+}
+function updateSummary(){
+  const {w,h}=getCourseDims();
+  const pointText=KEYS.map(k=>`${LABELS[k]}(${points[k].x}, ${points[k].y})`).join(' · ');
+  $('courseSummary').textContent=`${w} × ${h}cm 지도 · ${pointText}`;
+  $('pointSummary').innerHTML=`이동 순서 <strong>${routePreviewMode==='single'?`출발점 → ${selectedArea} → 출발점`:'출발점 → A → B → C → 출발점'}</strong><br>지도 왼쪽 위가 (0, 0)이고 Y값은 아래쪽으로 커집니다.<br>예시 코스는 C에서 출발점으로 90° 꺾이도록 배치했습니다. 점을 바꾸면 필요한 회전각도 달라집니다.<br>위치는 엔코더 없이 이동 시간과 기울기로 추정합니다.`;
+  $('mapSizeLabel').textContent=`${w} × ${h} cm`;
+  $('routeModePill').textContent=routePreviewMode==='single'?`선택 경로 · 출발→${selectedArea}→출발`:'순차 경로 · 출발→A→B→C→출발';
+  document.querySelectorAll('[data-direct-area]').forEach(button=>{const selected=routePreviewMode==='single'&&button.dataset.directArea===selectedArea;button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',String(selected))});
+}
+function renderMaps(){
+  const {w,h}=getCourseDims();if(!(w>0&&h>0))return;
+  drawGrid('mainGrid',w,h);drawGrid('editorGrid',w,h);
+  renderEmergencyZones(w,h);
+  $('route').setAttribute('d',routePath(w,h));$('editorRoute').setAttribute('d',routePath(w,h));
+  for(const key of KEYS)for(const id of ELEMENTS[key])placePoint(id,key,w,h);
+  updateSummary();updatePointInputs();
+}
+function renderEmergencyZones(w,h){
+  for(const id of ['1','2']){const marker=$(`emergencyZone${id}`),pos=emergencyLocations[id];if(pos.x<0||pos.x>w||pos.y<0||pos.y>h){marker.style.display='none';continue}const p=transform(pos.x,pos.y,w,h);marker.setAttribute('transform',`translate(${p.x} ${p.y})`);marker.style.display=''}
+}
+function clamp(value,min,max){return Math.max(min,Math.min(max,value))}
+function setCoordinate(key,axis,value){
+  const {w,h}=getCourseDims();const max=axis==='x'?w:h;
+  points[key][axis]=Math.round(clamp(Number(value)||0,0,max)*10)/10;
+  updatePointInputs();renderMaps();savePoints();
+}
+function getRoutePayload(){return Object.fromEntries(KEYS.map(k=>[k,[points[k].x,points[k].y]]))}
+function validateCourse(){
+  const {w,h}=getCourseDims();
+  if(w<10||w>300||h<10||h>300){toast('지도 가로·세로는 10~300cm로 설정해 주세요.');return false}
+  for(const key of KEYS)if(points[key].x<0||points[key].x>w||points[key].y<0||points[key].y>h){toast('출발점과 배송지 점을 지도 경계 안에 놓아 주세요.');return false}
+  for(let i=0;i<KEYS.length;i++)for(let j=i+1;j<KEYS.length;j++){const a=points[KEYS[i]],b=points[KEYS[j]];if(Math.hypot(a.x-b.x,a.y-b.y)<1){toast('출발점과 배송지 점은 1cm 이상 떨어뜨려 주세요.');return false}}
+  return true;
+}
+function svgCoordFromPointer(event){
+  const svg=$('courseEditorMap'),p=new DOMPoint(event.clientX,event.clientY).matrixTransform(svg.getScreenCTM().inverse());
+  const {w,h}=getCourseDims(),base=transform(0,0,w,h),scale=base.scale;
+  return {x:Math.round(clamp((p.x-base.x)/scale,0,w)),y:Math.round(clamp((p.y-base.y)/scale,0,h))};
+}
+let draggingKey=null;
+for(const marker of document.querySelectorAll('#courseEditorMap .editable')){
+  marker.addEventListener('pointerdown',event=>{draggingKey=marker.dataset.key;marker.setPointerCapture(event.pointerId);event.preventDefault()});
+  marker.addEventListener('pointermove',event=>{if(draggingKey!==marker.dataset.key)return;const p=svgCoordFromPointer(event);points[draggingKey]=p;updatePointInputs();renderMaps();savePoints()});
+  marker.addEventListener('pointerup',()=>{draggingKey=null});
+  marker.addEventListener('pointercancel',()=>{draggingKey=null});
+  marker.addEventListener('keydown',event=>{const step=event.shiftKey?5:1;const delta={ArrowLeft:[-step,0],ArrowRight:[step,0],ArrowUp:[0,-step],ArrowDown:[0,step]}[event.key];if(!delta)return;event.preventDefault();const key=marker.dataset.key,{w,h}=getCourseDims();points[key].x=clamp(points[key].x+delta[0],0,w);points[key].y=clamp(points[key].y+delta[1],0,h);updatePointInputs();renderMaps();savePoints()});
+}
+for(const row of document.querySelectorAll('.point-row'))for(const input of row.querySelectorAll('input'))input.addEventListener('change',()=>setCoordinate(row.dataset.key,input.dataset.coordinate,input.value));
+for(const id of ['courseWidth','courseHeight'])$(id).addEventListener('change',()=>{const {w,h}=getCourseDims();if(w<10||w>300||h<10||h>300){toast('지도 가로·세로는 10~300cm로 설정해 주세요.');return}for(const key of KEYS){points[key].x=clamp(points[key].x,0,w);points[key].y=clamp(points[key].y,0,h)}renderMaps();savePoints()});
+for(const button of document.querySelectorAll('[data-size]'))button.addEventListener('click',()=>{const [w,h]=button.dataset.size.split(',').map(Number);$('courseWidth').value=w;$('courseHeight').value=h;for(const key of KEYS){points[key].x=clamp(points[key].x,0,w);points[key].y=clamp(points[key].y,0,h)}renderMaps();savePoints()});
+$('examplePointsBtn').onclick=()=>{points=Object.fromEntries(KEYS.map(k=>[k,{...DEFAULT_POINTS[k]}]));$('courseWidth').value=50;$('courseHeight').value=50;renderMaps();savePoints();toast('50 × 50cm 예시 점을 불러왔습니다.')};
+function setRobotPoint(x,y,heading,trail){const {w,h}=getCourseDims(),origin=points.start,relX=Number(x)||0,relY=Number(y)||0,p=transform(origin.x+relX,origin.y+relY,w,h);$('robotMarker').setAttribute('transform',`translate(${p.x} ${p.y}) rotate(${Number(heading)||0})`);const mapX=origin.x+relX,mapY=origin.y+relY;$('positionValue').textContent=`(${mapX.toFixed(1)}, ${mapY.toFixed(1)})`;$('mapPosition').textContent=`추정 위치 (${mapX.toFixed(1)}, ${mapY.toFixed(1)})cm · 방향 ${(Number(heading)||0).toFixed(0)}°`;const trailPoints=(trail||[]).map(point=>{const t=transform(origin.x+(Number(point.x)||0),origin.y+(Number(point.y)||0),w,h);return `${t.x},${t.y}`}).join(' ');$('trail').setAttribute('points',trailPoints)}
+function renderDestinations(events,currentArea){
+  const progress={A:{arrived:false,person:false,greeting:false,qr:false,qrMiss:false,personMiss:false,evac:false,evacMiss:false},B:{arrived:false,person:false,greeting:false,qr:false,qrMiss:false,personMiss:false,evac:false,evacMiss:false},C:{arrived:false,person:false,greeting:false,qr:false,qrMiss:false,personMiss:false,evac:false,evacMiss:false}};
+  for(const event of events){
+    const area=String(event.area||'');if(!progress[area])continue;const item=progress[area];
+    if(event.event==='ARRIVED')item.arrived=true;
+    if(event.event==='PERSON_CARD_FOUND')item.person=true;
+    if(event.event==='GREETING')item.greeting=true;
+    if(event.event==='GO_QR_SCANNED')item.qr=true;
+    if(event.event==='QR_NOT_SCANNED')item.qrMiss=true;
+    if(event.event==='PERSON_NOT_FOUND')item.personMiss=true;
+    if(event.event==='EVACUATION_ALERT')item.evac=true;
+    if(event.event==='EVACUATION_PERSON_NOT_FOUND')item.evacMiss=true;
+  }
+  for(const area of ['A','B','C']){
+    const element=$('dest'+area),item=progress[area],done=item.qr,warning=item.qrMiss||item.personMiss||item.evacMiss;
+    element.classList.toggle('done',done);element.classList.toggle('warn',warning&&!done);element.classList.toggle('active',currentArea===area&&!done&&!warning);
+    element.querySelector('.dest-state').textContent=done?'완료':item.evacMiss?'대피 대상 미인식':item.qrMiss?'QR 미인식':item.personMiss?'인물 미인식':currentArea===area?'진행 중':item.evac?'대피 알림':item.greeting?'인사 완료':item.person?'카드 확인':item.arrived?'도착':'대기';
+    element.querySelector('.dest-progress').textContent=item.evacMiss?'재난 영향 지역 · 60초 동안 대상 미인식':item.evac&&item.qr?'대피 알림 완료 · GO QR 확인 완료':item.evac?'재난 영향 지역 · 대피 알림 실행':item.qr?'GO QR 확인 완료':item.qrMiss?'3회 안내 후 관제 보고':item.personMiss?'60초 대기 후 관제 보고':item.greeting?'인사 동작 완료':item.person?'인물 카드 확인 · GO QR 대기':item.arrived?'인물 카드 CLASS'+({A:2,B:3,C:4}[area])+' 확인 중':'인물 확인 · GO QR 대기';
+  }
+}
+function eventTitle(e){const map={RUN_START:'운행 시작',RUN_END:'운행 종료',ROUTE_START:'배송 시작',ARRIVED:'배송지 도착',PERSON_CARD_FOUND:'인물 카드 인식',GREETING:'인사 동작',GO_QR_SCANNED:'GO QR 인식',QR_NOT_SCANNED:'GO QR 미인식',PERSON_NOT_FOUND:'인물 카드 미인식',HAZARD_CLASS1:'위험 요소 감지',HAZARD_CLEARED:'위험 해제',RETURN_START:'복귀 시작',RETURN_HOME_REQUESTED:'귀환 요청',RETURN_HOME_START:'출발점 귀환',ROUTE_REDIRECT_REQUESTED:'목적지 변경 요청',ROUTE_REDIRECTED:'새 목적지로 경로 변경',SEQUENTIAL_ROUTE_START:'순차 배송 시작',SEQUENTIAL_NEXT_WAYPOINT:'다음 배송지 이동',SEQUENTIAL_ROUTE_DONE:'배송 완료',RETURNED:'출발점 복귀',ROUTE_ABORTED:'경로 중단',EMERGENCY_SIGNAL:'재난 신호 수신',EMERGENCY_ACKNOWLEDGED:'재난 신호 관제 확인',EMERGENCY_CLEARED:'재난 신호 해제',OBS_FIRE_SIGNAL:'관측소 화재 감지',OBS_FIRE_CLEARED:'관측소 화재 신호 해제',EVACUATION_ALERT:'대피 알림',EVACUATION_PERSON_NOT_FOUND:'대피 대상 인식 실패',ERROR:'오류',USER_ABORT:'사용자 정지'};return map[e]||e}
+function formatRunTime(value){if(!value)return '—';const date=new Date(value);return Number.isNaN(date.getTime())?value:date.toLocaleString('ko-KR',{hour12:false})}
+function renderRunHistory(runs){
+  const body=$('runHistoryRows');body.replaceChildren();
+  if(!runs.length){const row=document.createElement('tr'),cell=document.createElement('td');cell.colSpan=5;cell.textContent='아직 저장된 운행이 없습니다. 배송을 시작하면 이곳에 누적됩니다.';row.append(cell);body.append(row);return}
+  for(const run of runs){
+    const row=document.createElement('tr');
+    const started=document.createElement('td');started.textContent=formatRunTime(run.started_at);const id=document.createElement('small');id.className='run-history-id';id.textContent=run.visit_id;started.append(id);
+    const mode=document.createElement('td');mode.textContent=run.mode||'배송';
+    const areas=document.createElement('td');areas.textContent=(run.areas||[]).join(' → ')||'도착 기록 없음';
+    const outcomeCell=document.createElement('td'),outcome=document.createElement('span');outcome.className='run-outcome';outcome.textContent=run.outcome||'기록 확인';if(run.outcome==='완료 · 복귀')outcome.classList.add('good');else if(['오류','중단'].includes(run.outcome))outcome.classList.add('bad');else if(run.outcome==='진행 중')outcome.classList.add('active');outcomeCell.append(outcome);
+    const detailsCell=document.createElement('td'),details=document.createElement('details');details.className='run-details';const summary=document.createElement('summary');summary.textContent=`기록 ${(run.events||[]).length}개`;details.append(summary);const list=document.createElement('ol');list.className='run-event-list';
+    for(const item of (run.events||[])){const entry=document.createElement('li'),time=document.createElement('time');time.textContent=item.time?new Date(item.time).toLocaleTimeString('ko-KR',{hour12:false})+' ':'';entry.append(time,document.createTextNode(eventTitle(item.event)+(item.detail?` · ${item.detail}`:'')));list.append(entry)}
+    details.append(list);detailsCell.append(details);row.append(started,mode,areas,outcomeCell,detailsCell);body.append(row);
+  }
+}
+async function loadRunHistory(){
+ if(!window.aigoIsLocal){$('runHistoryStatus').textContent='운행 기록은 연결 도우미 실행 후 로컬 관제에서 확인할 수 있습니다.';return}
+  try{const response=await fetch('/api/runs',{cache:'no-store'});const data=await response.json();if(!response.ok)throw new Error(data.error||'기록을 읽을 수 없습니다.');renderRunHistory(data.runs||[]);$('runHistoryStatus').textContent=`화면 표시 ${(data.runs||[]).length}회 · 최근 30회 · 전체 기록은 CSV에 계속 누적됩니다.`}
+  catch(error){$('runHistoryStatus').textContent='기록을 불러오지 못했습니다: '+error.message;renderRunHistory([])}
+}
+function showPage(target){
+  const history=target==='history';$('dashboardPage').hidden=history;$('runHistoryPage').hidden=!history;
+  $('pageTitle').textContent=history?'운행 기록':target==='connection'?'Python 연결':'관제 대시보드';
+  document.querySelectorAll('[data-nav-target]').forEach(button=>button.classList.toggle('active',button.dataset.navTarget===target));
+  if(history){window.scrollTo({top:0,behavior:'smooth'});loadRunHistory()}
+  else if(target==='connection'){requestAnimationFrame(()=>$('connectionPanel').scrollIntoView({behavior:'smooth',block:'center'}))}
+  else{window.scrollTo({top:0,behavior:'smooth'})}
+}
+document.querySelectorAll('[data-nav-target]').forEach(button=>button.addEventListener('click',()=>showPage(button.dataset.navTarget)));
+function stationFireAlerts(stations={}){return Object.entries(stations).filter(([id,sample])=>sample&&sample.flame===1).map(([id,sample])=>({label:'화재 센서',emergency_type:'FIRE',location:`관측소 ${id}`,location_code:id,affected_areas:id==='1'?['A','B']:['B','C'],time:sample.received_at,source:'station_sensor'}))}
+function renderEmergency(s){
+  const stationAlerts=stationFireAlerts(s.observation_stations||{});
+  const emergencies=[...Object.values(s.active_emergencies||{}),...stationAlerts].sort((a,b)=>String(a.time||'').localeCompare(String(b.time||'')));
+  const active=s.active_emergency||(stationAlerts.length?stationAlerts[stationAlerts.length-1]:null)||(emergencies.length?emergencies[emergencies.length-1]:null),panel=$('emergencyPanel'),marker=$('emergencyMarker');
+  panel.classList.toggle('active',emergencies.length>0);$('emergencyAckBtn').disabled=!active||active.source==='station_sensor'||!!active.acknowledged;
+  $('emergencyTitle').textContent=emergencies.length?`${emergencies.length}개 재난 신호 활성 · 최근 ${active.label||'재난'}`:'활성 재난 신호 없음';
+  $('emergencyMessage').textContent=s.emergency_waiting?'로보독 정지 완료 · 아래에서 대피 안내 또는 출발점 복귀를 선택하세요.':s.emergency_command?`로보독 대응 중 · ${s.state||s.emergency_command}`:emergencies.length?'재난 신호 활성 · 대응은 관제 명령으로 실행합니다.':'EMERGENCY:E1/F2/G1/H2 수신 대기 · 1번은 A/B, 2번은 B/C';
+  $('emergencyPill').textContent=s.emergency_waiting?'관제 명령 대기':s.emergency_command?'대응 중':emergencies.length?'재난 활성':'대기';
+  $('emergencySymbol').textContent=emergencies.length?'!':'✓';
+  let pos=null;const {w,h}=getCourseDims();
+  if(active){
+    if(active.location_code&&emergencyLocations[active.location_code])pos={x:emergencyLocations[active.location_code].x,y:emergencyLocations[active.location_code].y};
+    else if(active.map_point&&points[active.map_point])pos={x:points[active.map_point].x,y:points[active.map_point].y};
+    else if(active.x_cm!==null&&active.x_cm!==undefined&&active.y_cm!==null&&active.y_cm!==undefined&&Number.isFinite(Number(active.x_cm))&&Number.isFinite(Number(active.y_cm)))pos={x:Number(active.x_cm),y:Number(active.y_cm)};
+  }
+  const outsideMap=!!pos&&(pos.x<0||pos.x>w||pos.y<0||pos.y>h);
+  const locationPoint=active&&active.location_code&&emergencyLocations[active.location_code]?` · 지도 좌표 (${emergencyLocations[active.location_code].x}, ${emergencyLocations[active.location_code].y})cm`:'';
+  $('emergencyLocation').textContent=active?`최근 신호 위치: ${active.location||'위치 정보 없음'}${locationPoint}${outsideMap?` · 현재 ${w}×${h}cm 지도 범위 밖`:''}${active.time?' · 수신 '+new Date(active.time).toLocaleString('ko-KR',{hour12:false}):''}`:'micro:bit에는 GPS가 없어 지도 좌표는 직접 설정합니다.';
+  if(pos&&pos.x>=0&&pos.x<=w&&pos.y>=0&&pos.y<=h){const p=transform(pos.x,pos.y,w,h);marker.setAttribute('transform',`translate(${p.x} ${p.y})`);marker.style.display='';$('emergencyMarkerLabel').textContent=active.label||'재난'}else marker.style.display='none';
+  for(const id of ['1','2'])$('emergencyZone'+id).classList.toggle('active',emergencies.some(event=>String(event.location_code)===id));
+  const activeList=$('emergencyActiveList');activeList.replaceChildren();
+  for(const event of emergencies){
+    const row=document.createElement('div');row.className='emergency-active-row';
+    const copy=document.createElement('div');copy.className='emergency-active-copy';
+    const head=document.createElement('strong');head.textContent=`위치 ${event.location_code||'?'} · ${event.label||'재난'}${event.acknowledged?' · 관제 확인':''}`;
+    const detail=document.createElement('div');detail.textContent=`대피 대상 배송지: ${(event.affected_areas||[]).join(' · ')||'지정되지 않음'}${event.raw?` · 수신 ${event.raw}`:''}`;copy.append(head,detail);
+    if(event.source!=='station_sensor'){
+      const evacuate=document.createElement('button');evacuate.type='button';evacuate.className='btn primary';evacuate.textContent='대피 안내';evacuate.dataset.emergencyAction='evacuate';evacuate.dataset.location=event.location_code||'';evacuate.disabled=!s.busy||!!s.emergency_command;
+      const goHome=document.createElement('button');goHome.type='button';goHome.className='btn danger';goHome.textContent='출발점 복귀';goHome.dataset.emergencyAction='emergency_return';goHome.dataset.location=event.location_code||'';goHome.disabled=!s.busy||!!s.emergency_command;
+      row.append(copy,evacuate,goHome);
+    }else row.append(copy);
+    const ack=document.createElement('button');ack.type='button';ack.className='btn';ack.textContent=event.source==='station_sensor'?'센서 감지':event.acknowledged?'확인됨':'관제 확인';ack.disabled=event.source==='station_sensor'||!!event.acknowledged;ack.dataset.emergencyAction='ack_emergency';ack.dataset.location=event.location_code||'';
+    const clear=document.createElement('button');clear.type='button';clear.className='btn danger';clear.textContent=event.source==='station_sensor'?'센서값으로 해제':'재난 해제';clear.disabled=event.source==='station_sensor';clear.dataset.emergencyAction='clear_emergency';clear.dataset.location=event.location_code||'';
+    row.append(ack,clear);activeList.append(row);
+  }
+  const history=$('emergencyHistory');history.replaceChildren();
+  for(const item of (s.emergency_history||[]).slice(0,4)){const row=document.createElement('div');row.className='emergency-history-item';const when=item.time?new Date(item.time).toLocaleTimeString('ko-KR',{hour12:false}):'';row.textContent=`${when} · ${item.label||'재난'} · ${item.location||'위치 미지정'}`;history.append(row)}
+}
+function renderStatus(s){
+  lastStatus=s;
+  if(window.publishOnStatus)window.publishOnStatus(s);
+  $('headLedState').textContent=s.head_led_on?`켜짐 · ${s.head_led_mode||'초롱초롱'}`:'꺼짐';
+  const ledReady=!!s.connected;
+  updateRobotConnection(s);
+  $('headLedOnBtn').disabled=!ledReady;
+  $('headLedOffBtn').disabled=!ledReady;
+  $('serialPill').textContent=s.connected?'로보독 연결됨':s.busy?'로보독 연결 중':'Python 서버 연결됨';$('serialPill').classList.toggle('on',!!s.connected);
+  const microbitLast=s.microbit_last_rx?` · 최근 신호: ${s.microbit_last_rx}`:'';
+  const microbitBaud=s.microbit_baudrate||115200;
+  $('microbitHint').textContent=s.microbit_connected?`재난 게이트웨이 시리얼 수신 · ${s.microbit_port||'USB'} / ${microbitBaud}${microbitLast}`:(s.microbit_status||'수신 게이트웨이 micro:bit를 PC USB에 연결하세요.');
+  $('robotState').textContent=s.state||'대기';$('currentArea').textContent=s.current_area||'출발점';$('aiClass').textContent=s.ai_class===null||s.ai_class===undefined?'대기':`CLASS${s.ai_class}`;
+  $('rollValue').textContent=(Number(s.roll)||0).toFixed(1);$('pitchValue').textContent=(Number(s.pitch)||0).toFixed(1);$('rollMini').textContent=(Number(s.roll)||0).toFixed(1)+'°';$('pitchMini').textContent=(Number(s.pitch)||0).toFixed(1)+'°';setRobotPoint(s.x_cm,s.y_cm,s.heading_deg,s.trail);renderEmergency(s);
+  $('route').classList.toggle('active',!!s.busy);const events=s.events||[];renderDestinations(events,s.current_area);
+  const stationFires=stationFireAlerts(s.observation_stations||{});const affectedAreas=new Set([...Object.values(s.active_emergencies||{}).flatMap(event=>event.affected_areas||[]),...stationFires.flatMap(event=>event.affected_areas||[])]);for(const area of ['A','B','C'])$('dest'+area).classList.toggle('emergency-target',affectedAreas.has(area));
+  for(const e of events)if(e.id>lastEventId){const kind=e.event.includes('EMERGENCY_SIGNAL')||e.event.includes('OBS_FIRE_SIGNAL')||e.event.includes('EVACUATION')||e.event.includes('HAZARD')||e.event.includes('NOT_FOUND')||e.event==='ERROR'||e.event.includes('ABORT')?'bad':e.event.includes('EMERGENCY_ACKNOWLEDGED')?'warn':'ok';addEvent(eventTitle(e.event),e.detail,kind,e.time?new Date(e.time).toLocaleTimeString('ko-KR',{hour12:false}):now());lastEventId=Math.max(lastEventId,e.id)}
+  $('startSeqBtn').disabled=!s.connected||!!s.busy||startPending;$('stopBtn').disabled=!s.busy;$('resumeBtn').disabled=!s.hazard_wait||!s.hazard_clear_confirmed;
+  const canRedirectNow=!!s.busy&&!!s.can_redirect&&!s.hazard_wait;
+  $('returnHomeBtn').disabled=!s.busy||!!s.hazard_wait||!!s.emergency_waiting||s.redirect_area==='HOME';
+  document.querySelectorAll('[data-direct-area]').forEach(button=>button.disabled=!s.connected||startPending||(!!s.busy&&!canRedirectNow));$('resetBtn').disabled=!!s.busy;$('courseConfig').classList.toggle('busy',!!s.busy);
+  document.querySelectorAll('.course-config input,.course-config button').forEach(el=>el.disabled=!!s.busy);
+  $('regionHint').textContent=!s.busy?'A/B/C 버튼은 해당 지역으로 바로 배송하고 출발점으로 복귀합니다.':s.emergency_waiting?'재난 정지 중입니다. 재난 카드에서 대피 안내 또는 복귀 명령을 선택하세요.':s.hazard_wait?'위험 정지 중에는 목적지를 바꿀 수 없습니다.':canRedirectNow?'이동 중입니다. A/B/C를 누르면 현재 회전·짧은 이동 호출 후 멈추고 새 지역으로 향합니다.':`현재 ${s.state||'작업'} 단계에서는 목적지를 바꿀 수 없습니다. 이동이 시작되면 버튼이 켜집니다.`;
+  document.querySelector('.status-banner').classList.toggle('emergency-active',!!s.active_emergency||stationFires.length>0);
+  if(s.emergency_waiting&&s.active_emergency)setBanner(`${s.active_emergency.label||'재난'} · 로보독 정지`,`위치 ${s.active_emergency.location_code} · 영향 배송지 ${(s.active_emergency.affected_areas||[]).join('·')} · 관제 명령을 기다립니다.`);else if(s.active_emergency&&s.emergency_command)setBanner(`${s.active_emergency.label||'재난'} 대응 중`,s.state||s.emergency_command);else if(s.active_emergency)setBanner(`${s.active_emergency.label||'재난'} 신호 접수`,`위치 ${s.active_emergency.location_code} · 대피 안내 또는 출발점 복귀를 선택하세요.`);else if(stationFires.length)setBanner('관측소 화재 신호 접수',`영향 배송지: ${[...new Set(stationFires.flatMap(event=>event.affected_areas))].join('·')}`);else if(s.hazard_wait&&!s.hazard_clear_confirmed)setBanner('위험 요소 감지','CLASS1이 계속 보입니다. 위험 요소를 치우면 재개 버튼이 활성화됩니다.');else if(s.hazard_wait)setBanner('위험 제거 확인','주변을 확인한 뒤 CLASS1 제거 확인 후 재개를 누르세요.');else if(s.redirect_area==='HOME')setBanner('귀환 요청','현재 추정 위치에서 출발점으로 경로를 바꿉니다.');else if(s.redirect_area)setBanner('목적지 변경 요청',`${s.redirect_area} 지역으로 경로를 바꿉니다.`);else if(s.busy)setBanner('운행 중',s.state||'로보독이 작업 중입니다.');else if(!s.connected)setBanner('대기 중','Python 관제 서버와 재난 신호 수신을 확인하세요.');else setBanner('관제 중','재난 신호 수신을 기다립니다.');
+}
+async function command(action,extra={}){try{const r=await fetch('/api/command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...extra})});const data=await r.json();if(!r.ok)throw new Error(data.error||data.message||'요청 실패');toast(data.message||'명령을 전달했습니다.');return true}catch(e){toast('명령 전달 실패: '+e.message);return false}}
+async function startDelivery(mode,area){if(!lastStatus||!lastStatus.connected){toast('먼저 로보독을 연결하세요.');return}if(!validateCourse())return;if(startPending){toast('운행 시작을 처리 중입니다. 이동 상태가 표시되면 목적지를 바꿀 수 있어요.');return}if(lastStatus&&lastStatus.busy){if(mode!=='single'||!lastStatus.can_redirect||lastStatus.hazard_wait){toast('로보독이 이동 중일 때만 목적지를 바꿀 수 있습니다.');return}selectedArea=area;routePreviewMode='single';renderMaps();savePoints();const accepted=await command('redirect',{area});await poll();return accepted}routePreviewMode=mode;if(area)selectedArea=area;renderMaps();savePoints();const {w,h}=getCourseDims();startPending=true;document.querySelectorAll('[data-direct-area]').forEach(button=>button.disabled=true);$('startSeqBtn').disabled=true;const accepted=await command('start',{mode,area,side_x:w,side_y:h,course_points:getRoutePayload()});startPending=false;await poll();return accepted}
+async function poll(){if(!window.aigoIsLocal){updateRobotConnection(null);return}try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw new Error('server');renderStatus(await r.json())}catch{$('serialPill').textContent='Python 서버 연결 안 됨';$('serialPill').classList.remove('on');setBanner('연결 대기','위의 로보독 연결 버튼을 눌러 연결 도우미를 시작하세요.');updateRobotConnection(null)}}
+  $('startSeqBtn').onclick=()=>startDelivery('sequential');document.querySelectorAll('[data-direct-area]').forEach(button=>button.onclick=()=>startDelivery('single',button.dataset.directArea));$('stopBtn').onclick=()=>command('stop');$('resumeBtn').onclick=()=>command('resume_hazard');
+$('resetBtn').onclick=()=>{$('courseWidth').value=50;$('courseHeight').value=50;points=Object.fromEntries(KEYS.map(k=>[k,{...DEFAULT_POINTS[k]}]));renderMaps();savePoints();toast('예시 코스로 초기화했습니다.')};
+updateEmergencyLocationInputs();
+$('headLedOnBtn').onclick=async()=>{if(await command('head_led_on'))await poll()};
+$('headLedOffBtn').onclick=async()=>{if(await command('head_led_off'))await poll()};
+$('returnHomeBtn').onclick=async()=>{if(!confirm('현재 배송 순서를 멈추고 출발점으로 돌아갈까요?'))return;if(await command('return_home'))await poll()};
+for(const id of ['1','2'])for(const axis of ['x','y'])$(`emergency${axis.toUpperCase()}${id}`).addEventListener('change',()=>{const input=$(`emergency${axis.toUpperCase()}${id}`),value=Number(input.value);if(!Number.isFinite(value)){updateEmergencyLocationInputs();return}emergencyLocations[id][axis]=Math.round(clamp(value,0,300)*10)/10;updateEmergencyLocationInputs();saveEmergencyLocations();renderMaps();if(lastStatus)renderEmergency(lastStatus);toast(`재난 위치 ${id}번 좌표를 저장했습니다.`)});
+$('clearEvents').onclick=()=>{$('events').replaceChildren();toast('현재 이벤트 표시를 지웠습니다.')};
+$('emergencyAckBtn').onclick=async()=>{const location_code=lastStatus&&lastStatus.active_emergency?lastStatus.active_emergency.location_code:null;await command('ack_emergency',{location_code});await poll()};
+$('emergencyActiveList').addEventListener('click',async event=>{const button=event.target.closest('[data-emergency-action]');if(!button)return;await command(button.dataset.emergencyAction,{location_code:button.dataset.location});await poll()});
+
+let robotConnecting=false;
+function updateRobotConnection(s){
+ const connected=!!(s&&s.connected),busy=!!(s&&s.busy);
+ $('connectRobotBtn').disabled=robotConnecting||connected||busy;
+ $('disconnectRobotBtn').disabled=robotConnecting||!connected||busy;
+ $('robotPort').disabled=connected||busy||robotConnecting;
+ $('refreshRobotPorts').disabled=connected||busy;
+ $('robotConnectionInfo').textContent=robotConnecting?'연결 중…':connected?`로보독 ${s.robot_port||'선택한 포트'} 연결됨`:s?'연결 도우미 준비됨 · 로보독을 연결하세요.':'연결 버튼을 누르면 연결 도우미가 시작됩니다. 최초 1회 설치가 필요합니다.';
+ if(!s){$('serialPill').textContent='로보독 연결 대기';$('serialPill').classList.remove('on');['startSeqBtn','stopBtn','resumeBtn','headLedOnBtn','headLedOffBtn','returnHomeBtn'].forEach(id=>$(id).disabled=true);document.querySelectorAll('[data-direct-area]').forEach(b=>b.disabled=true);}
+}
+async function launchRobotHelper(){
+ const port=$('robotPort').value.trim().toUpperCase();
+ if(!/^COM[1-9][0-9]{0,3}$/.test(port)){toast('장치 목록에서 로보독의 COM 포트를 선택하세요.');return}
+ $('robotConnectionInfo').textContent='연결 도우미 확인 중…';
+ const target='http://127.0.0.1:8765/?connect=1&port='+encodeURIComponent(port);
+ if(await window.aigoBridgeReady()){location.href=target;return}
+ location.href='aigo-robodog://connect?port='+encodeURIComponent(port);
+ window.showAigoLaunchFallback(target);
+ $('robotConnectionInfo').textContent='도우미 실행 요청을 보냈습니다. 반응이 없으면 아래 로컬 관제 열기를 누르거나 Chrome·Edge에서 열어 주세요.';
+}
+async function connectRobot(){
+ if(location.protocol==='file:'||location.hostname!=='127.0.0.1'||location.port!=='8765'){launchRobotHelper();return}
+ if(robotConnecting)return;
+ const port=$('robotPort').value.trim().toUpperCase();
+ if(!/^COM[1-9][0-9]{0,3}$/.test(port)){toast('COM 포트를 확인하세요.');return}
+ robotConnecting=true;updateRobotConnection(lastStatus);
+ try{await command('connect_robot',{port})}finally{robotConnecting=false;await poll()}
+}
+async function refreshRobotPorts(){
+ if(!window.aigoIsLocal){
+  const target='http://127.0.0.1:8765/';
+  if(await window.aigoBridgeReady()){location.href=target;return}
+  location.href='aigo-robodog://connect?port=AUTO';
+  window.showAigoLaunchFallback(target);return;
+ }
+ try{const response=await fetch('/api/ports');if(!response.ok)throw Error();const data=await response.json();$('robotPorts').replaceChildren(...data.ports.map(p=>{const option=document.createElement('option');option.value=p.port;option.label=p.description;return option}));if(!data.ports.length)toast('연결된 COM 포트가 없습니다.')}catch{toast('포트를 읽을 수 없습니다. 연결 도우미 상태를 확인하세요.')}
+}
+$('connectRobotBtn').onclick=connectRobot;
+$('disconnectRobotBtn').onclick=async()=>{await command('disconnect_robot');await poll()};
+$('refreshRobotPorts').onclick=refreshRobotPorts;
+$('retryRobotHelper').onclick=launchRobotHelper;
+const robotParams=new URLSearchParams(location.search);
+if(/^COM[1-9][0-9]{0,3}$/.test(robotParams.get('port')||''))$('robotPort').value=robotParams.get('port');
+updateRobotConnection(null);
+if(location.protocol==='http:'&&location.hostname==='127.0.0.1'&&location.port==='8765'){
+ refreshRobotPorts();
+ if(robotParams.get('connect')==='1'){history.replaceState(null,'',location.pathname);connectRobot()}
+}
+
+renderMaps();setInterval(()=>$('clock').textContent=now(),1000);setInterval(poll,500);setInterval(()=>{if(!$('runHistoryPage').hidden)loadRunHistory()},10000);$('clock').textContent=now();poll();
+</script>
+</div><iframe class="pc-service-panel" id="pc-panel-on" title="ON:순찰 및 재난 대피 안내" allow="serial" hidden srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;ko&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;&lt;meta name=&quot;theme-color&quot; content=&quot;#142923&quot;&gt;&lt;title&gt;PawCare ON · 단독 실행 HTML&lt;/title&gt;
+&lt;style&gt;
+:root{--ink:#172a27;--muted:#75847e;--line:#e1e8e2;--paper:#f4f6f1;--white:#fff;--green:#245b49;--mint:#e4f3eb;--lime:#d8ef86;--orange:#e99a5a;--red:#ca574d;--blue:#5585b3;--shadow:0 10px 30px #183c2810}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,&quot;Pretendard&quot;,&quot;Noto Sans KR&quot;,system-ui,sans-serif}.shell{max-width:1440px;margin:auto;padding:24px 30px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{display:flex;align-items:center;gap:11px;font-weight:850;font-size:18px}.paw{width:38px;height:38px;border-radius:13px;background:var(--green);color:var(--lime);display:grid;place-items:center;font-size:21px}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.14em}.topright{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:12px}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:white;border-radius:999px;padding:7px 11px;font-size:11px;color:#63736b}.led{height:8px;width:8px;border-radius:50%;background:#9aa8a0}.led.live{background:#25a37b;box-shadow:0 0 0 3px #25a37b20}.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:22px}.tab{border:0;background:transparent;padding:13px 18px;margin-bottom:-1px;border-bottom:3px solid transparent;color:#67766f;font:inherit;font-size:13px;font-weight:750;cursor:pointer}.tab.active{color:var(--green);border-color:var(--green)}.tab b{display:inline-grid;place-items:center;border-radius:7px;margin-right:8px;width:28px;height:22px;background:#e7eee8;font-size:11px}.tab.active b{background:var(--green);color:white}.page[hidden]{display:none}.heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:17px 0}.eyebrow{color:var(--green);font-size:10px;letter-spacing:.16em;font-weight:850}.heading h1{font-size:27px;line-height:1.2;letter-spacing:-.04em;margin:5px 0}.heading p{color:var(--muted);font-size:12px;margin:0}.btn{border:1px solid var(--line);background:white;border-radius:9px;padding:9px 12px;color:var(--ink);font:inherit;font-size:11px;font-weight:750;cursor:pointer}.btn:hover{border-color:#9db5a4}.btn.primary{background:var(--green);color:white;border-color:var(--green)}.btn.danger{background:#fff2ef;color:#b8473f;border-color:#f0d3cc}.btn:disabled{opacity:.48;cursor:not-allowed}.banner{display:flex;align-items:center;gap:10px;background:var(--mint);border:1px solid #cde7d6;border-radius:12px;padding:12px 15px;margin:16px 0}.banner.alert{background:#fff1ed;border-color:#efc9be}.banner strong{font-size:12px}.banner span:last-child{margin-left:auto;color:#6e8175;font-size:11px}.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}.card,.metric{background:white;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow)}.metric{padding:14px 16px}.metric label{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.metric strong{display:block;font-size:22px;margin-top:8px;letter-spacing:-.04em}.metric small{display:block;color:#96a19a;font-size:10px;margin-top:2px}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,.85fr);gap:14px}.cardhead{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}.cardhead strong{font-size:13px}.cardhead small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.mapbox{padding:12px}.map{display:block;width:100%;height:auto;border-radius:9px;background-color:#f9fbf7;background-image:linear-gradient(#ebf0e9 1px,transparent 1px),linear-gradient(90deg,#ebf0e9 1px,transparent 1px);background-size:34px 34px}.maplabel{fill:#54665c;font-size:12px;font-weight:700}.legend{display:flex;gap:13px;flex-wrap:wrap;padding:0 16px 14px;color:var(--muted);font-size:10px}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;background:var(--green)}.stack{display:grid;gap:12px}.section{padding:14px 16px}.section h3{font-size:12px;margin:0 0 11px}.route-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #eef1ed}.route-row:last-child{border:0}.badge{display:grid;place-items:center;width:29px;height:29px;border-radius:9px;background:#edf2ed;color:var(--green);font-weight:800}.route-row small{display:block;color:var(--muted);font-size:10px}.route-state{margin-left:auto;color:#839088;font-size:10px}.station-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:12px}.station{border:1px solid var(--line);background:#fbfcfa;border-radius:10px;padding:11px}.station.fire{border-color:#edb6a9;background:#fff4f0}.stationhead{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:750}.stationhead span{font-size:9px;color:var(--muted);font-weight:600}.values{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:9px;color:var(--muted);font-size:9px}.values b{display:block;color:var(--ink);font-size:13px;margin-top:2px}.event{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid #eef1ed;font-size:10px}.event:last-child{border:0}.eventtime{font:9px ui-monospace,monospace;color:#99a49d}.eventmark{width:7px;height:7px;border-radius:50%;background:#2ca27a;margin-top:3px;flex:none}.eventmark.warn{background:var(--orange)}.eventmark.bad{background:var(--red)}.eventcopy strong{display:block;font-size:10px}.eventcopy span{color:var(--muted)}.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:13px 15px;margin:0 0 14px}.controls&gt;strong{margin-right:auto;font-size:12px}.note{font-size:10px;color:var(--muted);line-height:1.65;padding:13px 16px}.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.zone{border:1px solid var(--line);border-radius:9px;padding:9px;text-align:center;background:#fafcf9}.zone b{display:block;font-size:11px}.zone span{font-size:9px;color:var(--muted)}.report-list{display:grid;gap:8px}.report{display:grid;grid-template-columns:75px 1fr auto;align-items:center;gap:10px;border:1px solid var(--line);border-radius:9px;padding:10px}.reporttime{font:9px ui-monospace,monospace;color:var(--muted)}.report strong{display:block;font-size:11px}.report small{color:var(--muted);font-size:9px}.reporttype{font-size:9px;font-weight:800;padding:4px 7px;border-radius:999px;background:#f1f4f0;color:#66756d}.reporttype.fire{background:#fff0ec;color:#b94d41}.reporttype.heat{background:#fff5df;color:#986d20}.reporttype.gas{background:#f1edfa;color:#6853a3}.formrow{display:flex;gap:7px;flex-wrap:wrap}.formrow select,.formrow input{min-height:35px;border:1px solid var(--line);border-radius:8px;background:white;padding:0 9px;color:var(--ink);font:inherit;font-size:10px}.formrow input{flex:1;min-width:130px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,12px);opacity:0;transition:.2s;background:#18332d;color:white;padding:10px 15px;border-radius:9px;font-size:11px}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:850px){.shell{padding:18px}.layout{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.shell{padding:14px}.heading{align-items:flex-start;flex-direction:column}.heading h1{font-size:22px}.topright{gap:6px}.tabs{gap:0}.tab{flex:1;padding:11px 6px;font-size:11px}.metric-grid{gap:8px}.metric{padding:12px}.metric strong{font-size:19px}.station-grid{grid-template-columns:1fr}.banner span:last-child{display:none}.report{grid-template-columns:60px 1fr}.reporttype{grid-column:2}.zones{grid-template-columns:1fr 1fr}}
+&lt;/style&gt;&lt;style&gt;
+#onRouteMap{touch-action:none;background:#f8fbf9;border:1px solid #e1e8e2;border-radius:12px}
+.on-route-point{cursor:grab;touch-action:none;outline:none}.on-route-point:active{cursor:grabbing}.on-route-point:focus circle{stroke:#de922f;stroke-width:5}
+.on-route-label{font-size:12px;font-weight:750;fill:#345246;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+.on-route-editor{padding:0 18px 18px}.on-route-tools{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-bottom:12px}.on-route-tools label{font-size:11px;color:#657c6c;display:flex;flex-direction:column;gap:4px}.on-route-tools input,.on-route-tools select,.on-coordinate input{border:1px solid #dce6df;border-radius:7px;padding:7px;background:#fff;color:#234b39;font:inherit}.on-route-tools input{width:80px}.on-coordinate-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.on-coordinate{display:flex;align-items:center;gap:7px;border:1px solid #e1e8e2;border-radius:9px;padding:9px;font-size:11px;flex-wrap:wrap}.on-coordinate strong{margin-right:auto}.on-coordinate input{width:65px}.on-route-summary{margin-top:10px;background:#eff5ef;border-radius:9px;padding:10px;font-size:12px;color:#345b46}.on-route-save{font-size:11px;color:#748578;margin-top:8px}@media(max-width:520px){.on-coordinate-grid{grid-template-columns:1fr}}
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class=&quot;shell&quot;&gt;&lt;header class=&quot;top&quot;&gt;&lt;div class=&quot;brand&quot;&gt;&lt;span class=&quot;paw&quot;&gt;🐾&lt;/span&gt;&lt;span&gt;정선 AIGO&lt;small&gt;ON · PATROL &amp;amp; DISASTER RESPONSE&lt;/small&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;topright&quot;&gt;&lt;span id=&quot;clock&quot;&gt;--:--:--&lt;/span&gt;&lt;span class=&quot;pill&quot;&gt;&lt;i class=&quot;led&quot; id=&quot;onLed&quot;&gt;&lt;/i&gt;&lt;span id=&quot;connectionText&quot;&gt;ON 순찰 관제&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/header&gt;&lt;main id=&quot;page-on&quot; class=&quot;page&quot;&gt;&lt;div class=&quot;heading&quot;&gt;&lt;div&gt;&lt;div class=&quot;eyebrow&quot;&gt;ON · PATROL &amp;amp; DISASTER RESPONSE&lt;/div&gt;&lt;h1&gt;순찰 및 재난안내 서비스&lt;/h1&gt;&lt;p&gt;순찰 구역과 관측소 센서 보고를 한 화면에서 확인합니다.&lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;display:flex;gap:8px;flex-wrap:wrap&quot;&gt;&lt;button class=&quot;btn primary&quot; id=&quot;connectReceiver&quot; type=&quot;button&quot;&gt;수신기 연결&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;disconnectReceiver&quot; type=&quot;button&quot; disabled&gt;연결 해제&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;refreshOn&quot; type=&quot;button&quot;&gt;↻ 화면 갱신&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;banner&quot; id=&quot;onBanner&quot;&gt;&lt;i class=&quot;led&quot; id=&quot;bannerLed&quot;&gt;&lt;/i&gt;&lt;strong id=&quot;onBannerText&quot;&gt;관측소 보고를 기다리고 있습니다.&lt;/strong&gt;&lt;span id=&quot;onBannerSub&quot;&gt;센서 데이터는 연결된 수신기에서 제공됩니다.&lt;/span&gt;&lt;/div&gt;
+
+&lt;section class=&quot;card section&quot; style=&quot;margin:0 0 14px&quot;&gt;
+  &lt;div id=&quot;serialCompatibility&quot; class=&quot;note&quot; style=&quot;padding:0 0 10px;color:#9a6020&quot; hidden&gt;이 브라우저는 USB 시리얼 연결을 지원하지 않습니다. Chrome 또는 Edge에서 이 HTML 파일을 열어 주세요. 수동 보고와 파일 저장은 여기서 사용할 수 있습니다.&lt;/div&gt;
+  &lt;div style=&quot;display:flex;gap:12px;flex-wrap:wrap;align-items:center&quot;&gt;
+    &lt;label style=&quot;font-size:11px&quot;&gt;관측소 직접 USB 연결 시 번호
+      &lt;select id=&quot;directStation&quot; aria-label=&quot;직접 연결 관측소 번호&quot; style=&quot;border:1px solid #e1e8e2;border-radius:7px;padding:6px&quot;&gt;
+        &lt;option value=&quot;1&quot;&gt;관측소 1&lt;/option&gt;&lt;option value=&quot;2&quot;&gt;관측소 2&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/label&gt;
+    &lt;label style=&quot;font-size:11px&quot;&gt;&lt;input type=&quot;checkbox&quot; id=&quot;autoSpeak&quot;&gt; 신호 수신 시 PC 음성 안내&lt;/label&gt;
+    &lt;button class=&quot;btn&quot; type=&quot;button&quot; id=&quot;speakLast&quot; disabled&gt;최근 재난 안내 재생&lt;/button&gt;
+    &lt;button class=&quot;btn&quot; type=&quot;button&quot; id=&quot;ackSignals&quot; disabled&gt;수신 보고 확인&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;note&quot; style=&quot;padding:10px 0 0&quot;&gt;수신기 연결 → PC 수신 micro:bit 선택 → 재난 신호 수신. 이미 다른 프로그램이 같은 포트를 사용 중이면 연결을 해제해 주세요. 안내 음성은 PC에서 재생됩니다.&lt;/div&gt;
+  &lt;details style=&quot;margin-top:8px;font-size:11px;color:#75847e&quot;&gt;
+    &lt;summary style=&quot;cursor:pointer&quot;&gt;최근 수신 메시지 · &lt;span id=&quot;lastSerialAt&quot;&gt;—&lt;/span&gt;&lt;/summary&gt;
+    &lt;p id=&quot;lastSerialMessage&quot; style=&quot;word-break:break-all&quot;&gt;아직 수신된 메시지가 없습니다.&lt;/p&gt;
+  &lt;/details&gt;
+  &lt;p id=&quot;receiverDiagnostic&quot; role=&quot;status&quot; style=&quot;padding:10px;border:1px solid #dce6df;border-radius:8px;word-break:break-word&quot;&gt;수신기를 연결한 뒤 흔들면 첨부 테스트 HEX에서 RX:E1을 보냅니다.&lt;/p&gt;
+  &lt;div id=&quot;storageHint&quot; class=&quot;note&quot; style=&quot;padding:6px 0 0&quot;&gt;보고 기록은 이 브라우저에 최대 100개 저장됩니다. 보고 내보내기로 CSV 파일을 받을 수 있습니다.&lt;/div&gt;
+&lt;/section&gt;
+&lt;section class=&quot;card section&quot; style=&quot;margin-bottom:14px&quot;&gt;&lt;strong&gt;ON 로보독 순찰 제어&lt;/strong&gt;&lt;button class=&quot;btn&quot; id=&quot;onAlarmTest&quot; type=&quot;button&quot; style=&quot;margin-left:8px&quot;&gt;사이렌·팝업 점검&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;onEmergencyReopen&quot; type=&quot;button&quot; style=&quot;margin-left:10px&quot; hidden&gt;재난 대응 선택&lt;/button&gt;&lt;div style=&quot;display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:10px&quot;&gt;&lt;label style=&quot;font-size:12px&quot;&gt;로보독 포트 &lt;input id=&quot;onRobotPort&quot; value=&quot;&quot; placeholder=&quot;포트 선택&quot; list=&quot;onRobotPortList&quot; style=&quot;width:85px;padding:8px;border:1px solid #dce6df;border-radius:7px&quot;&gt;&lt;/label&gt;&lt;datalist id=&quot;onRobotPortList&quot;&gt;&lt;/datalist&gt;&lt;label id=&quot;onPortResults&quot; hidden style=&quot;font-size:12px&quot;&gt;검색된 장치 &lt;select id=&quot;onDetectedPort&quot;&gt;&lt;option value=&quot;&quot;&gt;장치를 선택하세요&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;button class=&quot;btn&quot; id=&quot;onRobotPorts&quot; type=&quot;button&quot;&gt;포트 찾기&lt;/button&gt;&lt;button class=&quot;btn primary&quot; id=&quot;onRobotConnect&quot; type=&quot;button&quot;&gt;로보독 연결&lt;/button&gt;&lt;button class=&quot;btn primary&quot; id=&quot;onPatrolStart&quot; type=&quot;button&quot; disabled&gt;▶ 설정 경로로 순찰 시작&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;onPatrolStop&quot; type=&quot;button&quot; disabled&gt;■ 순찰 정지&lt;/button&gt;&lt;label style=&quot;font-size:11px&quot;&gt;이동 보정 (cm/초) &lt;input id=&quot;onSpeedCalibration&quot; type=&quot;number&quot; value=&quot;5&quot; min=&quot;0.1&quot; max=&quot;100&quot; step=&quot;0.1&quot; style=&quot;width:65px&quot;&gt;&lt;/label&gt;&lt;label style=&quot;font-size:11px&quot;&gt;시작 방향 &lt;select id=&quot;onInitialHeading&quot;&gt;&lt;option value=&quot;0&quot;&gt;오른쪽 (+X)&lt;/option&gt;&lt;option value=&quot;90&quot;&gt;아래쪽 (+Y)&lt;/option&gt;&lt;option value=&quot;180&quot;&gt;왼쪽 (−X)&lt;/option&gt;&lt;option value=&quot;-90&quot;&gt;위쪽 (−Y)&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;&lt;p id=&quot;onActionStatus&quot; role=&quot;status&quot; style=&quot;font-size:12px;color:#16877f&quot;&gt;&lt;/p&gt;&lt;p id=&quot;onRobotStatus&quot; role=&quot;status&quot; style=&quot;font-size:12px&quot;&gt;연결 도우미를 연결한 뒤 순찰을 시작하세요.&lt;/p&gt;&lt;div class=&quot;note&quot; style=&quot;padding:0&quot;&gt;실제 로보독을 S 위치에 놓고 시작 방향을 맞추세요. 이동 속도 10에서 실제 이동 거리를 재어 cm/초를 보정해야 합니다. 기본값 5는 시험용 추정값입니다. 로보독과 수신기의 포트는 이 PC의 장치 목록에서 각각 확인하세요. 재난 신호 수신 시 정지하고 관제자의 선택을 기다립니다. S를 실제 대피 안내 도착점에 맞추세요. 수신기는 브라우저에서 선택한 장치 또는 연결 도우미의 수신 설정을 사용합니다.&lt;/div&gt;&lt;/section&gt;&lt;section id=&quot;onClass1Panel&quot; class=&quot;card section&quot; hidden style=&quot;margin-bottom:14px;border:2px solid #ca574d;background:#fff5f3&quot; role=&quot;alert&quot;&gt;&lt;strong&gt;CLASS1 위험 정지 · 관제 보고&lt;/strong&gt;&lt;p id=&quot;onClass1Message&quot;&gt;로보독이 정지하고 짖었습니다. 현장을 확인하세요.&lt;/p&gt;&lt;button class=&quot;btn primary&quot; id=&quot;onClass1Resume&quot; type=&quot;button&quot; disabled&gt;CLASS1 해제 확인 후 재개&lt;/button&gt;&lt;p class=&quot;note&quot; style=&quot;padding:8px 0 0;margin:0&quot;&gt;CLASS1이 사라지고 AI 연결이 확인되면 재개 버튼이 활성화됩니다. 재개 전까지 순찰·대피 안내·인물 확인을 멈춥니다.&lt;/p&gt;&lt;/section&gt;&lt;div class=&quot;metric-grid&quot;&gt;&lt;article class=&quot;metric&quot;&gt;&lt;label&gt;순찰 상태 &lt;span&gt;◉&lt;/span&gt;&lt;/label&gt;&lt;strong id=&quot;patrolState&quot;&gt;보고 대기&lt;/strong&gt;&lt;small&gt;수신기 신호만으로 주행 여부를 판정하지 않습니다.&lt;/small&gt;&lt;/article&gt;&lt;article class=&quot;metric&quot;&gt;&lt;label&gt;연결 관측소 &lt;span&gt;⌁&lt;/span&gt;&lt;/label&gt;&lt;strong id=&quot;stationCount&quot;&gt;0 / 2&lt;/strong&gt;&lt;small&gt;15초 이내 신호를 받은 관측소&lt;/small&gt;&lt;/article&gt;&lt;article class=&quot;metric&quot;&gt;&lt;label&gt;미확인 재난 보고 &lt;span&gt;!&lt;/span&gt;&lt;/label&gt;&lt;strong id=&quot;activeAlerts&quot;&gt;0건&lt;/strong&gt;&lt;small&gt;수신 보고 · 담당자 확인 대기&lt;/small&gt;&lt;/article&gt;&lt;article class=&quot;metric&quot;&gt;&lt;label&gt;최근 보고 &lt;span&gt;◷&lt;/span&gt;&lt;/label&gt;&lt;strong id=&quot;lastReport&quot;&gt;—&lt;/strong&gt;&lt;small&gt;수신 시각&lt;/small&gt;&lt;/article&gt;&lt;/div&gt;
+&lt;div class=&quot;layout&quot;&gt;&lt;div class=&quot;stack&quot;&gt;&lt;article class=&quot;card&quot;&gt;&lt;div class=&quot;cardhead&quot;&gt;&lt;div&gt;&lt;strong&gt;순찰 구역 현황&lt;/strong&gt;&lt;small&gt;관측소 위치 및 담당 구간&lt;/small&gt;&lt;/div&gt;&lt;span class=&quot;pill&quot; id=&quot;patrolMode&quot;&gt;순찰 준비&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;mapbox&quot;&gt;&lt;svg class=&quot;map&quot; id=&quot;onRouteMap&quot; viewBox=&quot;0 0 640 400&quot; role=&quot;group&quot; aria-label=&quot;점을 드래그하거나 방향키로 이동해 순찰 경로 설정&quot;&gt;
+&lt;g id=&quot;onRouteGrid&quot;&gt;&lt;/g&gt;&lt;polyline id=&quot;onRobotTrail&quot; fill=&quot;none&quot; stroke=&quot;#ec9b43&quot; stroke-width=&quot;3&quot; stroke-dasharray=&quot;3 5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;path id=&quot;onRoutePath&quot; fill=&quot;none&quot; stroke=&quot;#438365&quot; stroke-width=&quot;4&quot; stroke-dasharray=&quot;8 7&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;
+&lt;g id=&quot;onRoutePointS&quot; class=&quot;on-route-point&quot; data-route-key=&quot;S&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;S · 대피 안내 도착점 위치 이동&quot;&gt;&lt;circle r=&quot;14&quot; fill=&quot;#fff&quot; stroke=&quot;#d49f2e&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;5&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#d49f2e&quot; style=&quot;pointer-events:none&quot;&gt;S&lt;/text&gt;&lt;text class=&quot;on-route-label&quot; y=&quot;-23&quot; text-anchor=&quot;middle&quot;&gt;S · 대피 안내 도착점&lt;/text&gt;&lt;/g&gt;&lt;g id=&quot;onRoutePointA&quot; class=&quot;on-route-point&quot; data-route-key=&quot;A&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;구간 A 위치 이동&quot;&gt;&lt;circle r=&quot;14&quot; fill=&quot;#fff&quot; stroke=&quot;#438365&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;5&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#438365&quot; style=&quot;pointer-events:none&quot;&gt;A&lt;/text&gt;&lt;text class=&quot;on-route-label&quot; y=&quot;-23&quot; text-anchor=&quot;middle&quot;&gt;구간 A&lt;/text&gt;&lt;/g&gt;&lt;g id=&quot;onRoutePointB&quot; class=&quot;on-route-point&quot; data-route-key=&quot;B&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;구간 B 위치 이동&quot;&gt;&lt;circle r=&quot;14&quot; fill=&quot;#fff&quot; stroke=&quot;#319ebd&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;5&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#319ebd&quot; style=&quot;pointer-events:none&quot;&gt;B&lt;/text&gt;&lt;text class=&quot;on-route-label&quot; y=&quot;-23&quot; text-anchor=&quot;middle&quot;&gt;구간 B&lt;/text&gt;&lt;/g&gt;&lt;g id=&quot;onRoutePointC&quot; class=&quot;on-route-point&quot; data-route-key=&quot;C&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;구간 C 위치 이동&quot;&gt;&lt;circle r=&quot;14&quot; fill=&quot;#fff&quot; stroke=&quot;#8d6cc3&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;5&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#8d6cc3&quot; style=&quot;pointer-events:none&quot;&gt;C&lt;/text&gt;&lt;text class=&quot;on-route-label&quot; y=&quot;-23&quot; text-anchor=&quot;middle&quot;&gt;구간 C&lt;/text&gt;&lt;/g&gt;&lt;g id=&quot;stationMarker1&quot; class=&quot;on-route-point&quot; data-route-key=&quot;station1&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;관측소 1 위치 이동&quot;&gt;&lt;circle r=&quot;14&quot; fill=&quot;#fff&quot; stroke=&quot;#5585b3&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;5&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#5585b3&quot; style=&quot;pointer-events:none&quot;&gt;⌁&lt;/text&gt;&lt;text class=&quot;on-route-label&quot; y=&quot;-23&quot; text-anchor=&quot;middle&quot;&gt;관측소 1&lt;/text&gt;&lt;/g&gt;&lt;g id=&quot;stationMarker2&quot; class=&quot;on-route-point&quot; data-route-key=&quot;station2&quot; tabindex=&quot;0&quot; role=&quot;button&quot; aria-label=&quot;관측소 2 위치 이동&quot;&gt;&lt;circle r=&quot;14&quot; fill=&quot;#fff&quot; stroke=&quot;#5585b3&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;5&quot; text-anchor=&quot;middle&quot; font-size=&quot;12&quot; fill=&quot;#5585b3&quot; style=&quot;pointer-events:none&quot;&gt;⌁&lt;/text&gt;&lt;text class=&quot;on-route-label&quot; y=&quot;-23&quot; text-anchor=&quot;middle&quot;&gt;관측소 2&lt;/text&gt;&lt;/g&gt;&lt;g id=&quot;onRobot&quot; role=&quot;img&quot; aria-label=&quot;로보독 추정 위치&quot; style=&quot;pointer-events:none&quot;&gt;&lt;g id=&quot;onRobotDirection&quot;&gt;&lt;path d=&quot;M15 -6 L29 0 L15 6&quot; fill=&quot;none&quot; stroke=&quot;#ec9b43&quot; stroke-width=&quot;4&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/g&gt;&lt;circle r=&quot;16&quot; fill=&quot;#245b49&quot; stroke=&quot;#fff&quot; stroke-width=&quot;3&quot;/&gt;&lt;text y=&quot;6&quot; text-anchor=&quot;middle&quot; font-size=&quot;17&quot;&gt;🐕&lt;/text&gt;&lt;text id=&quot;onRobotMapLabel&quot; y=&quot;36&quot; text-anchor=&quot;middle&quot; font-size=&quot;11&quot; fill=&quot;#245b49&quot; style=&quot;paint-order:stroke;stroke:#fff;stroke-width:4px&quot;&gt;로보독&lt;/text&gt;&lt;/g&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div class=&quot;legend&quot;&gt;&lt;span&gt;&lt;i style=&quot;background:#5585b3&quot;&gt;&lt;/i&gt;관측소&lt;/span&gt;&lt;span&gt;&lt;i&gt;&lt;/i&gt;순찰 경로&lt;/span&gt;&lt;span&gt;&lt;i style=&quot;background:#ca574d&quot;&gt;&lt;/i&gt;재난 감지&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;on-route-editor&quot;&gt;&lt;div class=&quot;on-route-tools&quot;&gt;&lt;label&gt;가로 (cm)&lt;input id=&quot;onRouteWidth&quot; type=&quot;number&quot; min=&quot;10&quot; max=&quot;300&quot; value=&quot;50&quot;&gt;&lt;/label&gt;&lt;label&gt;세로 (cm)&lt;input id=&quot;onRouteHeight&quot; type=&quot;number&quot; min=&quot;10&quot; max=&quot;300&quot; value=&quot;50&quot;&gt;&lt;/label&gt;&lt;label&gt;순찰 순서&lt;select id=&quot;onRouteOrder&quot;&gt;&lt;option value=&quot;ABC&quot;&gt;S → A → B → C → S&lt;/option&gt;&lt;option value=&quot;ACB&quot;&gt;S → A → C → B → S&lt;/option&gt;&lt;option value=&quot;BAC&quot;&gt;S → B → A → C → S&lt;/option&gt;&lt;option value=&quot;BCA&quot;&gt;S → B → C → A → S&lt;/option&gt;&lt;option value=&quot;CAB&quot;&gt;S → C → A → B → S&lt;/option&gt;&lt;option value=&quot;CBA&quot;&gt;S → C → B → A → S&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;button class=&quot;btn&quot; type=&quot;button&quot; id=&quot;onRouteReset&quot;&gt;경로 초기화&lt;/button&gt;&lt;/div&gt;&lt;div class=&quot;on-coordinate-grid&quot;&gt;&lt;div class=&quot;on-coordinate&quot;&gt;&lt;strong&gt;S · 대피 안내 도착점&lt;/strong&gt;&lt;label&gt;X &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;S:x&quot; aria-label=&quot;S · 대피 안내 도착점 X 좌표&quot;&gt;&lt;/label&gt;&lt;label&gt;Y &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;S:y&quot; aria-label=&quot;S · 대피 안내 도착점 Y 좌표&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;on-coordinate&quot;&gt;&lt;strong&gt;구간 A&lt;/strong&gt;&lt;label&gt;X &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;A:x&quot; aria-label=&quot;구간 A X 좌표&quot;&gt;&lt;/label&gt;&lt;label&gt;Y &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;A:y&quot; aria-label=&quot;구간 A Y 좌표&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;on-coordinate&quot;&gt;&lt;strong&gt;구간 B&lt;/strong&gt;&lt;label&gt;X &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;B:x&quot; aria-label=&quot;구간 B X 좌표&quot;&gt;&lt;/label&gt;&lt;label&gt;Y &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;B:y&quot; aria-label=&quot;구간 B Y 좌표&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;on-coordinate&quot;&gt;&lt;strong&gt;구간 C&lt;/strong&gt;&lt;label&gt;X &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;C:x&quot; aria-label=&quot;구간 C X 좌표&quot;&gt;&lt;/label&gt;&lt;label&gt;Y &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;C:y&quot; aria-label=&quot;구간 C Y 좌표&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;on-coordinate&quot;&gt;&lt;strong&gt;관측소 1&lt;/strong&gt;&lt;label&gt;X &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;station1:x&quot; aria-label=&quot;관측소 1 X 좌표&quot;&gt;&lt;/label&gt;&lt;label&gt;Y &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;station1:y&quot; aria-label=&quot;관측소 1 Y 좌표&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;on-coordinate&quot;&gt;&lt;strong&gt;관측소 2&lt;/strong&gt;&lt;label&gt;X &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;station2:x&quot; aria-label=&quot;관측소 2 X 좌표&quot;&gt;&lt;/label&gt;&lt;label&gt;Y &lt;input type=&quot;number&quot; min=&quot;0&quot; max=&quot;50&quot; step=&quot;0.5&quot; data-on-coordinate=&quot;station2:y&quot; aria-label=&quot;관측소 2 Y 좌표&quot;&gt;&lt;/label&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;on-route-summary&quot; id=&quot;onRouteSummary&quot;&gt;&lt;/div&gt;&lt;div id=&quot;onPositionStatus&quot; class=&quot;on-route-summary&quot; role=&quot;status&quot;&gt;로보독 위치 · S에서 시작 대기&lt;/div&gt;&lt;div class=&quot;on-route-save&quot;&gt;🐕 로보독 추정 위치 · 주황 화살표: 방향 · 주황 점선: 이동 궤적&lt;/div&gt;&lt;div class=&quot;on-route-save&quot; id=&quot;onRouteSave&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;변경한 경로는 이 브라우저에 자동 저장됩니다.&lt;/div&gt;&lt;p class=&quot;note&quot; style=&quot;padding:8px 0 0;margin:0&quot;&gt;지도에서 S·A·B·C와 관측소를 드래그하거나 좌표를 입력하세요. 점을 선택한 뒤 방향키로 0.5cm씩 이동할 수 있습니다. 순찰 시작 버튼을 누르면 이 경로를 로보독에 전달합니다. 표시 위치는 주행 시간에 따른 추정값입니다.&lt;/p&gt;&lt;/div&gt;&lt;/article&gt;&lt;article class=&quot;card&quot;&gt;&lt;div class=&quot;cardhead&quot;&gt;&lt;div&gt;&lt;strong&gt;관측소 센서 보고&lt;/strong&gt;&lt;small&gt;재난 신호 · 실제 센서 측정값 · 최근 수신 시각&lt;/small&gt;&lt;/div&gt;&lt;span class=&quot;pill&quot; id=&quot;stationStatus&quot;&gt;연결 대기&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;station-grid&quot;&gt;&lt;div class=&quot;station&quot; id=&quot;station1&quot;&gt;&lt;div class=&quot;stationhead&quot;&gt;관측소 1 &lt;/div&gt;&lt;div class=&quot;values&quot;&gt;&lt;div&gt;불꽃&lt;b id=&quot;flame1&quot;&gt;—&lt;/b&gt;&lt;/div&gt;&lt;div&gt;가스 AO&lt;b id=&quot;gasAO1&quot;&gt;—&lt;/b&gt;&lt;/div&gt;&lt;div&gt;가스 DO&lt;b id=&quot;gasDO1&quot;&gt;—&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;stationhead&quot; style=&quot;margin-top:9px&quot;&gt;&lt;span id=&quot;fresh1&quot;&gt;데이터 대기&lt;/span&gt;&lt;span id=&quot;time1&quot;&gt;—&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;station&quot; id=&quot;station2&quot;&gt;&lt;div class=&quot;stationhead&quot;&gt;관측소 2 &lt;/div&gt;&lt;div class=&quot;values&quot;&gt;&lt;div&gt;불꽃&lt;b id=&quot;flame2&quot;&gt;—&lt;/b&gt;&lt;/div&gt;&lt;div&gt;가스 AO&lt;b id=&quot;gasAO2&quot;&gt;—&lt;/b&gt;&lt;/div&gt;&lt;div&gt;가스 DO&lt;b id=&quot;gasDO2&quot;&gt;—&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;stationhead&quot; style=&quot;margin-top:9px&quot;&gt;&lt;span id=&quot;fresh2&quot;&gt;데이터 대기&lt;/span&gt;&lt;span id=&quot;time2&quot;&gt;—&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;note&quot;&gt;제공된 PC 수신기는 재난 코드만 전달합니다. 가스 숫자는 관측소의 실제 측정 CSV를 직접 수신했을 때 표시하고, 전송되지 않은 가스 DO는 —로 둡니다.&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;
+&lt;div class=&quot;stack&quot;&gt;&lt;article class=&quot;card&quot;&gt;&lt;div class=&quot;cardhead&quot;&gt;&lt;div&gt;&lt;strong&gt;순찰 · 재난안내 요약&lt;/strong&gt;&lt;small&gt;관측 수신기에 보고된 활동&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;section&quot;&gt;&lt;div class=&quot;zones&quot;&gt;&lt;div class=&quot;zone&quot;&gt;&lt;b&gt;관측소 1&lt;/b&gt;&lt;span&gt;재난 신호 수신&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zone&quot;&gt;&lt;b&gt;관측소 2&lt;/b&gt;&lt;span&gt;재난 신호 수신&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;zone&quot;&gt;&lt;b&gt;안내 기준&lt;/b&gt;&lt;span&gt;E 지진 · F 화재&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;event&quot; style=&quot;margin-top:12px&quot;&gt;&lt;i class=&quot;eventmark&quot;&gt;&lt;/i&gt;&lt;div class=&quot;eventcopy&quot;&gt;&lt;strong&gt;관측소 데이터 연결&lt;/strong&gt;&lt;span id=&quot;observationHelp&quot;&gt;연결된 수신기의 최신 상태를 표시합니다.&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;&lt;article class=&quot;card&quot;&gt;&lt;div class=&quot;cardhead&quot;&gt;&lt;div&gt;&lt;strong&gt;재난 · 순찰 보고 기록&lt;/strong&gt;&lt;small&gt;최근 관측소 보고 및 상태 변경&lt;/small&gt;&lt;/div&gt;&lt;div style=&quot;display:flex;gap:6px;flex-wrap:wrap&quot;&gt;&lt;button class=&quot;btn&quot; id=&quot;exportReports&quot; type=&quot;button&quot;&gt;보고 내보내기&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;clearReports&quot; type=&quot;button&quot;&gt;기록 지우기&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;section&quot;&gt;&lt;div class=&quot;report-list&quot; id=&quot;reports&quot;&gt;&lt;div class=&quot;eventcopy&quot;&gt;&lt;strong&gt;아직 새 보고가 없습니다.&lt;/strong&gt;&lt;span&gt;관측소 신호를 수신하면 이곳에 기록합니다.&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;&lt;article class=&quot;card&quot;&gt;&lt;div class=&quot;cardhead&quot;&gt;&lt;div&gt;&lt;strong&gt;수동 관측 보고&lt;/strong&gt;&lt;small&gt;현장 담당자가 확인한 사항을 기록&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;section&quot;&gt;&lt;form class=&quot;formrow&quot; id=&quot;reportForm&quot;&gt;&lt;select id=&quot;reportStation&quot; aria-label=&quot;관측소&quot;&gt;&lt;option value=&quot;1&quot;&gt;관측소 1&lt;/option&gt;&lt;option value=&quot;2&quot;&gt;관측소 2&lt;/option&gt;&lt;/select&gt;&lt;select id=&quot;reportType&quot; aria-label=&quot;보고 유형&quot;&gt;&lt;option value=&quot;patrol&quot;&gt;순찰 확인&lt;/option&gt;&lt;option value=&quot;fire&quot;&gt;화재 의심&lt;/option&gt;&lt;option value=&quot;gas&quot;&gt;가스 의심&lt;/option&gt;&lt;option value=&quot;heat&quot;&gt;폭염 안내&lt;/option&gt;&lt;option value=&quot;quake&quot;&gt;지진 안내&lt;/option&gt;&lt;/select&gt;&lt;input id=&quot;reportNote&quot; placeholder=&quot;현장 확인 내용을 입력하세요&quot; maxlength=&quot;140&quot;&gt;&lt;button class=&quot;btn primary&quot; type=&quot;submit&quot;&gt;보고 추가&lt;/button&gt;&lt;/form&gt;&lt;/div&gt;&lt;/article&gt;&lt;article class=&quot;card note&quot;&gt;&lt;strong&gt;재난 안내 기준&lt;/strong&gt;&lt;br&gt;수신 코드: E 지진 · F 화재 · G 가스 · H 무더위. 관측소 1·2의 수신 신호를 확인합니다. 수신 보고 확인은 담당자의 확인 기록이며 현장 위험이 해제되었다는 뜻은 아닙니다.&lt;/article&gt;&lt;/div&gt;&lt;/div&gt;&lt;/main&gt;&lt;div class=&quot;toast&quot; id=&quot;toast&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;&lt;script&gt;
+// Web Serial reference: https://developer.chrome.com/docs/capabilities/serial
+// RX protocol recovered from the user&#x27;s supplied MakeCode receiver HEX.
+const KINDS = {E:{label:&#x27;지진&#x27;,type:&#x27;quake&#x27;},F:{label:&#x27;화재&#x27;,type:&#x27;fire&#x27;},G:{label:&#x27;가스&#x27;,type:&#x27;gas&#x27;},H:{label:&#x27;무더위&#x27;,type:&#x27;heat&#x27;}};
+const ZONES = {&#x27;1&#x27;:[&#x27;A&#x27;,&#x27;B&#x27;],&#x27;2&#x27;:[&#x27;B&#x27;,&#x27;C&#x27;]};
+const FRESH_MS = 15000;
+function parseSerialMessage(input, header = [], directStation = &#x27;1&#x27;) {
+  const raw = String(input).replace(/\0/g,&#x27;&#x27;).trim();
+  if (!raw) return null;
+  const forwarded = /^RX\s*:/i.test(raw);
+  const text = raw.replace(/^RX\s*:\s*/i,&#x27;&#x27;).trim();
+  const signal = text.match(/^([EFGH])([12])$/i);
+  if (signal) return {type:&#x27;signal&#x27;,kind:signal[1].toUpperCase(),station:signal[2],raw:raw};
+  const normal = text.match(/^(OK|DANGER)([12])?$/i);
+  if (normal) return {type:&#x27;state&#x27;,state:normal[1].toUpperCase(),
+    station:normal[2] || (forwarded ? null : directStation),raw:raw};
+  // Only parse measured values after receiving an actual named CSV header.
+  const cells = text.split(/[,;\t]/).map(value=&gt;value.trim().replace(/^&quot;|&quot;$/g,&#x27;&#x27;));
+  const names = cells.map(value=&gt;value.toLowerCase());
+  if (!forwarded &amp;&amp; names.includes(&#x27;gas&#x27;) &amp;&amp; names.includes(&#x27;fire&#x27;)) return {type:&#x27;header&#x27;,header:names};
+  if (!forwarded &amp;&amp; header.length === cells.length &amp;&amp; header.includes(&#x27;gas&#x27;) &amp;&amp; header.includes(&#x27;fire&#x27;)) {
+    const values = Object.fromEntries(header.map((name,index)=&gt;[name,cells[index]]));
+    const gas = Number(values.gas), rawFire = Number(values.fire);
+    if (values.gas !== &#x27;&#x27; &amp;&amp; values.fire !== &#x27;&#x27; &amp;&amp; Number.isFinite(gas) &amp;&amp;
+        gas&gt;=0 &amp;&amp; gas&lt;=1023 &amp;&amp; [0,1].includes(rawFire)) {
+      return {type:&#x27;sample&#x27;,station:directStation,gas:gas,
+        // Supplied station main.ts reads active-low fire from P3.
+        flame:rawFire === 0 ? 1 : 0,state:values.state || &#x27;&#x27;,raw:raw};
+    }
+  }
+  return {type:&#x27;unknown&#x27;,raw:raw};
+}
+
+// Application UI
+const $ = id=&gt;document.getElementById(id);
+const STORAGE_KEY = &#x27;pawcare-on-reports-v1&#x27;;
+let reportRows = [], stations = {}, alerts = {}, lastCodes = {};
+let serialPort = null, serialReader = null, readTask = null, closing = false, connecting = false;
+let serialHeader = [], messageBuffer = &#x27;&#x27;, lastMessage = &#x27;&#x27;, lastReceived = 0;
+let storageReady = true, lastDisaster = null, toastTimer;
+let receiverNote=&#x27;수신기를 연결한 뒤 흔들면 첨부 테스트 HEX에서 RX:E1을 보냅니다.&#x27;;
+function receiverMessage(message,error=null) {
+  receiverNote=message+(error?&#x27; [&#x27;+(error.name||&#x27;Error&#x27;)+&#x27;: &#x27;+(error.message||String(error))+&#x27;]&#x27;:&#x27;&#x27;);
+  $(&#x27;receiverDiagnostic&#x27;).textContent=receiverNote;
+  if(error)console.error(&#x27;ON receiver:&#x27;,message,error);
+}
+function processSerialText(text) {
+  try { appendChunk(text); } catch(error) {
+    messageBuffer=&#x27;&#x27;; receiverMessage(&#x27;USB는 연결되어 있으나 수신 메시지를 처리하지 못했습니다.&#x27;,error);
+  }
+}
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || &#x27;[]&#x27;);
+  if (Array.isArray(saved)) reportRows = saved.filter(row=&gt;row &amp;&amp;
+    typeof row.title===&#x27;string&#x27; &amp;&amp; typeof row.detail===&#x27;string&#x27; &amp;&amp;
+    [&#x27;1&#x27;,&#x27;2&#x27;,&#x27;—&#x27;].includes(String(row.station)) &amp;&amp; Number.isFinite(Date.parse(row.time))).slice(0,100);
+} catch { storageReady = false; }
+function timeText(value) {
+  const d = new Date(value);
+  return Number.isFinite(d.getTime()) ? d.toLocaleTimeString(&#x27;ko-KR&#x27;,{hour12:false}) : &#x27;—&#x27;;
+}
+function toast(text) {
+  clearTimeout(toastTimer);
+  $(&#x27;toast&#x27;).textContent=text; $(&#x27;toast&#x27;).classList.add(&#x27;show&#x27;);
+  toastTimer=setTimeout(()=&gt;$(&#x27;toast&#x27;).classList.remove(&#x27;show&#x27;),2800);
+}
+function saveReports() {
+  try { localStorage.setItem(STORAGE_KEY,JSON.stringify(reportRows)); storageReady=true; }
+  catch { storageReady=false; toast(&#x27;이 브라우저에서 자동 저장이 제한됩니다. 보고 내보내기로 저장하세요.&#x27;); }
+}
+function record(row) {
+  reportRows.unshift(row); reportRows=reportRows.slice(0,100);
+  saveReports(); paintReports();
+}
+function paintReports() {
+  const root=$(&#x27;reports&#x27;); root.replaceChildren();
+  if (!reportRows.length) {
+    const empty=document.createElement(&#x27;p&#x27;); empty.className=&#x27;note&#x27;;
+    empty.textContent=&#x27;수신 신호와 수동 보고가 이곳에 기록됩니다.&#x27;;
+    root.append(empty); $(&#x27;lastReport&#x27;).textContent=&#x27;—&#x27;; return;
+  }
+  for (const item of reportRows) {
+    const row=document.createElement(&#x27;div&#x27;); row.className=&#x27;report&#x27;;
+    const stamp=document.createElement(&#x27;span&#x27;); stamp.className=&#x27;reporttime&#x27;; stamp.textContent=timeText(item.time);
+    const copy=document.createElement(&#x27;div&#x27;);
+    const title=document.createElement(&#x27;strong&#x27;); title.textContent=item.title;
+    const detail=document.createElement(&#x27;small&#x27;); detail.textContent=
+      (item.station===&#x27;—&#x27; ? &#x27;&#x27; : &#x27;관측소 &#x27;+item.station+&#x27; · &#x27;)+item.detail;
+    copy.append(title,detail);
+    const type=document.createElement(&#x27;span&#x27;); type.className=&#x27;reporttype&#x27;;
+    if ([&#x27;fire&#x27;,&#x27;gas&#x27;,&#x27;heat&#x27;,&#x27;quake&#x27;,&#x27;patrol&#x27;].includes(item.type)) type.classList.add(item.type);
+    type.textContent=({fire:&#x27;화재&#x27;,gas:&#x27;가스&#x27;,heat:&#x27;무더위&#x27;,quake:&#x27;지진&#x27;,patrol:&#x27;순찰&#x27;})[item.type] || &#x27;수신&#x27;;
+    row.append(stamp,copy,type); root.append(row);
+  }
+  $(&#x27;lastReport&#x27;).textContent=timeText(reportRows[0].time);
+}
+function guidance(kind,station) {
+  const text={E:&#x27;지진 위험 신호입니다. 몸을 보호하고, 흔들림이 멈춘 뒤 담당자의 안내에 따라 대피하세요.&#x27;,
+    F:&#x27;화재 위험 신호입니다. 위험한 곳에서 벗어나 담당자의 안내에 따라 대피하세요.&#x27;,
+    H:&#x27;무더위 위험 신호입니다. 시원한 실내나 무더위 쉼터로 이동하세요.&#x27;,
+    G:&#x27;가스 위험 신호입니다. 불이나 전기 스위치를 조작하지 말고, 위험한 곳에서 벗어나세요.&#x27;};
+  return ZONES[station].join(&#x27;, &#x27;)+&#x27; 지역에 안내합니다. &#x27;+text[kind];
+}
+function speakLast() {
+  if (!lastDisaster) { toast(&#x27;아직 수신한 재난 신호가 없습니다.&#x27;); return; }
+  if (!(&#x27;speechSynthesis&#x27; in window)) { toast(&#x27;이 브라우저에서는 음성 안내를 지원하지 않습니다.&#x27;); return; }
+  const utterance=new SpeechSynthesisUtterance(guidance(lastDisaster.kind,lastDisaster.station));
+  utterance.lang=&#x27;ko-KR&#x27;;
+  const korean=window.speechSynthesis.getVoices().find(voice=&gt;voice.lang.startsWith(&#x27;ko&#x27;));
+  if (korean) utterance.voice=korean;
+  utterance.onerror=event=&gt;{if(![&#x27;canceled&#x27;,&#x27;interrupted&#x27;].includes(event.error)) toast(&#x27;한국어 음성을 재생할 수 없습니다.&#x27;);};
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+function markSignal(kind,station,raw) {
+  const received=Date.now(), old=lastCodes[kind+station];
+  lastCodes[kind+station]=received;
+  stations[station]={...(stations[station] || {}),lastSeen:received,signal:kind};
+  const existing=alerts[kind+station];
+  alerts[kind+station]={kind:kind,station:station,lastSeen:received,
+    acknowledged:existing ? existing.acknowledged : false};
+  lastDisaster={kind:kind,station:station};
+  $(&#x27;speakLast&#x27;).disabled=false;
+  if (old===undefined || received-old&gt;=5000) {
+    if (existing) existing.acknowledged=false;
+    alerts[kind+station].acknowledged=false;
+    record({type:KINDS[kind].type,station:station,title:KINDS[kind].label+&#x27; 신호 수신&#x27;,
+      detail:&#x27;관측소 &#x27;+station+&#x27; · 실제 수신 &#x27;+raw,kind:kind,time:new Date(received).toISOString()});
+    if(window.onReceivedDisaster)window.onReceivedDisaster(kind,station,raw);
+    if ($(&#x27;autoSpeak&#x27;).checked) speakLast();
+  }
+}
+function handleLine(raw) {
+  if (!raw.trim()) return;
+  lastMessage=raw.slice(0,300); lastReceived=Date.now();
+  receiverMessage(&#x27;USB 수신 확인 · &#x27;+lastMessage);
+  const parsed=parseSerialMessage(raw,serialHeader,$(&#x27;directStation&#x27;).value);
+  if (!parsed) return;
+  if (parsed.type===&#x27;header&#x27;) serialHeader=parsed.header;
+  if (parsed.type===&#x27;signal&#x27;) markSignal(parsed.kind,parsed.station,parsed.raw);
+  if (parsed.type===&#x27;sample&#x27;) {
+    stations[parsed.station]={...(stations[parsed.station] || {}),lastSeen:lastReceived,
+      flame:parsed.flame,gas_analog:parsed.gas,measuredAt:lastReceived};
+    const signal=parsed.state.match(/^([EFGH])([12])$/);
+    if (signal) markSignal(signal[1],signal[2],parsed.raw);
+  }
+  if (parsed.type===&#x27;state&#x27;) {
+    if (parsed.station) {
+      stations[parsed.station]={...(stations[parsed.station] || {}),lastSeen:lastReceived,signal:parsed.state};
+      if (parsed.state===&#x27;OK&#x27;) {
+        for(const key of Object.keys(alerts)) if(alerts[key].station===parsed.station) delete alerts[key];
+      }
+    }
+    const key=&#x27;state:&#x27;+parsed.state+&#x27;:&#x27;+(parsed.station || &#x27;?&#x27;),previous=lastCodes[key];
+    lastCodes[key]=lastReceived;
+    if(previous===undefined || lastReceived-previous&gt;=5000) record({type:&#x27;received&#x27;,
+      station:parsed.station || &#x27;—&#x27;,title:parsed.state===&#x27;OK&#x27;?&#x27;정상 상태 신호 수신&#x27;:&#x27;위험 상태 신호 수신&#x27;,
+      detail:(parsed.station?&#x27;&#x27;:&#x27;위치 정보 없음 · &#x27;)+parsed.raw,time:new Date(lastReceived).toISOString()});
+  }
+  updateState();
+}
+function appendChunk(text) {
+  messageBuffer+=text;
+  const lines=messageBuffer.split(/\r\n|\n|\r/);
+  messageBuffer=lines.pop();
+  for(const line of lines) handleLine(line);
+  if(messageBuffer.length&gt;8192) { messageBuffer=&#x27;&#x27;; toast(&#x27;긴 수신 메시지를 건너뛰었습니다. 연결 속도를 확인하세요.&#x27;); }
+}
+function updateState() {
+  const connected=(serialPort!==null &amp;&amp; !connecting &amp;&amp; !closing)||!!window.onBridgeGateway;
+  let count=0;
+  const pending=Object.values(alerts).filter(item=&gt;!item.acknowledged);
+  for(const id of [&#x27;1&#x27;,&#x27;2&#x27;]) {
+    const sample=stations[id],fresh=connected &amp;&amp; !!sample &amp;&amp; Date.now()-sample.lastSeen&lt;FRESH_MS;
+    if(fresh)count++;
+    const receivedAlert=pending.some(item=&gt;item.station===id);
+    $(&#x27;station&#x27;+id).classList.toggle(&#x27;fire&#x27;,receivedAlert);
+    const measurementFresh=fresh &amp;&amp; sample.measuredAt &amp;&amp; Date.now()-sample.measuredAt&lt;FRESH_MS;
+    $(&#x27;flame&#x27;+id).textContent=measurementFresh ? sample.flame===1?&#x27;감지&#x27;:&#x27;미감지&#x27; : sample &amp;&amp; sample.signal===&#x27;F&#x27; ? &#x27;화재 신호&#x27; : &#x27;—&#x27;;
+    $(&#x27;gasAO&#x27;+id).textContent=measurementFresh ? String(sample.gas_analog) : &#x27;—&#x27;;
+    $(&#x27;gasDO&#x27;+id).textContent=&#x27;—&#x27;;
+    const age=sample?Math.max(0,Math.floor((Date.now()-sample.lastSeen)/1000)):0;
+    $(&#x27;fresh&#x27;+id).textContent=!sample?&#x27;수신 대기&#x27;:!connected?&#x27;연결 해제 · 최근 수신&#x27;:fresh?&#x27;신호 수신 중&#x27;:&#x27;최근 수신 &#x27;+age+&#x27;초 전&#x27;;
+    $(&#x27;time&#x27;+id).textContent=sample?timeText(sample.lastSeen):&#x27;—&#x27;;
+    $(&#x27;stationMarker&#x27;+id).querySelector(&#x27;circle&#x27;).setAttribute(&#x27;stroke&#x27;,receivedAlert?&#x27;#ca574d&#x27;:fresh?&#x27;#438365&#x27;:&#x27;#9aa8a0&#x27;);
+  }
+  $(&#x27;stationCount&#x27;).textContent=count+&#x27; / 2&#x27;;
+  $(&#x27;stationStatus&#x27;).textContent=&#x27;최근 신호 &#x27;+count+&#x27;/2&#x27;;
+  $(&#x27;activeAlerts&#x27;).textContent=pending.length+&#x27;건&#x27;;
+  $(&#x27;onBanner&#x27;).classList.toggle(&#x27;alert&#x27;,pending.length&gt;0);
+  $(&#x27;bannerLed&#x27;).classList.toggle(&#x27;live&#x27;,connected &amp;&amp; !pending.length);
+  $(&#x27;onLed&#x27;).classList.toggle(&#x27;live&#x27;,connected);
+  $(&#x27;connectionText&#x27;).textContent=connecting?&#x27;수신기 연결 중&#x27;:connected?&#x27;수신기 연결됨&#x27;:&#x27;HTML 단독 실행&#x27;;
+  $(&#x27;patrolState&#x27;).textContent=&#x27;상태 미수신&#x27;;
+  $(&#x27;patrolMode&#x27;).textContent=&#x27;위치 보고 대기&#x27;;
+  if(window.renderOnPatrolState)window.renderOnPatrolState();else $(&#x27;onRobot&#x27;).style.display=&#x27;none&#x27;;
+  $(&#x27;onBannerText&#x27;).textContent=pending.length?pending.length+&#x27;건의 미확인 재난 보고&#x27;:
+    connected?&#x27;수신기 연결됨 · 관측소 보고 수신 대기&#x27;:&#x27;HTML 실행 중 · 수신기를 연결하세요&#x27;;
+  $(&#x27;onBannerSub&#x27;).textContent=connected?&#x27;USB Serial · 115200 baud&#x27;:&#x27;PC 수신 micro:bit를 USB로 연결한 뒤 수신기 연결을 누르세요.&#x27;;
+  $(&#x27;observationHelp&#x27;).textContent=lastMessage?&#x27;최근 수신: &#x27;+lastMessage:&#x27;수신기에서 전달한 실제 신호만 표시합니다.&#x27;;
+  $(&#x27;lastSerialMessage&#x27;).textContent=lastMessage || &#x27;아직 수신된 메시지가 없습니다.&#x27;;
+  $(&#x27;lastSerialAt&#x27;).textContent=lastReceived?timeText(lastReceived):&#x27;—&#x27;;
+  $(&#x27;ackSignals&#x27;).disabled=pending.length===0;
+  $(&#x27;connectReceiver&#x27;).disabled=connecting || connected || closing || !!window.onBridgeGateway;
+  $(&#x27;disconnectReceiver&#x27;).disabled=!connected || closing;
+  $(&#x27;directStation&#x27;).disabled=connected || connecting || closing;
+  $(&#x27;serialCompatibility&#x27;).hidden=(&#x27;serial&#x27; in navigator) &amp;&amp; window.isSecureContext;
+  if(!storageReady) $(&#x27;storageHint&#x27;).textContent=&#x27;브라우저 저장이 제한됩니다. 보고 내보내기로 파일을 저장하세요.&#x27;;
+}
+async function readSerial(activePort) {
+  let endedByDevice=false;
+  let recoveryCount=0;
+  try {
+    // A recoverable serial error replaces readable. Release the old reader and reopen it.
+    while(serialPort===activePort &amp;&amp; !closing &amp;&amp; activePort.readable) {
+      const decoder=new TextDecoder();
+      const reader=activePort.readable.getReader();
+      serialReader=reader;
+      try {
+        while(serialPort===activePort &amp;&amp; !closing) {
+          const packet=await reader.read();
+          if(packet.done) { endedByDevice=!closing; break; }
+          if(packet.value) { processSerialText(decoder.decode(packet.value,{stream:true})); recoveryCount=0; }
+        }
+        processSerialText(decoder.decode());
+        if(messageBuffer.trim()) { processSerialText(&#x27;\n&#x27;); }
+        break;
+      } catch(error) {
+        if(closing)break;
+        const recoverable=[&#x27;FramingError&#x27;,&#x27;ParityError&#x27;,&#x27;BreakError&#x27;,&#x27;BufferOverrunError&#x27;].includes(error.name);
+        if(!recoverable || ++recoveryCount&gt;3)throw error;
+        messageBuffer=&#x27;&#x27;;
+        receiverMessage(&#x27;일시적인 USB 수신 오류입니다. 읽기를 다시 시작합니다 (&#x27;+recoveryCount+&#x27;/3).&#x27;,error);
+        await new Promise(resolve=&gt;setTimeout(resolve,100));
+      } finally {
+        reader.releaseLock();
+        if(serialReader===reader)serialReader=null;
+      }
+    }
+    if(!closing &amp;&amp; serialPort===activePort) {
+      receiverMessage(endedByDevice?&#x27;장치가 USB 읽기를 종료했습니다. USB를 다시 연결하고 다른 프로그램의 시리얼 창을 닫으세요.&#x27;:&#x27;USB 읽기 스트림이 닫혔습니다. 케이블·장치와 포트 점유를 확인하세요.&#x27;);
+    }
+  } catch(error) {
+    if(!closing) { receiverMessage(&#x27;수신기 읽기 실패. 아래 오류를 확인하세요.&#x27;,error); toast(receiverNote); }
+  } finally {
+    try { await activePort.close(); } catch(error) { console.warn(&#x27;ON receiver close:&#x27;,error); }
+    if(serialPort===activePort)serialPort=null;
+    closing=false; updateState();
+  }
+}
+async function connectReceiver() {
+  if(connecting || serialPort || closing) return;
+  if(!(&#x27;serial&#x27; in navigator) || !window.isSecureContext) {
+    receiverMessage(&#x27;USB 시리얼을 사용할 수 없습니다. 데스크톱 Chrome·Edge에서 HTTPS 사이트 또는 로컬 관제를 여세요.&#x27;);
+    toast(receiverNote); return;
+  }
+  connecting=true; receiverMessage(&#x27;PC에 USB로 연결한 수신 micro:bit 포트를 선택하세요.&#x27;); updateState();
+  let selected=null,opened=false;
+  try {
+    selected=await navigator.serial.requestPort();
+    const info=selected.getInfo?.()||{};
+    const usbId=info.usbVendorId===undefined?&#x27;&#x27;:&#x27; · USB &#x27;+info.usbVendorId.toString(16)+&#x27;:&#x27;+(info.usbProductId??0).toString(16);
+    await selected.open({baudRate:115200,dataBits:8,stopBits:1,parity:&#x27;none&#x27;,flowControl:&#x27;none&#x27;,bufferSize:4096});
+    opened=true;
+    if(!selected.readable)throw new Error(&#x27;선택한 장치에 USB 읽기 스트림이 없습니다.&#x27;);
+    serialPort=selected;serialHeader=[];messageBuffer=&#x27;&#x27;;
+    connecting=false;
+    receiverMessage(&#x27;USB 연결됨 · 115200 baud&#x27;+usbId+&#x27; · 신호 수신 대기. 첨부 테스트 HEX는 micro:bit를 흔들면 RX:E1을 보냅니다.&#x27;);
+    toast(&#x27;수신기를 연결했습니다.&#x27;);updateState();
+    readTask=readSerial(selected);
+  } catch(error) {
+    if(opened &amp;&amp; selected) { try { await selected.close(); } catch {} }
+    serialPort=null;
+    if(error.name===&#x27;NotFoundError&#x27;)receiverMessage(&#x27;장치 선택을 취소했습니다.&#x27;);
+    else if(error.name===&#x27;SecurityError&#x27;)receiverMessage(&#x27;브라우저가 USB 접근을 제한했습니다. 데스크톱 Chrome·Edge에서 사이트 권한을 확인하세요.&#x27;,error);
+    else receiverMessage(&#x27;포트를 열지 못했습니다. MakeCode 시리얼 창·Thonny·다른 관제 탭·Python이 같은 포트를 사용 중인지 확인하세요.&#x27;,error);
+    toast(receiverNote);
+  } finally { connecting=false;updateState(); }
+}
+async function disconnectReceiver() {
+  if(!serialPort || closing)return;
+  closing=true;updateState();
+  const reader=serialReader;
+  if(reader) { try { await reader.cancel(); } catch {} }
+  if(readTask) { await readTask;readTask=null; }
+  receiverMessage(&#x27;수신기 USB 연결을 해제했습니다.&#x27;);toast(&#x27;수신기 연결을 해제했습니다.&#x27;);
+}
+$(&#x27;connectReceiver&#x27;).addEventListener(&#x27;click&#x27;,connectReceiver);
+$(&#x27;disconnectReceiver&#x27;).addEventListener(&#x27;click&#x27;,disconnectReceiver);
+$(&#x27;refreshOn&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{updateState();$(&#x27;onActionStatus&#x27;).textContent=&#x27;최신 상태를 가져오고 있습니다…&#x27;;parent.postMessage({type:&#x27;aigo-on-command&#x27;,action:&#x27;refresh&#x27;},&#x27;*&#x27;)});
+$(&#x27;ackSignals&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{
+  const items=Object.values(alerts).filter(item=&gt;!item.acknowledged);
+  for(const item of items)item.acknowledged=true;
+  if(items.length) record({type:&#x27;received&#x27;,station:&#x27;—&#x27;,title:&#x27;재난 보고 확인&#x27;,
+    detail:items.map(item=&gt;KINDS[item.kind].label+item.station).join(&#x27; · &#x27;)+&#x27; · 담당자 확인 (현장 위험 해제와 별개)&#x27;,
+    time:new Date().toISOString()});
+  updateState();
+});
+$(&#x27;speakLast&#x27;).addEventListener(&#x27;click&#x27;,speakLast);
+$(&#x27;reportForm&#x27;).addEventListener(&#x27;submit&#x27;,event=&gt;{
+  event.preventDefault();
+  const type=$(&#x27;reportType&#x27;).value,station=$(&#x27;reportStation&#x27;).value;
+  const labels={patrol:&#x27;순찰 확인&#x27;,fire:&#x27;화재 의심 보고&#x27;,gas:&#x27;가스 의심 보고&#x27;,heat:&#x27;무더위 안내&#x27;,quake:&#x27;지진 안내&#x27;};
+  record({type:type,station:station,title:labels[type],detail:$(&#x27;reportNote&#x27;).value.trim() || &#x27;현장 담당자 수동 보고&#x27;,time:new Date().toISOString()});
+  $(&#x27;reportNote&#x27;).value=&#x27;&#x27;;toast(storageReady?&#x27;보고를 저장했습니다.&#x27;:&#x27;보고를 화면에 추가했습니다. 내보내기로 저장하세요.&#x27;);
+});
+$(&#x27;clearReports&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{reportRows=[];saveReports();paintReports();toast(&#x27;화면 기록을 지웠습니다.&#x27;);});
+$(&#x27;exportReports&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{
+  const csv=value=&gt;&#x27;&quot;&#x27;+String(value??&#x27;&#x27;).replace(/&quot;/g,&#x27;&quot;&quot;&#x27;)+&#x27;&quot;&#x27;;
+  const lines=[[&#x27;시간&#x27;,&#x27;관측소&#x27;,&#x27;유형&#x27;,&#x27;제목&#x27;,&#x27;내용&#x27;],...reportRows.map(item=&gt;[item.time,item.station,item.type,item.title,item.detail])];
+  // Quote and neutralize formula prefixes before opening this CSV in a spreadsheet.
+  const safe=value=&gt;csv(/^[=+\-@]/.test(String(value))?&quot;&#x27;&quot;+String(value):value);
+  const blob=new Blob([&#x27;\ufeff&#x27;+lines.map(row=&gt;row.map(safe).join(&#x27;,&#x27;)).join(&#x27;\r\n&#x27;)],{type:&#x27;text/csv;charset=utf-8&#x27;});
+  const url=URL.createObjectURL(blob),link=document.createElement(&#x27;a&#x27;);
+  link.href=url;link.download=&#x27;pawcare-on-reports-&#x27;+new Date().toISOString().slice(0,10)+&#x27;.csv&#x27;;
+  document.body.append(link);link.click();link.remove();setTimeout(()=&gt;URL.revokeObjectURL(url),1000);
+});
+if(&#x27;serial&#x27; in navigator) navigator.serial.addEventListener(&#x27;disconnect&#x27;,event=&gt;{
+  if(event.target===serialPort) disconnectReceiver();
+});
+paintReports();updateState();
+setInterval(()=&gt;{$(&#x27;clock&#x27;).textContent=timeText(Date.now());updateState();},1000);
+$(&#x27;clock&#x27;).textContent=timeText(Date.now());
+&lt;/script&gt;&lt;/div&gt;&lt;script id=&quot;on-route-editor-script&quot;&gt;
+// ON route planning: display configuration, separate from receiver telemetry.
+(()=&gt;{
+ const KEY=&#x27;aigo-on-route-square-v2&#x27;,names=[&#x27;S&#x27;,&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;station1&#x27;,&#x27;station2&#x27;];
+ const defaults=()=&gt;({width:50,height:50,order:&#x27;ABC&#x27;,points:{S:{x:4,y:46},A:{x:4,y:4},B:{x:46,y:4},C:{x:46,y:46},station1:{x:20,y:12},station2:{x:40,y:20}}});
+ const el=id=&gt;document.getElementById(id),map=el(&#x27;onRouteMap&#x27;);
+ let model=defaults(),saveOK=true,drag=null;
+ const clamp=(v,max)=&gt;Math.round(Math.min(max,Math.max(0,v))*10)/10;
+ function valid(value){return value&amp;&amp;Number.isFinite(value.width)&amp;&amp;value.width&gt;=10&amp;&amp;value.width&lt;=300&amp;&amp;Number.isFinite(value.height)&amp;&amp;value.height&gt;=10&amp;&amp;value.height&lt;=300&amp;&amp;[&#x27;ABC&#x27;,&#x27;ACB&#x27;,&#x27;BAC&#x27;,&#x27;BCA&#x27;,&#x27;CAB&#x27;,&#x27;CBA&#x27;].includes(value.order)&amp;&amp;value.points&amp;&amp;names.every(k=&gt;value.points[k]&amp;&amp;Number.isFinite(value.points[k].x)&amp;&amp;value.points[k].x&gt;=0&amp;&amp;value.points[k].x&lt;=value.width&amp;&amp;Number.isFinite(value.points[k].y)&amp;&amp;value.points[k].y&gt;=0&amp;&amp;value.points[k].y&lt;=value.height)}
+ try{const saved=JSON.parse(localStorage.getItem(KEY)||&#x27;null&#x27;);if(valid(saved))model=saved}catch{saveOK=false}
+ function geometry(){const scale=Math.min(540/model.width,300/model.height);return {scale,x:(640-model.width*scale)/2,y:(400-model.height*scale)/2}}
+ function pixel(p){const g=geometry();return {x:g.x+p.x*g.scale,y:g.y+p.y*g.scale}}
+ function save(){try{localStorage.setItem(KEY,JSON.stringify(model));saveOK=true}catch{saveOK=false}el(&#x27;onRouteSave&#x27;).textContent=saveOK?&#x27;경로 자동 저장됨 · 다음에 열어도 유지됩니다.&#x27;:&#x27;브라우저 저장이 제한되어 현재 화면에서만 유지됩니다.&#x27;}
+ function render(){
+  el(&#x27;onRouteWidth&#x27;).value=model.width;el(&#x27;onRouteHeight&#x27;).value=model.height;el(&#x27;onRouteOrder&#x27;).value=model.order;
+  const order=[&#x27;S&#x27;,...model.order,&#x27;S&#x27;],pts=order.map(k=&gt;pixel(model.points[k]));
+  el(&#x27;onRoutePath&#x27;).setAttribute(&#x27;d&#x27;,pts.map((p,i)=&gt;`${i?&#x27;L&#x27;:&#x27;M&#x27;}${p.x} ${p.y}`).join(&#x27; &#x27;));
+  names.forEach(k=&gt;{const p=pixel(model.points[k]),node=map.querySelector(`[data-route-key=&quot;${k}&quot;]`);node.setAttribute(&#x27;transform&#x27;,`translate(${p.x} ${p.y})`);node.setAttribute(&#x27;aria-label&#x27;,`${k} 위치 X ${model.points[k].x}, Y ${model.points[k].y} cm, 방향키로 이동`)});
+  document.querySelectorAll(&#x27;[data-on-coordinate]&#x27;).forEach(input=&gt;{const [key,axis]=input.dataset.onCoordinate.split(&#x27;:&#x27;);input.max=axis===&#x27;x&#x27;?model.width:model.height;input.value=model.points[key][axis]});
+  const g=geometry(),grid=el(&#x27;onRouteGrid&#x27;);grid.replaceChildren();
+  function shape(tag,attrs,text){const node=document.createElementNS(&#x27;http://www.w3.org/2000/svg&#x27;,tag);Object.entries(attrs).forEach(([k,v])=&gt;node.setAttribute(k,v));if(text)node.textContent=text;grid.append(node)}
+  shape(&#x27;rect&#x27;,{x:g.x,y:g.y,width:model.width*g.scale,height:model.height*g.scale,fill:&#x27;#fff&#x27;,stroke:&#x27;#a8bfb0&#x27;,&#x27;stroke-width&#x27;:2});
+  const step=Math.max(5,Math.ceil(Math.max(model.width,model.height)/10/5)*5);
+  for(let x=step;x&lt;model.width;x+=step)shape(&#x27;line&#x27;,{x1:g.x+x*g.scale,x2:g.x+x*g.scale,y1:g.y,y2:g.y+model.height*g.scale,stroke:&#x27;#e6eee8&#x27;});
+  for(let y=step;y&lt;model.height;y+=step)shape(&#x27;line&#x27;,{x1:g.x,x2:g.x+model.width*g.scale,y1:g.y+y*g.scale,y2:g.y+y*g.scale,stroke:&#x27;#e6eee8&#x27;});
+  shape(&#x27;text&#x27;,{x:g.x,y:g.y-12,fill:&#x27;#728578&#x27;,&#x27;font-size&#x27;:11},&#x27;원점 (0, 0) · +X 오른쪽 · +Y 아래쪽&#x27;);
+  shape(&#x27;text&#x27;,{x:320,y:g.y+model.height*g.scale+30,fill:&#x27;#728578&#x27;,&#x27;font-size&#x27;:11,&#x27;text-anchor&#x27;:&#x27;middle&#x27;},`${model.width} × ${model.height} cm`);
+  let length=0;for(let i=1;i&lt;order.length;i++){const a=model.points[order[i-1]],b=model.points[order[i]];length+=Math.hypot(b.x-a.x,b.y-a.y)}
+  el(&#x27;onRouteSummary&#x27;).textContent=`${order.join(&#x27; → &#x27;)} · 총 경로 ${length.toFixed(1)} cm`;
+ }
+ function move(key,x,y){if(window.onPatrolRunning)return;model.points[key]={x:clamp(x,model.width),y:clamp(y,model.height)};render()}
+ function fromPointer(event){const matrix=map.getScreenCTM();if(!matrix)return null;const p=map.createSVGPoint();p.x=event.clientX;p.y=event.clientY;const point=p.matrixTransform(matrix.inverse()),g=geometry();return {x:(point.x-g.x)/g.scale,y:(point.y-g.y)/g.scale}}
+ map.addEventListener(&#x27;pointerdown&#x27;,event=&gt;{if(window.onPatrolRunning||event.button!==0)return;const node=event.target.closest(&#x27;[data-route-key]&#x27;);if(!node)return;const p=fromPointer(event);if(!p)return;const key=node.dataset.routeKey;drag={key,id:event.pointerId,dx:model.points[key].x-p.x,dy:model.points[key].y-p.y};node.focus({preventScroll:true});map.setPointerCapture(event.pointerId);event.preventDefault()});
+ map.addEventListener(&#x27;pointermove&#x27;,event=&gt;{if(!drag||drag.id!==event.pointerId)return;const p=fromPointer(event);if(p)move(drag.key,p.x+drag.dx,p.y+drag.dy)});
+ function finish(event){if(!drag||drag.id!==event.pointerId)return;drag=null;if(map.hasPointerCapture(event.pointerId))map.releasePointerCapture(event.pointerId);save()}
+ map.addEventListener(&#x27;pointerup&#x27;,finish);map.addEventListener(&#x27;pointercancel&#x27;,finish);map.addEventListener(&#x27;lostpointercapture&#x27;,event=&gt;{if(drag&amp;&amp;drag.id===event.pointerId){drag=null;save()}});
+ map.addEventListener(&#x27;keydown&#x27;,event=&gt;{const node=event.target.closest(&#x27;[data-route-key]&#x27;);if(!node)return;const delta={ArrowLeft:[-.5,0],ArrowRight:[.5,0],ArrowUp:[0,-.5],ArrowDown:[0,.5]}[event.key];if(!delta)return;event.preventDefault();const key=node.dataset.routeKey,p=model.points[key];move(key,p.x+delta[0],p.y+delta[1]);save()});
+ document.querySelectorAll(&#x27;[data-on-coordinate]&#x27;).forEach(input=&gt;input.addEventListener(&#x27;change&#x27;,()=&gt;{const [key,axis]=input.dataset.onCoordinate.split(&#x27;:&#x27;),value=Number(input.value);if(!input.value.trim()||!Number.isFinite(value)){render();return}const p=model.points[key];move(key,axis===&#x27;x&#x27;?value:p.x,axis===&#x27;y&#x27;?value:p.y);save()}));
+ [&#x27;Width&#x27;,&#x27;Height&#x27;].forEach(dimension=&gt;el(&#x27;onRoute&#x27;+dimension).addEventListener(&#x27;change&#x27;,()=&gt;{const input=el(&#x27;onRoute&#x27;+dimension),value=Number(input.value);if(value&lt;10||value&gt;300||!Number.isFinite(value)){toast(&#x27;코스 크기는 10~300cm로 입력하세요.&#x27;);render();return}model[dimension.toLowerCase()]=value;names.forEach(k=&gt;{model.points[k].x=clamp(model.points[k].x,model.width);model.points[k].y=clamp(model.points[k].y,model.height)});render();save()}));
+ el(&#x27;onRouteOrder&#x27;).addEventListener(&#x27;change&#x27;,()=&gt;{if(![&#x27;ABC&#x27;,&#x27;ACB&#x27;,&#x27;BAC&#x27;,&#x27;BCA&#x27;,&#x27;CAB&#x27;,&#x27;CBA&#x27;].includes(el(&#x27;onRouteOrder&#x27;).value))return;model.order=el(&#x27;onRouteOrder&#x27;).value;render();save()});
+ el(&#x27;onRouteReset&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{model=defaults();render();save();toast(&#x27;순찰 경로를 초기화했습니다.&#x27;)});
+
+ window.aigoOnRoute={
+  getConfig(){return {...JSON.parse(JSON.stringify(model)),cm_per_sec:Number(el(&#x27;onSpeedCalibration&#x27;).value),initial_heading:Number(el(&#x27;onInitialHeading&#x27;).value)}},
+  importConfig(value){if(valid(value)){model=value;if(Number.isFinite(value.cm_per_sec))el(&quot;onSpeedCalibration&quot;).value=value.cm_per_sec;if(Number.isFinite(value.initial_heading))el(&quot;onInitialHeading&quot;).value=value.initial_heading;render();save()}},
+  telemetry(state){
+   const hasPosition=state&amp;&amp;Number.isFinite(state.x_cm)&amp;&amp;Number.isFinite(state.y_cm);
+   const pos=hasPosition?{x:state.x_cm,y:state.y_cm}:model.points.S;
+   const heading=hasPosition&amp;&amp;Number.isFinite(state.heading_deg)?state.heading_deg:Number(el(&#x27;onInitialHeading&#x27;).value)||0;
+   const point=pixel(pos),robot=el(&#x27;onRobot&#x27;);
+   robot.setAttribute(&#x27;transform&#x27;,`translate(${point.x} ${point.y})`);robot.style.display=&#x27;&#x27;;
+   robot.setAttribute(&#x27;aria-label&#x27;,`로보독 추정 위치 X ${pos.x} Y ${pos.y} cm, 방향 ${heading}도`);
+   el(&#x27;onRobotDirection&#x27;).setAttribute(&#x27;transform&#x27;,`rotate(${heading})`);
+   el(&#x27;onRobotMapLabel&#x27;).textContent=hasPosition?`로보독 (${pos.x.toFixed(1)}, ${pos.y.toFixed(1)})`:&#x27;로보독 · S 대기&#x27;;
+   el(&#x27;onPositionStatus&#x27;).textContent=hasPosition?`추정 위치 (${pos.x.toFixed(1)}, ${pos.y.toFixed(1)}) cm · 방향 ${heading.toFixed(1)}° · ${state.hazard_wait?&#x27;위험 정지&#x27;:state.running?(state.state||&#x27;운행 중&#x27;):&#x27;정지 · 마지막 위치&#x27;}${state.target?&#x27; · 목표 &#x27;+state.target:&#x27;&#x27;}`:&#x27;로보독 위치 · S에서 시작 대기&#x27;;
+   const trail=Array.isArray(state?.trail)?state.trail:[];
+   el(&#x27;onRobotTrail&#x27;).setAttribute(&#x27;points&#x27;,trail.filter(p=&gt;Number.isFinite(p.x)&amp;&amp;Number.isFinite(p.y)).map(p=&gt;{const v=pixel(p);return `${v.x},${v.y}`}).join(&#x27; &#x27;));
+  }
+ };
+ [&#x27;onSpeedCalibration&#x27;,&#x27;onInitialHeading&#x27;].forEach(id=&gt;el(id).addEventListener(&#x27;change&#x27;,()=&gt;{model.cm_per_sec=Number(el(&#x27;onSpeedCalibration&#x27;).value);model.initial_heading=Number(el(&#x27;onInitialHeading&#x27;).value);save()}));
+ if(Number.isFinite(model.cm_per_sec))el(&#x27;onSpeedCalibration&#x27;).value=model.cm_per_sec;
+ if(Number.isFinite(model.initial_heading))el(&#x27;onInitialHeading&#x27;).value=model.initial_heading;
+ render();window.aigoOnRoute.telemetry(null);if(!saveOK)el(&#x27;onRouteSave&#x27;).textContent=&#x27;브라우저 저장이 제한되어 현재 화면에서만 유지됩니다.&#x27;;
+})();
+&lt;/script&gt;&lt;script&gt;
+(()=&gt;{
+ let last=null,lastRx=-1,request=0;
+ const send=(action)=&gt;{const id=++request;if(action===&#x27;connect&#x27;)$(&#x27;onRobotStatus&#x27;).textContent=&#x27;연결 요청 중…&#x27;;parent.postMessage({type:&#x27;aigo-on-command&#x27;,id,action,port:$(&#x27;onRobotPort&#x27;).value.trim().toUpperCase(),route:window.aigoOnRoute.getConfig()},&#x27;*&#x27;)};
+ $(&#x27;onClass1Resume&#x27;).onclick=()=&gt;send(&#x27;resume_hazard&#x27;);
+ $(&#x27;onRobotPorts&#x27;).onclick=()=&gt;{$(&#x27;onPortResults&#x27;).hidden=false;$(&#x27;onActionStatus&#x27;).textContent=&#x27;장치 목록 검색 중…&#x27;;send(&#x27;ports&#x27;)};
+ $(&#x27;onDetectedPort&#x27;).onchange=()=&gt;{if($(&#x27;onDetectedPort&#x27;).value){$(&#x27;onRobotPort&#x27;).value=$(&#x27;onDetectedPort&#x27;).value;localStorage.setItem(&#x27;aigo-robot-port&#x27;,$(&#x27;onRobotPort&#x27;).value)}};
+ try{const saved=localStorage.getItem(&#x27;aigo-robot-port&#x27;);if(saved)$(&#x27;onRobotPort&#x27;).value=saved}catch{}
+ $(&#x27;onRobotConnect&#x27;).onclick=async()=&gt;{send(&#x27;connect&#x27;)};$(&#x27;onPatrolStart&#x27;).onclick=async()=&gt;{send(&#x27;start&#x27;)};$(&#x27;onPatrolStop&#x27;).onclick=()=&gt;send(&#x27;stop&#x27;);
+ window.renderOnPatrolState=()=&gt;{
+  if(!last)return;
+  if(window.onBridgeGateway){$(&#x27;connectReceiver&#x27;).disabled=true;$(&#x27;disconnectReceiver&#x27;).disabled=true;$(&#x27;connectionText&#x27;).textContent=&#x27;연결 도우미 수신기 연결됨&#x27;}
+  const state=last.on_patrol||{},running=!!state.running;
+  $(&#x27;onClass1Panel&#x27;).hidden=!state.hazard_wait;
+  $(&#x27;onClass1Resume&#x27;).disabled=!state.hazard_wait||!state.hazard_clear_confirmed;
+  $(&#x27;onClass1Message&#x27;).textContent=state.hazard_clear_confirmed?&#x27;CLASS1 해제와 AI 연결을 확인했습니다. 현장을 확인한 뒤 재개하세요.&#x27;:&#x27;CLASS1 감지 또는 AI 상태 미확인 · 로보독 정지 유지&#x27;;
+  window.onPatrolRunning=running;
+  $(&#x27;onRobotStatus&#x27;).textContent=!last.connected&amp;&amp;state.error?state.error:running?`${state.state} · 다음 지점 ${state.target||&#x27;—&#x27;} · ${state.laps||0}바퀴 · 추정 (${state.x_cm??&#x27;—&#x27;}, ${state.y_cm??&#x27;—&#x27;}) cm`:last.connected?&#x27;로보독 연결됨 · 순찰 시작 가능&#x27;:state.state||&#x27;로보독 연결 대기&#x27;;
+  $(&#x27;patrolState&#x27;).textContent=running?state.state:&#x27;순찰 대기&#x27;;$(&#x27;patrolMode&#x27;).textContent=running?`목표 ${state.target||&#x27;—&#x27;} · ${state.laps||0}바퀴`:&#x27;순찰 준비&#x27;;
+  $(&#x27;onPatrolStart&#x27;).disabled=running||!last.connected||!!last.busy;
+  $(&#x27;onRobotPort&#x27;).disabled=running||!!last.connected||!!last.busy;$(&#x27;onRobotPorts&#x27;).disabled=running;
+  $(&#x27;onRobotConnect&#x27;).disabled=running||!!last.connected||!!last.busy;$(&#x27;onPatrolStop&#x27;).disabled=!running;
+  document.querySelectorAll(&#x27;[data-on-coordinate],#onRouteWidth,#onRouteHeight,#onRouteOrder,#onRouteReset,#onSpeedCalibration,#onInitialHeading&#x27;).forEach(n=&gt;n.disabled=running);
+  window.aigoOnRoute.telemetry(state);
+  if(window.renderOnDisaster)window.renderOnDisaster(state);
+ };
+ window.addEventListener(&#x27;message&#x27;,event=&gt;{
+  if(event.source!==parent||!event.data)return;
+  if(event.data.type===&#x27;aigo-on-port&#x27;){if(event.data.port)$(&#x27;onRobotPort&#x27;).value=event.data.port;return}
+  if(event.data.type===&#x27;aigo-on-ports&#x27;){
+   const ports=event.data.ports||[];$(&#x27;onPortResults&#x27;).hidden=false;$(&#x27;onDetectedPort&#x27;).replaceChildren();
+   const placeholder=document.createElement(&#x27;option&#x27;);placeholder.value=&#x27;&#x27;;placeholder.textContent=&#x27;장치를 선택하세요&#x27;;$(&#x27;onDetectedPort&#x27;).append(placeholder);
+   for(const p of ports){const option=document.createElement(&#x27;option&#x27;);option.value=p.port;option.textContent=p.port+&#x27; · &#x27;+p.description;$(&#x27;onDetectedPort&#x27;).append(option)}
+   $(&#x27;onActionStatus&#x27;).textContent=ports.length?`${ports.length}개 포트를 찾았습니다. 검색된 장치에서 로보독을 선택하세요.`:&#x27;사용 가능한 포트가 없습니다. USB 연결을 확인하세요.&#x27;;toast($(&#x27;onActionStatus&#x27;).textContent);return}
+  if(event.data.type===&#x27;aigo-on-import&#x27;){window.aigoOnRoute.importConfig(event.data.route);return}
+  if(event.data.type===&#x27;aigo-on-result&#x27;){if(event.data.message){toast(event.data.message);$(&#x27;onActionStatus&#x27;).textContent=event.data.message}return}
+  if(event.data.type!==&#x27;aigo-on-status&#x27;)return;
+  last=event.data.status;window.onBridgeGateway=!!last.microbit_connected;
+  if(last.microbit_rx_seq!==lastRx){lastRx=last.microbit_rx_seq;const raw=last.microbit_last_rx||&#x27;&#x27;;if(raw)handleLine(raw.replace(/^(?:REPORT:)?EMERGENCY:/i,&#x27;RX:&#x27;))}
+  if(window.onBridgeGateway){$(&#x27;connectReceiver&#x27;).disabled=true;$(&#x27;disconnectReceiver&#x27;).disabled=true;$(&#x27;connectionText&#x27;).textContent=&#x27;연결 도우미 수신기 연결됨&#x27;}
+  window.renderOnPatrolState();
+ });
+ parent.postMessage({type:&#x27;aigo-on-ready&#x27;},&#x27;*&#x27;);
+})();
+&lt;/script&gt;&lt;style&gt;
+.on-disaster-dialog{width:min(540px,calc(100vw - 28px));border:0;border-radius:17px;padding:24px;color:#263d32;box-shadow:0 20px 80px #0004}.on-disaster-dialog::backdrop{background:#102a24a6}.on-disaster-dialog h2{margin:0 0 12px;font-size:22px}.on-disaster-areas{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}.on-disaster-areas label{border:1px solid #cbded2;padding:12px;border-radius:10px;flex:1;white-space:nowrap}.on-disaster-actions{display:flex;gap:8px;flex-wrap:wrap}.on-disaster-note{font-size:12px;line-height:1.7;color:#687d6e}
+&lt;/style&gt;
+&lt;dialog class=&quot;on-disaster-dialog&quot; id=&quot;onDisasterDialog&quot; aria-labelledby=&quot;onDisasterTitle&quot;&gt;&lt;h2 id=&quot;onDisasterTitle&quot;&gt;재난 신호 수신&lt;/h2&gt;&lt;p id=&quot;onDisasterMessage&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;p id=&quot;onSirenState&quot; role=&quot;status&quot;&gt;사이렌 대기&lt;/p&gt;&lt;p class=&quot;on-disaster-note&quot;&gt;재난 신호를 수신했습니다. 대피 안내 지역을 선택하세요. 방문 후 짖으며 집주인을 최대 5회 확인합니다. 확인하면 재난 눈 LED를 표시하고 S까지 앞서 대피를 안내합니다. 확인하지 못하면 관제에 알리고 S로 복귀합니다.&lt;/p&gt;&lt;fieldset style=&quot;border:0;padding:0&quot;&gt;&lt;legend&gt;대피 안내 지역 · 복수 선택 가능&lt;/legend&gt;&lt;div class=&quot;on-disaster-areas&quot;&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; value=&quot;A&quot; data-evac-area&gt; A · CLASS2&lt;/label&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; value=&quot;B&quot; data-evac-area&gt; B · CLASS3&lt;/label&gt;&lt;label&gt;&lt;input type=&quot;checkbox&quot; value=&quot;C&quot; data-evac-area&gt; C · CLASS4&lt;/label&gt;&lt;/div&gt;&lt;/fieldset&gt;&lt;div class=&quot;on-disaster-actions&quot;&gt;&lt;button class=&quot;btn primary&quot; id=&quot;onEvacuate&quot; type=&quot;button&quot;&gt;선택 지역 대피 안내&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;onReturn&quot; type=&quot;button&quot;&gt;S로 복귀&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;onSirenMute&quot; type=&quot;button&quot;&gt;사이렌 끄기&lt;/button&gt;&lt;button class=&quot;btn&quot; id=&quot;onHold&quot; type=&quot;button&quot;&gt;현 위치 대기&lt;/button&gt;&lt;/div&gt;&lt;p id=&quot;onDecisionStatus&quot; class=&quot;on-disaster-note&quot; role=&quot;status&quot;&gt;&lt;/p&gt;&lt;/dialog&gt;
+&lt;dialog class=&quot;on-disaster-dialog&quot; id=&quot;onMissionNotice&quot; aria-labelledby=&quot;onMissionNoticeTitle&quot;&gt;&lt;h2 id=&quot;onMissionNoticeTitle&quot;&gt;관제 알림&lt;/h2&gt;&lt;p id=&quot;onMissionNoticeText&quot; role=&quot;alert&quot;&gt;&lt;/p&gt;&lt;button class=&quot;btn primary&quot; id=&quot;onMissionNoticeClose&quot; type=&quot;button&quot;&gt;확인&lt;/button&gt;&lt;/dialog&gt;
+&lt;script&gt;
+(()=&gt;{
+ let current=null,openedAlert=null;const seenNotices=new Set(),noticeQueue=[];
+ const dialog=$(&#x27;onDisasterDialog&#x27;),notice=$(&#x27;onMissionNotice&#x27;);
+ let alarmContext=null,osc=null,gain=null,alarmTimer=null,testAlarm=false;
+ async function enableAudio(){try{alarmContext=alarmContext||new (window.AudioContext||window.webkitAudioContext)();if(alarmContext.state===&#x27;suspended&#x27;)await alarmContext.resume()}catch{}}
+ document.addEventListener(&#x27;pointerdown&#x27;,enableAudio,{capture:true});
+ function stopSiren(){if(alarmTimer)clearInterval(alarmTimer);alarmTimer=null;try{osc?.stop()}catch{}osc=null;$(&#x27;onSirenState&#x27;).textContent=&#x27;사이렌 꺼짐&#x27;;}
+ async function startSiren(){await enableAudio();if(osc||!alarmContext)return;try{osc=alarmContext.createOscillator();gain=alarmContext.createGain();gain.gain.value=.12;osc.type=&#x27;sawtooth&#x27;;osc.frequency.value=650;osc.connect(gain);gain.connect(alarmContext.destination);osc.start();$(&#x27;onSirenState&#x27;).textContent=alarmContext.state===&#x27;running&#x27;?&#x27;사이렌 재생 중&#x27;:&#x27;경보음을 켜려면 사이렌·팝업 점검을 눌러 주세요.&#x27;;let high=false;alarmTimer=setInterval(()=&gt;{high=!high;osc?.frequency.setTargetAtTime(high?1050:650,alarmContext.currentTime,.12)},450)}catch{$(&#x27;onDecisionStatus&#x27;).textContent=&#x27;경보음 재생이 제한됩니다. 사이렌·팝업 점검을 한 번 눌러 주세요.&#x27;}}
+ $(&#x27;onSirenMute&#x27;).onclick=stopSiren;
+ window.onReceivedDisaster=(kind,station,raw)=&gt;{
+  const id=&#x27;usb-&#x27;+kind+station+&#x27;-&#x27;+Date.now();
+  window.renderOnDisaster({alert:{id,code:kind+station,kind,station,label:KINDS[kind].label},decision_pending:true});
+  parent.postMessage({type:&#x27;aigo-on-command&#x27;,action:&#x27;signal&#x27;,signal:kind+station},&#x27;*&#x27;);
+ };
+ $(&#x27;onAlarmTest&#x27;).onclick=()=&gt;{testAlarm=true;window.renderOnDisaster({alert:{id:&#x27;test-&#x27;+Date.now(),code:&#x27;TEST&#x27;,label:&#x27;점검용&#x27;,station:&#x27;점검&#x27;},decision_pending:true});$(&#x27;onDecisionStatus&#x27;).textContent=&#x27;점검용 경보입니다. 현 위치 대기를 누르면 종료됩니다. 실제 로봇 명령은 전송하지 않습니다.&#x27;};
+ const open=()=&gt;{if(!current)return;dialog.showModal()};
+ $(&#x27;onEmergencyReopen&#x27;).onclick=open;
+ dialog.addEventListener(&#x27;cancel&#x27;,event=&gt;event.preventDefault());
+ function decision(action){
+  if(!current)return;
+  if(testAlarm){testAlarm=false;stopSiren();dialog.close();return}
+  if(String(current.id).startsWith(&#x27;usb-&#x27;)){$(&#x27;onDecisionStatus&#x27;).textContent=&#x27;수신 신호를 도우미에 전달하는 중입니다. 도우미를 연결하고 다시 선택하세요.&#x27;;return}
+  const areas=Array.from(document.querySelectorAll(&#x27;[data-evac-area]:checked&#x27;)).map(input=&gt;input.value);
+  if(action===&#x27;evacuate&#x27;&amp;&amp;!areas.length){$(&#x27;onDecisionStatus&#x27;).textContent=&#x27;A·B·C 중 안내할 지역을 선택하세요.&#x27;;return}
+  $(&#x27;onDecisionStatus&#x27;).textContent=&#x27;관제 선택을 전달하고 있습니다…&#x27;;
+  parent.postMessage({type:&#x27;aigo-on-command&#x27;,action:&#x27;decision&#x27;,decision:action,areas,alert_id:current.id,route:window.aigoOnRoute.getConfig(),port:$(&#x27;onRobotPort&#x27;).value.trim().toUpperCase()},&#x27;*&#x27;);
+ }
+ $(&#x27;onEvacuate&#x27;).onclick=()=&gt;decision(&#x27;evacuate&#x27;);$(&#x27;onReturn&#x27;).onclick=()=&gt;decision(&#x27;return&#x27;);$(&#x27;onHold&#x27;).onclick=()=&gt;decision(&#x27;hold&#x27;);
+ function showNotice(){if(notice.open||dialog.open||!noticeQueue.length)return;const next=noticeQueue.shift();$(&#x27;onMissionNoticeText&#x27;).textContent=next.message;notice.showModal()}
+ $(&#x27;onMissionNoticeClose&#x27;).onclick=()=&gt;{notice.close();showNotice()};
+ window.renderOnDisaster=(state)=&gt;{
+  if(state.alert){
+   current=state.alert;$(&#x27;onEmergencyReopen&#x27;).hidden=!state.decision_pending;
+   $(&#x27;onDisasterTitle&#x27;).textContent=`${current.label} 재난 신호`;
+   $(&#x27;onDisasterMessage&#x27;).textContent=`관측소 ${current.station} · ${current.code} · 관제자의 대응 선택을 기다립니다.`;
+   if(state.decision_pending&amp;&amp;openedAlert!==current.id){openedAlert=current.id;startSiren();$(&#x27;onDecisionStatus&#x27;).textContent=&#x27;&#x27;;document.querySelectorAll(&#x27;[data-evac-area]&#x27;).forEach(input=&gt;input.checked=false);if(notice.open)notice.close();if(!dialog.open)open()}
+  }
+  for(const item of state.notifications||[]){if(!seenNotices.has(item.id)){seenNotices.add(item.id);noticeQueue.push(item)}}
+  showNotice();
+ };
+ window.addEventListener(&#x27;message&#x27;,event=&gt;{
+  if(event.source!==parent||event.data?.type!==&#x27;aigo-on-decision-result&#x27;)return;
+  if(event.data.ok){stopSiren();dialog.close();showNotice()}else $(&#x27;onDecisionStatus&#x27;).textContent=&#x27;명령을 전달하지 못했습니다. 연결과 최신 재난 알림을 확인하세요.&#x27;;
+ });
+})();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;"></iframe></div></div><script>
+(()=>{
+ const onButton=document.getElementById('pc-on-nav');
+ const outPanel=document.getElementById('pc-panel-out');
+ const onPanel=document.getElementById('pc-panel-on');
+ function selectService(on){
+  outPanel.hidden=on;onPanel.hidden=!on;
+  onButton.classList.toggle('active',on);onButton.setAttribute('aria-pressed',String(on));
+  if(on)document.querySelectorAll('[data-nav-target]').forEach(button=>button.classList.remove('active'));
+ }
+ onButton.addEventListener('click',()=>selectService(true));
+ document.querySelectorAll('[data-nav-target]').forEach(button=>button.addEventListener('click',()=>selectService(false)));
+})();
+</script>
+<script>
+(()=>{
+ const frame=document.getElementById('pc-panel-on');let lastOnRoute=null;
+ function reply(message){frame.contentWindow.postMessage({type:'aigo-on-result',message},'*')}
+ async function onCommand(action,extra={}){try{const response=await fetch('/api/command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...extra})});const data=await response.json();reply(data.error||data.message||'요청을 처리했습니다.');return response.ok}catch{reply('연결 도우미에 연결할 수 없습니다. 다시 연결하세요.');return false}}
+ window.addEventListener('message',async event=>{
+  if(event.source!==frame.contentWindow||!event.data)return;
+  const data=event.data;
+  if(data.type==='aigo-on-ready'){
+   frame.contentWindow.postMessage({type:'aigo-on-port',port:robotParams.get('port')||document.getElementById('robotPort').value},'*');
+   if(robotParams.get('service')==='on')document.getElementById('pc-on-nav').click();
+   const encoded=robotParams.get('route');if(encoded){try{const value=JSON.parse(atob(encoded.replace(/-/g,'+').replace(/_/g,'/')));frame.contentWindow.postMessage({type:'aigo-on-import',route:value},'*')}catch{reply('이전 경로를 읽을 수 없습니다. 경로를 다시 설정하세요.')}}
+   return;
+  }
+  if(data.type!=='aigo-on-command')return;
+  lastOnRoute=data.route;
+  const selectedPort=String(data.port||document.getElementById('robotPort').value).trim().toUpperCase();
+  if(data.action==='connect'&&!/^COM[1-9][0-9]{0,3}$/.test(selectedPort)){reply('장치 목록에서 로보독의 COM 포트를 선택하세요.');return}
+  const local=location.protocol==='http:'&&location.hostname==='127.0.0.1'&&location.port==='8765';
+  if(data.action==='refresh'){try{if(!local){reply('최신 연결 상태는 로컬 관제 화면에서 확인하세요.');return}const response=await fetch('/api/status',{cache:'no-store',signal:AbortSignal.timeout(4000)});if(!response.ok)throw Error();window.publishOnStatus(await response.json());reply('최신 상태 갱신 완료 · '+new Date().toLocaleTimeString('ko-KR'))}catch{reply('화면 갱신 실패: 연결 도우미 응답을 확인하세요.')}return}
+  if(data.action==='signal'){if(local){const ok=await onCommand('on_signal',{signal:data.signal});if(ok)await poll()}return}
+  if(data.action==='ports'){try{const ready=local||await window.aigoBridgeReady();if(!ready){reply('연결 도우미를 먼저 실행해 주세요.');return}if(!local){reply('현재 연결 가능한 USB 포트는 로컬 관제 화면에서 확인할 수 있습니다.');return}const response=await fetch('/api/ports',{cache:'no-store',signal:AbortSignal.timeout(4000)});if(!response.ok)throw Error();const payload=await response.json();frame.contentWindow.postMessage({type:'aigo-on-ports',ports:payload.ports||[]},'*')}catch{reply('포트 목록을 읽지 못했습니다.')}return}
+  if(!local){
+   if(data.action!=='connect'){reply('먼저 로보독 연결 버튼을 누르세요.');return}
+   const encoded=btoa(JSON.stringify(lastOnRoute)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+   const target='http://127.0.0.1:8765/?connect=1&port='+encodeURIComponent(selectedPort)+'&service=on&route='+encoded;
+   reply('연결 도우미 확인 중…');
+   if(await window.aigoBridgeReady()){location.href=target;return}
+   location.href='aigo-robodog://connect?port='+encodeURIComponent(selectedPort)+'&service=on&route='+encoded;
+   window.showAigoLaunchFallback(target);
+   reply('연결 도우미 실행을 허용하세요. 열린 ON 화면에서 순찰을 시작하세요.');return;
+  }
+  if(data.action==='connect'){await onCommand('connect_robot',{port:selectedPort})}
+  else if(data.action==='start'){await onCommand('on_start',{route:lastOnRoute})}
+  else if(data.action==='stop'){await onCommand('on_stop')}
+  else if(data.action==='resume_hazard'){await onCommand('on_resume_hazard')}
+  else if(data.action==='decision'){const ok=await onCommand('on_decision',{decision:data.decision,areas:data.areas,alert_id:data.alert_id,route:lastOnRoute});frame.contentWindow.postMessage({type:'aigo-on-decision-result',ok},'*')}
+  await poll();
+ });
+ window.publishOnStatus=status=>{if(status.on_patrol?.decision_pending||status.on_patrol?.hazard_wait)document.getElementById('pc-on-nav').click();frame.contentWindow.postMessage({type:'aigo-on-status',status},'*')};
+})();
+</script>
+<script>
+(()=>{const link=document.getElementById('aigo-package-download');if(link&&location.hostname.endsWith('.github.io')){const owner=location.hostname.slice(0,-'.github.io'.length);const repo=location.pathname.split('/').filter(Boolean)[0]||owner+'.github.io';link.href='https://github.com/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo)+'/archive/HEAD.zip'}})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

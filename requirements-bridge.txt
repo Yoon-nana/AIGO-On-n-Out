@@ -1,0 +1,4 @@
+kocoafab-robodog==0.2.0
+pyserial==3.5
+
+pyjuni==1.7

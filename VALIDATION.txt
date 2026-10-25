@@ -1,0 +1,18 @@
+Source commit: 8529b0da88d863059ed78ebd1c12939fedb1844c
+Validation date: 2026-10-25 (Asia/Seoul)
+
+PowerShell 7.4.13 on macOS: both PS1 files parsed without errors.
+Mocked PowerShell execution scenarios passed (8):
+- First launch installs missing configuration.
+- Moved project repairs its registered configuration.
+- Malformed JSON configuration is recreated.
+- Explicit COM port and ON route survive launch.
+- Cold server start passes the backend path as one quoted argument.
+- Installer reuses the project virtual environment and checks imports.
+- Python launcher fallback creates the project virtual environment.
+- Missing project file stops installation before changes.
+
+External Python processes, registry operations, browser launches and HTTP
+responses were mocked. No real packages were installed by these tests.
+Windows 11 / Windows PowerShell 5.1, CMD execution, dependency installation,
+USB communication and physical robot motion require verification on the PC.

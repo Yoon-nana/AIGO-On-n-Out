@@ -1,0 +1,16 @@
+ON & OUT GitHub upload package
+Date: 2026-10-25 Asia/Seoul
+
+PASS: 10 inline scripts parsed (outer HTML, ON iframe and independent diagnostic).
+PASS: Both dashboard HTML files are identical.
+PASS: Browser title, header and sidebar footer show ON & OUT.
+PASS: PS1/CMD and Python backend match the earlier validated fix package.
+PASS: Supplied receiver HEX is unchanged.
+HEX SHA256: d736b1db9d394671827e385eede0d4a32b2f1f2be86f29262f568f08d574f048
+PASS: Local links to firmware, README and diagnostic exist.
+PASS: No .venv, work directory or machine-local helper configuration included.
+
+Deployment: main branch, / (root). This package does not use /docs.
+User update: COM6 connection succeeded after restarting the PC.
+Exact cause cleared by restart remains unconfirmed; full robot operation was not verified.
+No remote GitHub repository or site was changed.

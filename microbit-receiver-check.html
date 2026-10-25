@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>마이크로비트 USB 연결 확인</title>
+<style>
+body{max-width:900px;margin:30px auto;padding:0 20px;font:18px/1.6 system-ui,sans-serif;color:#15372e;background:#f4f8f5}h1{font-size:28px}button{font:inherit;padding:12px 20px;border:1px solid #53776b;border-radius:9px;background:white;cursor:pointer;margin:4px}button:disabled{opacity:.45;cursor:default}#connect{background:#205b47;color:white}#status{padding:20px;background:white;border:3px solid #9bbdaf;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:22px;font-weight:700}#latest{padding:15px;background:#e3efe8;overflow-wrap:anywhere}pre{padding:15px;background:#152e26;color:#e5f6ed;border-radius:10px;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.6 ui-monospace,monospace}small{display:block}#environment{font-size:14px;overflow-wrap:anywhere}
+</style>
+<h1>마이크로비트 USB 연결 확인</h1>
+<p>이 파일은 ON 화면과 별도로 USB 연결만 검사합니다. Chrome·Edge에서 열고 PC에 연결한 <strong>수신 micro:bit</strong>를 선택하세요.</p>
+<p id="status" role="status" aria-live="polite">검사 준비 중…</p>
+<button id="connect" type="button">① 수신 마빗 선택·연결</button>
+<button id="disconnect" type="button" disabled>연결 해제</button>
+<p>연결되면 첨부하신 테스트 HEX가 설치된 마빗을 흔들어 보세요. <strong>RX:E1</strong>이 나타나면 USB 수신이 됩니다. 이 페이지는 로봇을 움직이지 않습니다.</p>
+<p id="latest">최근 수신: 없음</p>
+<p id="environment"></p>
+<pre id="log" aria-label="진단 기록"></pre>
+<script>
+'use strict';
+const element=id=>document.getElementById(id);
+const connectButton=element('connect'),disconnectButton=element('disconnect');
+let port=null,reader=null,readTask=null,stopping=false,busy=false,stage='준비',buffer='',rows=[],receivedBytes=0;
+function log(text){rows.push(new Date().toLocaleTimeString()+' '+text);element('log').textContent=rows.slice(-80).join('\n');}
+function status(text,error=false){element('status').textContent=text;element('status').style.borderColor=error?'#bd4f3c':'#9bbdaf';log(text);}
+function buttons(){connectButton.disabled=busy||!!port;disconnectButton.disabled=!port||stopping;}
+function describe(error){return (error?.name||'Error')+': '+(error?.message||String(error));}
+function failure(error){
+ const name=error?.name||'Error';
+ const hints={NotFoundError:'장치 선택창에서 선택이 취소되었거나 장치를 찾지 못했습니다.',NotAllowedError:'브라우저가 장치 접근을 허용하지 않았습니다.',SecurityError:'브라우저 권한 또는 프레임 정책이 USB 접근을 제한했습니다.',NetworkError:'포트를 열거나 읽지 못했습니다. USB 케이블·드라이버·다른 프로그램의 포트 점유를 확인하세요.',InvalidStateError:'이미 열린 포트이거나 현재 포트 상태에서 실행할 수 없는 요청입니다.'};
+ status('실패 단계: '+stage+'\n'+describe(error)+'\n'+(hints[name]||'아래 진단 기록을 함께 확인해 주세요.'),true);
+}
+function consume(text){
+ buffer+=text;
+ const lines=buffer.split(/\r\n|\n|\r/);buffer=lines.pop();
+ for(const line of lines)if(line.trim()){element('latest').textContent='최근 수신: '+line;log('수신: '+line);}
+ if(buffer.length>8192){log('긴 메시지 버퍼 초기화');buffer='';}
+}
+async function read(active){
+ let recoveries=0;
+ try{
+  while(!stopping&&port===active&&active.readable){
+   const current=active.readable.getReader(),decoder=new TextDecoder();reader=current;
+   try{
+    for(;;){
+     const packet=await current.read();
+     if(packet.done){if(!stopping)status('장치가 USB 읽기를 종료했습니다.\n장치를 다시 꽂고 재연결하세요.',true);return;}
+     if(packet.value){receivedBytes+=packet.value.byteLength;recoveries=0;consume(decoder.decode(packet.value,{stream:true}));status('USB 수신 중 · 총 '+receivedBytes+'바이트');}
+     if(stopping||port!==active)break;
+    }
+   }catch(error){
+    if(stopping)return;
+    if(!['FramingError','ParityError','BreakError','BufferOverrunError'].includes(error.name)||++recoveries>3)throw error;
+    log('읽기 복구 '+recoveries+'/3: '+describe(error));buffer='';
+    await new Promise(resolve=>setTimeout(resolve,100));
+   }finally{current.releaseLock();if(reader===current)reader=null;}
+  }
+  if(!stopping)status('USB 읽기 스트림이 닫혔습니다. USB 장치를 확인하세요.',true);
+ }catch(error){if(!stopping)failure(error);}
+ finally{
+  try{await active.close();}catch(error){log('포트 닫기: '+describe(error));}
+  if(port===active)port=null;stopping=false;buttons();
+ }
+}
+async function connect(){
+ if(busy||port)return;
+ if(!window.isSecureContext||!navigator.serial){status('이 브라우저에서는 Web Serial을 사용할 수 없습니다.\n데스크톱 Chrome·Edge로 이 파일을 여세요.',true);return;}
+ busy=true;buttons();let selected=null,opened=false;
+ try{
+  stage='1. 포트 선택창 열기';status(stage+'\n브라우저의 장치 선택창을 확인하세요.');
+  selected=await navigator.serial.requestPort();
+  log('장치 선택 완료: '+JSON.stringify(selected.getInfo()));
+  stage='2. USB 포트 열기';status(stage+' · 115200 baud');
+  await selected.open({baudRate:115200,dataBits:8,stopBits:1,parity:'none',flowControl:'none',bufferSize:4096});opened=true;
+  if(!selected.readable)throw new Error('포트는 열렸지만 읽기 스트림이 없습니다.');
+  port=selected;buffer='';receivedBytes=0;stopping=false;stage='3. USB 데이터 읽기';
+  status('USB 연결 성공 · 115200 baud\n아직 신호가 없어도 연결은 유지됩니다. 마빗을 흔들어 RX:E1 수신을 확인하세요.');
+  readTask=read(selected);
+ }catch(error){if(opened&&selected)try{await selected.close();}catch{}port=null;failure(error);}
+ finally{busy=false;buttons();}
+}
+async function disconnect(){
+ if(!port||stopping)return;stopping=true;buttons();
+ if(reader)try{await reader.cancel();}catch(error){log(describe(error));}
+ if(readTask)await readTask;readTask=null;status('사용자가 USB 연결을 해제했습니다.');buttons();
+}
+connectButton.addEventListener('click',connect);
+disconnectButton.addEventListener('click',disconnect);
+window.addEventListener('error',event=>{status('페이지 코드 오류: '+event.message,true);});
+window.addEventListener('unhandledrejection',event=>{failure(event.reason);});
+if(navigator.serial)navigator.serial.addEventListener('disconnect',event=>{if(event.target===port||event.port===port)log('USB 장치 분리 이벤트 감지');});
+let policy='확인 불가';try{policy=String((document.permissionsPolicy||document.featurePolicy)?.allowsFeature('serial')??'확인 불가');}catch{}
+element('environment').textContent='진단판 v1 · Web Serial: '+!!navigator.serial+' · 보안 컨텍스트: '+window.isSecureContext+' · Serial 정책: '+policy+' · 최상위 화면: '+(window===window.top)+'\n'+navigator.userAgent;
+status(navigator.serial&&window.isSecureContext?'준비 완료. 위의 ① 수신 마빗 선택·연결 버튼을 누르세요.':'Web Serial 사용 불가. 데스크톱 Chrome·Edge로 열어 주세요.',!navigator.serial||!window.isSecureContext);
+</script>
+</html>
