@@ -4,7 +4,7 @@ import queue
 import threading
 import time
 import on_demo_original as demo
-from kocoafab_robodog import RoboDog, FACE_RECOGNITION, 멍멍, 크게
+from kocoafab_robodog import RoboDog, FACE_RECOGNITION, 멍멍, 크게, 초롱초롱
 
 
 def validate_route(config):
@@ -88,7 +88,7 @@ class RoutePatrol:
 
 
 class PatrolService:
-    SEARCH_SECONDS = 3.0
+    SEARCH_SECONDS = 10.0
     MAX_ATTEMPTS = 5
     def __init__(self,publish):
         self.publish=publish;self.stop_event=threading.Event()
@@ -164,8 +164,8 @@ class PatrolService:
             if not connected:raise RuntimeError(f'ON 로보독 {port} 연결 실패')
             self.emit(connected=True,state='순찰 준비 중')
             if self.stop_event.wait(2):return
-            eyes=demo.EyeDisplay(dog);dog.move(0);eyes.clear();dog.bodyLED(0x0F,0,255,0)
-            dog.ai_mode(FACE_RECOGNITION,timeout=1.0)
+            eyes=demo.EyeDisplay(dog,idle_expression=초롱초롱);dog.move(0);dog.bodyLED(0x0F,0,255,0)
+            dog.ai_mode(FACE_RECOGNITION,timeout=1.0);eyes.restore()
             nav=RoutePatrol(dog,eyes,config);phase='PATROL';areas=[];area=None;alert=None
             attempts=0;deadline=0;last_publish=0;detected_streak=0
             class1_seen=False;class1_hits=0;class1_clear_hits=0
@@ -213,7 +213,7 @@ class PatrolService:
                     if nav.finished:
                         if phase=='VISIT':
                             dog.move(0);dog.ai_mode(FACE_RECOGNITION,timeout=1.0)
-                            eyes.restore();attempts=1;detected_streak=0;bark();deadline=now+self.SEARCH_SECONDS;phase='SEARCH'
+                            eyes.restore();attempts=1;detected_streak=0;bark();deadline=time.monotonic()+self.SEARCH_SECONDS;phase='SEARCH'
                             self.emit(mission=phase,state=f'{area}지역 집주인 확인 1/5 · CLASS{ord(area)-ord("A")+2}',search_attempt=attempts)
                         elif phase=='ESCORT' and areas:
                             area=areas.pop(0);move_to(area);phase='VISIT'
@@ -234,9 +234,14 @@ class PatrolService:
                         self.emit(mission=phase,state=f'{area}지역 집주인 확인 · S로 대피 안내 중',mission_outcome='found',ai_class=target,position_estimated=True)
                     elif now>=deadline:
                         if attempts>=self.MAX_ATTEMPTS:
-                            self.notify(f'{area}지역 인물을 확인하지 못했습니다. 5회 확인 후 S로 복귀합니다.','warning',area=area)
-                            areas=[];move_to('S');phase='RETURN'
-                            self.emit(mission=phase,state='인물을 확인하지 못했습니다 · S 복귀 중',mission_outcome='not_found',search_attempt=5)
+                            if areas:
+                                missed_area=area;area=areas.pop(0);move_to(area);phase='VISIT'
+                                self.notify(f'{missed_area}지역 인물을 확인하지 못했습니다. 다음 {area}지역으로 이동합니다.','warning',area=missed_area)
+                                self.emit(mission=phase,state=f'{area}지역 재난 안내 출동',mission_outcome='not_found',current_area=area,search_attempt=0)
+                            else:
+                                self.notify(f'{area}지역 인물을 확인하지 못했습니다. 선택 지역 방문을 마치고 S로 복귀합니다.','warning',area=area)
+                                move_to('S');phase='RETURN'
+                                self.emit(mission=phase,state='선택 지역 방문 완료 · S 복귀 중',mission_outcome='not_found',search_attempt=self.MAX_ATTEMPTS)
                         else:
                             attempts+=1;bark();deadline=now+self.SEARCH_SECONDS;detected_streak=0
                             self.emit(search_attempt=attempts,state=f'{area}지역 집주인 확인 {attempts}/5 · CLASS{target}')

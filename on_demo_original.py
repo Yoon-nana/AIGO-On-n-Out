@@ -139,9 +139,10 @@ finally {
 
 
 class EyeDisplay:
-    def __init__(self, dog):
+    def __init__(self, dog, idle_expression=None):
         self.dog = dog
         self.last_kind = None
+        self.idle_expression = idle_expression
 
     def clear(self):
         self.last_kind = None
@@ -154,8 +155,11 @@ class EyeDisplay:
 
     def restore(self):
         if self.last_kind is None:
-            blank = bytearray(8)
-            self.dog.headLEDDraw(blank, blank)
+            if self.idle_expression is None:
+                blank = bytearray(8)
+                self.dog.headLEDDraw(blank, blank)
+            else:
+                self.dog.headLEDExp(self.idle_expression)
         else:
             left, right = EYES[self.last_kind]
 
