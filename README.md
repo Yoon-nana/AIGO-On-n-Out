@@ -11,6 +11,7 @@ ON 순찰·재난 안내와 OUT 배송서비스의 전체 코드, Windows 연결
 - 새 페이지가 서버의 예전 수신값을 새 신호처럼 다시 처리하지 않습니다. 순찰을 다시 시작할 때 해결된 과거 재난 알림도 다시 띄우지 않습니다.
 - microbit-receiver-check.html: ON 프레임·Python 서버와 별개로 USB만 확인하는 단독 진단 파일.
 - microbit_pc_receiver.hex: 제공받은 PC 수신기 HEX의 내용 변경 없는 복사본.
+- receiver_test_original.hex: 흔들기 입력으로 `RX:E1`을 출력하는 기존 연결 시험용 HEX. 실제 운영용 수신기와 구별해 보관합니다.
 
 ## GitHub 전체 파일 업로드
 
@@ -64,6 +65,8 @@ GitHub Pages는 정적 관제 화면과 다운로드 파일을 제공합니다. 
 
 E1은 지진 재난 신호입니다. 이 HEX는 PC 수신기용입니다. 관측소 송신기 프로그램과 구별하고 무선 시험 시 송신기도 그룹 1을 사용하세요.
 
+기존 **[receiver_test_original.hex](receiver_test_original.hex)**와 [소스](receiver_test_original.ts)는 연결 시험용으로 그대로 보관합니다. 이 테스트 HEX는 수신 마빗을 흔들면 `RX:E1`을 USB로 출력하므로 시험 중 실제 재난 팝업이 뜰 수 있습니다. 일반 수신에는 위의 `microbit_pc_receiver.hex`를 사용합니다.
+
 ## COM6 연결 오류 해결 기록
 
 실제 PC의 단독 진단에서 다음 오류가 확인됐습니다.
@@ -91,6 +94,7 @@ E1은 지진 재난 신호입니다. 이 HEX는 PC 수신기용입니다. 관측
 | aigo_on_patrol.py, on_demo_original.py | ON 순찰·재난 안내 |
 | requirements-bridge.txt | Python 의존성 |
 | microbit_pc_receiver.hex | 제공받은 PC 수신 펌웨어 |
+| receiver_test_original.hex, receiver_test_original.ts | 기존 흔들기 연결 시험용 펌웨어와 소스 |
 | microbit-receiver-check.html | 독립 USB 연결 진단 |
 | microbit_pc_receiver_makecode.ts | PC 수신 HEX에 내장된 MakeCode 소스 |
 | microbit_disaster_station_sender_makecode.ts | 기존 관측소 송신기 소스 |
