@@ -132,7 +132,7 @@ html,body{height:100%}body{margin:0;overflow:hidden;display:flex;flex-direction:
 window.aigoIsLocal=location.protocol==='http:'&&location.hostname==='127.0.0.1'&&location.port==='8765';
 window.aigoBridgeReady=async()=>{try{const response=await fetch('http://127.0.0.1:8765/api/bridge-handshake',{signal:AbortSignal.timeout(1800)});if(!response.ok)return false;const data=await response.json();return data.bridge==='jeongseon-aigo-v1'}catch{return false}};
 window.showAigoLaunchFallback=(target)=>{let box=document.getElementById('aigo-launch-help');if(!box){box=document.createElement('div');box.id='aigo-launch-help';box.style.cssText='position:fixed;bottom:20px;left:20px;right:20px;z-index:10000;background:#fff;padding:18px;border:2px solid #16877f;border-radius:12px;box-shadow:0 8px 30px #0002';document.body.append(box)}box.replaceChildren();const text=document.createElement('p');text.textContent='연결 도우미 실행 요청을 보냈습니다. 반응이 없으면 Chrome·Edge에서 이 파일을 열어 실행을 허용하세요. 도우미가 실행 중이면 아래 링크로 연결할 수 있습니다.';const link=document.createElement('a');link.href=target;link.textContent='로컬 관제 열기';link.style.cssText='display:inline-block;background:#16877f;color:#fff;padding:10px 14px;border-radius:8px';box.append(text,link)};
-</script><header class="pc-header"><div><strong>정선 AIGO</strong><small>ON &amp; OUT</small></div><span class="pc-package">생활을 잇는 통합 로봇 서비스 · <a id="aigo-package-download" href="README.md" title="처음 사용하는 PC는 압축을 풀고 AIGO_Install.cmd를 한 번 실행하세요.">연결 도우미 설치 파일 ↓</a> · <a href="receiver_test_original.hex" download="receiver_test_original.hex">수신 마빗 HEX ↓</a> · <a href="microbit-receiver-check.html" target="_blank" rel="noopener">USB 단독 진단</a></span></header>
+</script><header class="pc-header"><div><strong>정선 AIGO</strong><small>ON &amp; OUT</small></div><span class="pc-package">생활을 잇는 통합 로봇 서비스 · <a id="aigo-package-download" href="README.md" title="처음 사용하는 PC는 압축을 풀고 Install_All.cmd를 한 번 실행하세요.">연결 도우미 설치 파일 ↓</a> · <a href="receiver_test_original.hex" download="receiver_test_original.hex">수신 마빗 HEX ↓</a> · <a href="microbit-receiver-check.html" target="_blank" rel="noopener">USB 단독 진단</a></span></header>
 <div class="pc-layout"><aside class="sidebar">
     <div class="brand"><div class="brand-mark">🐾</div><span>정선 AIGO<small class="pc-brand-sub">통합 관제센터</small></span></div>
     <div class="nav-label">운영</div>
@@ -1148,7 +1148,7 @@ $(&#x27;clock&#x27;).textContent=timeText(Date.now());
 })();
 </script>
 <script>
-(()=>{const link=document.getElementById('aigo-package-download');if(link&&location.hostname.endsWith('.github.io')){const owner=location.hostname.slice(0,-'.github.io'.length);const repo=location.pathname.split('/').filter(Boolean)[0]||owner+'.github.io';link.href='https://github.com/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo)+'/archive/HEAD.zip'}})();
+(()=>{const link=document.getElementById('aigo-package-download');if(link&&location.hostname.endsWith('.github.io')){const owner=location.hostname.slice(0,-'.github.io'.length);const repo=location.pathname.split('/').filter(Boolean)[0]||owner+'.github.io';link.href='https://github.com/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo)+'/releases/latest/download/AIGO_All_In_One.zip'}})();
 </script>
 </body>
 </html>

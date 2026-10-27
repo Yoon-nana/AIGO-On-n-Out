@@ -2,6 +2,10 @@
 
 ON 순찰·재난 안내와 OUT 배송서비스의 전체 코드, Windows 연결 도우미, 수신 micro:bit HEX를 포함한 GitHub 업로드용 통합본입니다.
 
+## 처음 사용하는 PC · IN + ON/OUT 한 번에 설치
+
+[AIGO 전체 통합 ZIP](https://github.com/Yoon-nana/AIGO-On-n-Out/releases/latest/download/AIGO_All_In_One.zip)을 받아 모두 압축 푼 뒤 최상위 폴더의 `Install_All.cmd`를 한 번 실행하세요. Python 3.10~3.14와 Windows `py` 실행기가 필요합니다. 이후 같은 폴더의 `Start_ON_OUT.cmd` 또는 `Start_IN.cmd`를 실행합니다. 두 서비스는 한 `.venv`를 공유합니다.
+
 ## 이번 통합본
 
 - ON 순찰은 화면에서 정한 S·A·B·C 좌표와 순서를 따라 상대 회전 후 정해진 시간만큼 전진합니다. 화면 위치는 주행 시간으로 계산한 예상 위치입니다.
