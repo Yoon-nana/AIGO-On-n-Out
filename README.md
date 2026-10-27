@@ -8,10 +8,8 @@ ON 순찰·재난 안내와 OUT 배송서비스의 전체 코드, Windows 연결
 - AIGO_Install.ps1과 AIGO_Launch.ps1을 모두 포함했습니다. 확장자는 .psl이 아니라 마지막 글자가 숫자 1인 **.ps1**입니다.
 - PS1 누락 안내, 최초 실행 설치, 폴더 이동 후 설정 재생성, Python 3.10~3.13 확인을 포함합니다.
 - ON 수신 오류를 화면에 계속 표시하고 일시적인 시리얼 읽기 오류를 복구합니다.
-- 새 페이지가 서버의 예전 수신값을 새 신호처럼 다시 처리하지 않습니다. 순찰을 다시 시작할 때 해결된 과거 재난 알림도 다시 띄우지 않습니다.
 - microbit-receiver-check.html: ON 프레임·Python 서버와 별개로 USB만 확인하는 단독 진단 파일.
-- microbit_pc_receiver.hex: 제공받은 PC 수신기 HEX의 내용 변경 없는 복사본.
-- receiver_test_original.hex: 흔들기 입력으로 `RX:E1`을 출력하는 기존 연결 시험용 HEX. 실제 운영용 수신기와 구별해 보관합니다.
+- receiver_test_original.hex: 제공받은 수신 테스트 HEX의 내용 변경 없는 복사본.
 
 ## GitHub 전체 파일 업로드
 
@@ -54,18 +52,16 @@ GitHub Pages는 정적 관제 화면과 다운로드 파일을 제공합니다. 
 
 ## 수신 micro:bit HEX
 
-**[microbit_pc_receiver.hex](microbit_pc_receiver.hex)**는 제공받은 `microbit-PC 수신기 코드.hex`의 복사본입니다. 파일명만 영문으로 정리했고 내용은 바꾸지 않았습니다. 내장 MakeCode 소스는 [microbit_pc_receiver_makecode.ts](microbit_pc_receiver_makecode.ts)와 같습니다.
+**[receiver_test_original.hex](receiver_test_original.hex)**는 사용자가 제공한 microbit-데모데이-마빗-테스트코드.hex의 복사본입니다. 파일명만 영문으로 정리했으며 내용은 바꾸지 않았습니다. 내장 MakeCode 소스는 receiver_test_original.ts로 추출했습니다.
 
 1. **PC에 연결할 수신 micro:bit**의 MICROBIT 드라이브에 HEX를 복사합니다.
 2. 설치·재시작이 끝나면 데스크톱 Chrome·Edge에서 ON의 **수신기 연결**을 누릅니다.
 3. 로보독 포트와 구별해서 수신 micro:bit를 선택합니다. 사용자 PC에서는 마빗이 COM6으로 확인됐지만 PC마다 번호가 다릅니다.
 4. 이 HEX는 **라디오 그룹 1**, **USB 115200 baud**를 사용합니다.
 5. 무선 문자열을 RX: 접두사와 함께 USB로 전달합니다. 예: RX:E1.
-6. 수신 시험은 별도의 관측소 송신 micro:bit에서 E1 같은 신호를 보내 확인합니다. 이 수신기에는 흔들기 시험 기능이 없습니다.
+6. **흔들기 → RX:E1 출력** 테스트 기능이 있습니다. 단독 진단 파일에서 확인할 수 있습니다.
 
-E1은 지진 재난 신호입니다. 이 HEX는 PC 수신기용입니다. 관측소 송신기 프로그램과 구별하고 무선 시험 시 송신기도 그룹 1을 사용하세요.
-
-기존 **[receiver_test_original.hex](receiver_test_original.hex)**와 [소스](receiver_test_original.ts)는 연결 시험용으로 그대로 보관합니다. 이 테스트 HEX는 수신 마빗을 흔들면 `RX:E1`을 USB로 출력하므로 시험 중 실제 재난 팝업이 뜰 수 있습니다. 일반 수신에는 위의 `microbit_pc_receiver.hex`를 사용합니다.
+E1은 지진 재난 테스트 신호입니다. 로봇을 운행 중인 상태에서 흔들기 테스트를 하지 마세요. 이 HEX는 PC 수신기용입니다. 관측소 송신기 프로그램과 구별하고 무선 시험 시 송신기도 그룹 1을 사용하세요.
 
 ## COM6 연결 오류 해결 기록
 
@@ -93,10 +89,10 @@ E1은 지진 재난 신호입니다. 이 HEX는 PC 수신기용입니다. 관측
 | robodog_abc_delivery.py | 서버·OUT 배송·공통 장치 처리 |
 | aigo_on_patrol.py, on_demo_original.py | ON 순찰·재난 안내 |
 | requirements-bridge.txt | Python 의존성 |
-| microbit_pc_receiver.hex | 제공받은 PC 수신 펌웨어 |
-| receiver_test_original.hex, receiver_test_original.ts | 기존 흔들기 연결 시험용 펌웨어와 소스 |
+| receiver_test_original.hex | 제공받은 PC 수신 테스트 펌웨어 |
+| receiver_test_original.ts | 해당 HEX에서 추출한 원본 소스 |
 | microbit-receiver-check.html | 독립 USB 연결 진단 |
-| microbit_pc_receiver_makecode.ts | PC 수신 HEX에 내장된 MakeCode 소스 |
+| microbit_pc_receiver_makecode.ts | 기존 프로젝트의 PC 수신기 소스 |
 | microbit_disaster_station_sender_makecode.ts | 기존 관측소 송신기 소스 |
 
 기타 README와 계획 문서는 기존 참고 자료입니다. 최신 실행 방법·배포 설정·연결 문제 상태는 이 README를 우선 확인하세요.
@@ -110,6 +106,8 @@ E1은 지진 재난 신호입니다. 이 HEX는 PC 수신기용입니다. 관측
 - 스크립트 구문·HTML 두 파일 일치·ZIP 필수 파일과 무결성을 검사했습니다.
 - 사용자 확인: PC 재부팅 후 수신 마빗 연결 성공. 전체 로봇 주행·무선 수신·재난 안내 과정의 성공 여부는 별도 확인 대상입니다.
 
-## 파일 출처
+**이 ZIP의 복사본만 수정했습니다. 다른 사람의 GitHub 저장소나 사이트는 변경하지 않았습니다.**
 
-- PC 수신 HEX: 제공받은 `microbit-PC 수신기 코드.hex`를 내용 변경 없이 포함했습니다.
+## 수신 테스트 HEX
+
+`receiver_test_original.hex`는 제공받은 테스트 파일을 내용 변경 없이 포함했습니다.

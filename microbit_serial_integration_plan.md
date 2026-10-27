@@ -6,9 +6,9 @@
 
 ```text
 구간 송신 micro:bit ── radio group 1 ──> 수신 게이트웨이 micro:bit
-  E1/F2/G1/H2                            │ USB Serial: RX:E1
+  E1/F2/G1/H2                            │ USB Serial: EMERGENCY:E1
                                          ▼
-PC Python 관제 ── USB 수신기 포트, 115200 ──> 재난 정지·상황 해석·명령 처리
+PC Python 관제 ── USB COM6, 115200 ──> 재난 정지·상황 해석·명령 처리
        │ RoboDog COM8                              │ HTTP
        ▼                                           ▼
    로보독 주행·눈 LED                       관제 HTML 화면
@@ -31,7 +31,7 @@ PC Python 관제 ── USB 수신기 포트, 115200 ──> 재난 정지·상�
 | `H` | 무더위 | 1 | A·B |
 | `H` | 무더위 | 2 | B·C |
 
-수신기는 받은 신호 앞에 `RX:`를 붙여 한 줄로 내보냅니다. 예를 들어 `F2`는 `RX:F2`가 됩니다. Python은 개행까지 읽어 115200 baud에서 처리합니다. COM 포트 번호는 PC마다 달라 실제 장치 목록에서 확인합니다.
+수신기는 받은 두 글자 신호 앞에 `EMERGENCY:`를 붙여 한 줄로 내보냅니다. 예를 들어 `F2`는 `EMERGENCY:F2`가 됩니다. Python은 개행까지 읽어 `COM6`, 115200 baud에서 처리합니다. 포트가 다르면 코드 상단의 `MICROBIT_PORT` 값을 실제 장치 관리자 포트에 맞춥니다.
 
 ## 재난 신호가 왔을 때
 
@@ -48,8 +48,7 @@ PC Python 관제 ── USB 수신기 포트, 115200 ──> 재난 정지·상�
 | 파일 | 실행 위치 | 역할 |
 |---|---|---|
 | `microbit_disaster_sender_makecode.py` | 구간 송신용 micro:bit | 위치와 재난 종류를 선택해 그룹 1로 전송 |
-| `microbit_pc_receiver.hex` | PC USB에 연결한 수신 게이트웨이 micro:bit | 라디오 수신 후 `RX:E1` 형식으로 USB 시리얼 중계 |
-| `microbit_pc_receiver_makecode.ts` | MakeCode 편집기 | PC 수신 HEX에 내장된 소스 코드 |
+| `microbit_disaster_receiver_makecode.py` | PC USB에 연결한 수신 게이트웨이 micro:bit | 라디오 수신 후 `EMERGENCY:E1` 형식으로 USB 시리얼 중계 |
 | `robodog_abc_delivery.py` | PC Thonny | COM6 재난 수신, COM8 RoboDog 제어, 로컬 웹 서버 실행 |
 | `pawcare_control.html` | Python이 제공하는 브라우저 화면 | 재난 상황 확인 및 대피 안내·복귀 명령 선택 |
 | `microbit_sensor_logger_makecode.py` | 별도 센서 기록 실험 | 소리·빛·예상 구간을 micro:bit 내부 DataLogger에 기록 |
