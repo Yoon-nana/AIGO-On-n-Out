@@ -51,7 +51,7 @@ class RoutePatrol:
     def pause(self,now=None):
         now=time.monotonic() if now is None else now
         if self.phase=='WALK':self.update_walk(now)
-        self.dog.move(0);self.dog.gesture(0);self.eyes.restore();self.phase='PLAN'
+        self.dog.move(0);self.eyes.restore();self.phase='PLAN'
     def tick(self,now):
         if self.finished:return
         if self.phase=='PLAN':
@@ -66,7 +66,7 @@ class RoutePatrol:
                 return
             self.target_heading=math.degrees(math.atan2(dy,dx))
             self.turn_angle=int(round((self.target_heading-self.heading+180)%360-180))
-            self.dog.move(0);self.dog.gesture(0);self.eyes.restore()
+            self.dog.move(0);self.eyes.restore()
             self.deadline=now+.5;self.phase='TURN_READY'
         elif self.phase=='TURN_READY' and now>=self.deadline:
             if abs(self.turn_angle)<=2:
@@ -75,7 +75,7 @@ class RoutePatrol:
                 # rotate() waits for the relative turn. The route uses the
                 # configured point coordinates and timed straight segments.
                 self.dog.rotate(self.turn_angle,demo.TURN_SPEED)
-                self.dog.move(0);self.dog.gesture(0);self.eyes.restore()
+                self.dog.move(0);self.eyes.restore()
                 self.heading=self.target_heading;self.phase='WALK_READY'
                 self.deadline=time.monotonic()+.4
         elif self.phase=='WALK_READY' and now>=self.deadline:
@@ -84,7 +84,7 @@ class RoutePatrol:
         elif self.phase=='WALK':
             self.update_walk(now)
             if now>=self.deadline:
-                self.dog.move(0);self.dog.gesture(0);self.eyes.restore();self.phase='PLAN'
+                self.dog.move(0);self.eyes.restore();self.phase='PLAN'
 
 
 class PatrolService:
