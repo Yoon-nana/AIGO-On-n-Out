@@ -1,4 +1,4 @@
-﻿정선 AIGO 실행 오류 수정본
+정선 AIGO 실행 오류 수정본
 
 1. ZIP을 마우스 오른쪽 버튼으로 눌러 '모두 압축 풀기'를 선택하세요.
    ZIP 안에서 CMD 파일만 더블클릭하거나 다른 폴더로 복사하면 안 됩니다.
@@ -35,6 +35,3 @@ PS1 파일을 직접 더블클릭하지 말고 CMD 파일을 실행하세요.
 - PowerShell 구문 및 설치/실행 분기, ZIP의 필수 파일을 검증했습니다.
 - Windows 11의 레지스트리 등록과 실제 로보독·micro:bit 통신 및 주행은
   이 환경에서 실행하지 못했으므로 실제 Windows PC와 장치에서 확인해야 합니다.
-
-원본: https://github.com/Yoon-nana/pawcare-delivery-control
-기준 커밋: 8529b0da88d863059ed78ebd1c12939fedb1844c

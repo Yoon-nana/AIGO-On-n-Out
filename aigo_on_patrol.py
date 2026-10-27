@@ -164,7 +164,10 @@ class PatrolService:
                 try:inbox.get_nowait()
                 except queue.Empty:break
         self.active=True
-        if self.latest_alert:self.inbox.put_nowait(self.latest_alert)
+        # Resume only an unresolved alert. A historical alert remains visible
+        # in the status snapshot, but must not start a new emergency on restart.
+        if self.latest_alert and self.snapshot.get('decision_pending'):
+            self.inbox.put_nowait(self.latest_alert)
     def run(self,port,config,dog_factory=RoboDog,speech_factory=demo.start_speech):
         dog=None;connected=False;nav=None
         self.emit(running=True,connected=False,x_cm=config['points']['S']['x'],y_cm=config['points']['S']['y'],heading_deg=config['initial_heading'],trail=[],run_id=time.monotonic_ns(),position_estimated=True,state='ON 로보독 연결 중',route=config,error='',decision_pending=False,mission='PATROL',search_attempt=0,notifications=list(self.notifications),hazard_wait=False,hazard_clear_confirmed=False)

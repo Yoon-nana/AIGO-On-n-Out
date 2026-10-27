@@ -11,7 +11,7 @@ body{max-width:900px;margin:30px auto;padding:0 20px;font:18px/1.6 system-ui,san
 <p id="status" role="status" aria-live="polite">검사 준비 중…</p>
 <button id="connect" type="button">① 수신 마빗 선택·연결</button>
 <button id="disconnect" type="button" disabled>연결 해제</button>
-<p>연결되면 첨부하신 테스트 HEX가 설치된 마빗을 흔들어 보세요. <strong>RX:E1</strong>이 나타나면 USB 수신이 됩니다. 이 페이지는 로봇을 움직이지 않습니다.</p>
+<p>연결되면 같은 라디오 그룹(1)의 관측소 마빗에서 E1 같은 재난 신호를 보내세요. <strong>RX:E1</strong>이 나타나면 무선 수신과 USB 전달이 모두 됩니다. 이 페이지는 로봇을 움직이지 않습니다.</p>
 <p id="latest">최근 수신: 없음</p>
 <p id="environment"></p>
 <pre id="log" aria-label="진단 기록"></pre>
@@ -73,7 +73,7 @@ async function connect(){
   await selected.open({baudRate:115200,dataBits:8,stopBits:1,parity:'none',flowControl:'none',bufferSize:4096});opened=true;
   if(!selected.readable)throw new Error('포트는 열렸지만 읽기 스트림이 없습니다.');
   port=selected;buffer='';receivedBytes=0;stopping=false;stage='3. USB 데이터 읽기';
-  status('USB 연결 성공 · 115200 baud\n아직 신호가 없어도 연결은 유지됩니다. 마빗을 흔들어 RX:E1 수신을 확인하세요.');
+  status('USB 연결 성공 · 115200 baud\n아직 신호가 없어도 연결은 유지됩니다. 관측소 마빗에서 신호를 보내 RX:E1 같은 값을 확인하세요.');
   readTask=read(selected);
  }catch(error){if(opened&&selected)try{await selected.close();}catch{}port=null;failure(error);}
  finally{busy=false;buttons();}
