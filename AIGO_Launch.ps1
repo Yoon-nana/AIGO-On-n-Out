@@ -8,6 +8,8 @@ try {
     $service = $Matches[2]
     $routePayload = $Matches[3]
     $configFile = Join-Path $PSScriptRoot 'aigo-helper.local.json'
+    $bundleRoot = Split-Path -Parent $PSScriptRoot
+    $runtimeRoot = if (Test-Path -LiteralPath (Join-Path $bundleRoot 'Install_All.cmd') -PathType Leaf) { $bundleRoot } else { $PSScriptRoot }
     $config = $null
     if (Test-Path -LiteralPath $configFile -PathType Leaf) {
         try { $config = Get-Content -LiteralPath $configFile -Raw -Encoding UTF8 | ConvertFrom-Json } catch { $config = $null }
@@ -17,7 +19,7 @@ try {
         $installer = Join-Path $PSScriptRoot 'AIGO_Install.ps1'
         if (-not (Test-Path -LiteralPath $installer -PathType Leaf)) { throw 'AIGO_Install.ps1 is missing. Extract ALL files from the ZIP into one folder.' }
         $psExe = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
-        & $psExe -NoProfile -ExecutionPolicy Bypass -File $installer
+        & $psExe -NoProfile -ExecutionPolicy Bypass -File $installer -RuntimeRoot $runtimeRoot
         if ($LASTEXITCODE -ne 0) { throw 'AIGO setup failed. Run AIGO_Install.cmd to see the installation details.' }
         $config = Get-Content -LiteralPath $configFile -Raw -Encoding UTF8 | ConvertFrom-Json
     }

@@ -529,15 +529,13 @@ function updateRobotConnection(s){
  $('robotConnectionInfo').textContent=robotConnecting?'연결 중…':connected?`로보독 ${s.robot_port||'선택한 포트'} 연결됨`:s?'연결 도우미 준비됨 · 로보독을 연결하세요.':'연결 버튼을 누르면 연결 도우미가 시작됩니다. 최초 1회 설치가 필요합니다.';
  if(!s){$('serialPill').textContent='로보독 연결 대기';$('serialPill').classList.remove('on');['startSeqBtn','stopBtn','resumeBtn','headLedOnBtn','headLedOffBtn','returnHomeBtn'].forEach(id=>$(id).disabled=true);document.querySelectorAll('[data-direct-area]').forEach(b=>b.disabled=true);}
 }
-async function launchRobotHelper(){
- const port=$('robotPort').value.trim().toUpperCase();
- if(!/^COM[1-9][0-9]{0,3}$/.test(port)){toast('장치 목록에서 로보독의 COM 포트를 선택하세요.');return}
- $('robotConnectionInfo').textContent='연결 도우미 확인 중…';
- const target='http://127.0.0.1:8765/?connect=1&port='+encodeURIComponent(port);
- if(await window.aigoBridgeReady()){location.href=target;return}
+function launchRobotHelper(){
+ const selected=$('robotPort').value.trim().toUpperCase();
+ const port=/^COM[1-9][0-9]{0,3}$/.test(selected)?selected:'AUTO';
+ const target='http://127.0.0.1:8765/'+(port==='AUTO'?'':'?connect=1&port='+encodeURIComponent(port));
  location.href='aigo-robodog://connect?port='+encodeURIComponent(port);
  window.showAigoLaunchFallback(target);
- $('robotConnectionInfo').textContent='도우미 실행 요청을 보냈습니다. 반응이 없으면 아래 로컬 관제 열기를 누르거나 Chrome·Edge에서 열어 주세요.';
+ $('robotConnectionInfo').textContent='도우미 실행 요청을 보냈습니다. 브라우저의 앱 실행을 허용해 주세요.';
 }
 async function connectRobot(){
  if(location.protocol==='file:'||location.hostname!=='127.0.0.1'||location.port!=='8765'){launchRobotHelper();return}
@@ -997,7 +995,7 @@ $(&#x27;clock&#x27;).textContent=timeText(Date.now());
 &lt;/script&gt;&lt;script&gt;
 (()=&gt;{
  let last=null,lastRx=null,request=0;
- const send=(action)=&gt;{const id=++request;if(action===&#x27;connect&#x27;)$(&#x27;onRobotStatus&#x27;).textContent=&#x27;연결 요청 중…&#x27;;parent.postMessage({type:&#x27;aigo-on-command&#x27;,id,action,port:$(&#x27;onRobotPort&#x27;).value.trim().toUpperCase(),route:window.aigoOnRoute.getConfig()},&#x27;*&#x27;)};
+ const send=(action)=&gt;{const id=++request;if(action===&#x27;connect&#x27;){$(&#x27;onRobotStatus&#x27;).textContent=&#x27;연결 요청 중…&#x27;;if(!parent.aigoIsLocal){const selected=$(&#x27;onRobotPort&#x27;).value.trim().toUpperCase();const port=/^COM[1-9][0-9]{0,3}$/.test(selected)?selected:&#x27;AUTO&#x27;;const route=btoa(JSON.stringify(window.aigoOnRoute.getConfig())).replace(/\+/g,&#x27;-&#x27;).replace(/\//g,&#x27;_&#x27;).replace(/=+$/,&#x27;&#x27;);parent.location.href=&#x27;aigo-robodog://connect?port=&#x27;+port+&#x27;&amp;service=on&amp;route=&#x27;+route;return}}parent.postMessage({type:&#x27;aigo-on-command&#x27;,id,action,port:$(&#x27;onRobotPort&#x27;).value.trim().toUpperCase(),route:window.aigoOnRoute.getConfig()},&#x27;*&#x27;)};
  $(&#x27;onClass1Resume&#x27;).onclick=()=&gt;send(&#x27;resume_hazard&#x27;);
  $(&#x27;onRobotPorts&#x27;).onclick=()=&gt;{$(&#x27;onPortResults&#x27;).hidden=false;$(&#x27;onActionStatus&#x27;).textContent=&#x27;장치 목록 검색 중…&#x27;;send(&#x27;ports&#x27;)};
  $(&#x27;onDetectedPort&#x27;).onchange=()=&gt;{if($(&#x27;onDetectedPort&#x27;).value){$(&#x27;onRobotPort&#x27;).value=$(&#x27;onDetectedPort&#x27;).value;localStorage.setItem(&#x27;aigo-robot-port&#x27;,$(&#x27;onRobotPort&#x27;).value)}};
@@ -1122,18 +1120,17 @@ $(&#x27;clock&#x27;).textContent=timeText(Date.now());
   if(data.type!=='aigo-on-command')return;
   lastOnRoute=data.route;
   const selectedPort=String(data.port||document.getElementById('robotPort').value).trim().toUpperCase();
-  if(data.action==='connect'&&!/^COM[1-9][0-9]{0,3}$/.test(selectedPort)){reply('장치 목록에서 로보독의 COM 포트를 선택하세요.');return}
   const local=location.protocol==='http:'&&location.hostname==='127.0.0.1'&&location.port==='8765';
+  if(data.action==='connect'&&local&&!/^COM[1-9][0-9]{0,3}$/.test(selectedPort)){reply('장치 목록에서 로보독의 COM 포트를 선택하세요.');return}
   if(data.action==='refresh'){try{if(!local){reply('최신 연결 상태는 로컬 관제 화면에서 확인하세요.');return}const response=await fetch('/api/status',{cache:'no-store',signal:AbortSignal.timeout(4000)});if(!response.ok)throw Error();window.publishOnStatus(await response.json());reply('최신 상태 갱신 완료 · '+new Date().toLocaleTimeString('ko-KR'))}catch{reply('화면 갱신 실패: 연결 도우미 응답을 확인하세요.')}return}
   if(data.action==='signal'){if(local){const ok=await onCommand('on_signal',{signal:data.signal});if(ok)await poll()}return}
   if(data.action==='ports'){try{const ready=local||await window.aigoBridgeReady();if(!ready){reply('연결 도우미를 먼저 실행해 주세요.');return}if(!local){reply('현재 연결 가능한 USB 포트는 로컬 관제 화면에서 확인할 수 있습니다.');return}const response=await fetch('/api/ports',{cache:'no-store',signal:AbortSignal.timeout(4000)});if(!response.ok)throw Error();const payload=await response.json();frame.contentWindow.postMessage({type:'aigo-on-ports',ports:payload.ports||[]},'*')}catch{reply('포트 목록을 읽지 못했습니다.')}return}
   if(!local){
    if(data.action!=='connect'){reply('먼저 로보독 연결 버튼을 누르세요.');return}
    const encoded=btoa(JSON.stringify(lastOnRoute)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-   const target='http://127.0.0.1:8765/?connect=1&port='+encodeURIComponent(selectedPort)+'&service=on&route='+encoded;
+   const target='http://127.0.0.1:8765/'+(/^COM[1-9][0-9]{0,3}$/.test(selectedPort)?'?connect=1&port='+encodeURIComponent(selectedPort)+'&':'?')+'service=on&route='+encoded;
    reply('연결 도우미 확인 중…');
-   if(await window.aigoBridgeReady()){location.href=target;return}
-   location.href='aigo-robodog://connect?port='+encodeURIComponent(selectedPort)+'&service=on&route='+encoded;
+   location.href='aigo-robodog://connect?port='+encodeURIComponent(/^COM[1-9][0-9]{0,3}$/.test(selectedPort)?selectedPort:'AUTO')+'&service=on&route='+encoded;
    window.showAigoLaunchFallback(target);
    reply('연결 도우미 실행을 허용하세요. 열린 ON 화면에서 순찰을 시작하세요.');return;
   }
