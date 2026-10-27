@@ -8,12 +8,13 @@ try {
     }
     $runtimeRootPath = [IO.Path]::GetFullPath($RuntimeRoot)
     $pythonExe = Join-Path $runtimeRootPath '.venv\Scripts\python.exe'
-    $versionCheck = 'import sys; sys.exit(0 if (3, 10) <= sys.version_info < (3, 14) else 1)'
+    $versionCheck = 'import sys; sys.exit(0 if (3, 10) <= sys.version_info < (3, 15) else 1)'
     if (-not (Test-Path -LiteralPath $pythonExe)) {
         $pythonCommand = $null
         $pythonArgs = @()
         # Prefer the documented version, then try other installed Python 3 versions.
         $candidates = @(
+            @{ command = 'py'; arguments = @('-3.14') },
             @{ command = 'py'; arguments = @('-3.13') },
             @{ command = 'py'; arguments = @('-3.12') },
             @{ command = 'py'; arguments = @('-3.11') },
@@ -31,12 +32,12 @@ try {
                 break
             }
         }
-        if ($null -eq $pythonCommand) { throw 'Install Python 3.13 from https://www.python.org/downloads/windows/ (include the py launcher), then retry.' }
+        if ($null -eq $pythonCommand) { throw 'Install Python 3.10-3.14 from https://www.python.org/downloads/windows/ (include the py launcher), then retry.' }
         & $pythonCommand @pythonArgs -m venv (Join-Path $runtimeRootPath '.venv')
         if ($LASTEXITCODE -ne 0) { throw 'Could not create .venv. Check folder permissions and your Python installation.' }
     }
     & $pythonExe -c $versionCheck
-    if ($LASTEXITCODE -ne 0) { throw 'The .venv requires Python 3.10-3.13. Install Python 3.13 and extract this ZIP into a fresh folder.' }
+    if ($LASTEXITCODE -ne 0) { throw 'The .venv requires Python 3.10-3.14. Extract this ZIP into a fresh folder and rerun AIGO_Install.cmd.' }
     & $pythonExe -m pip install -r (Join-Path $PSScriptRoot 'requirements-bridge.txt')
     if ($LASTEXITCODE -ne 0) { throw 'Python dependency installation failed.' }
     & $pythonExe -c 'import kocoafab_robodog, serial; from pyjuni.robodog import RoboDog'

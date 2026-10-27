@@ -1,7 +1,7 @@
 정선 AIGO · 로보독 연결 도우미
 
 [처음 사용하는 Windows PC]
-1. Python 3.13을 설치합니다. Python 실행기(py launcher)를 포함하세요.
+1. Python 3.10~3.14 중 하나를 설치합니다. Python 실행기(py launcher)를 포함하세요.
 2. 배포 ZIP의 압축을 전부 풀고 AIGO_Install.cmd를 실행합니다.
    이 설치는 현재 사용자에게 aigo-robodog: 링크를 등록하고 .venv에 필요한 패키지를 설치합니다.
    관리자 권한은 필요하지 않습니다. 최초 설치에는 인터넷 연결이 필요합니다.
