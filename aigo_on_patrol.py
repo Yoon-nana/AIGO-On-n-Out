@@ -40,14 +40,9 @@ class RoutePatrol:
         self.repeat=repeat;self.finished=False
         self.x=config['points']['S']['x'];self.y=config['points']['S']['y']
         self.heading=config['initial_heading'];self.phase='PLAN';self.laps=0
-        self.deadline=0;self.walk_start=0;self.turn_start=0;self.turn_angle=0
+        self.deadline=0;self.walk_start=0;self.turn_angle=0
     def position(self):
-        heading=self.heading
-        if self.phase=='TURN':
-            angle=self.dog.get_rotation()
-            if isinstance(angle,(int,float)) and math.isfinite(angle) and abs(angle)<=abs(self.turn_angle)+15:
-                heading=self.turn_start+angle
-        return dict(x_cm=round(self.x,1),y_cm=round(self.y,1),heading_deg=round(heading,1),target=self.keys[self.index],phase=self.phase,laps=self.laps,position_estimated=True)
+        return dict(x_cm=round(self.x,1),y_cm=round(self.y,1),heading_deg=round(self.heading,1),target=self.keys[self.index],phase=self.phase,laps=self.laps,position_estimated=True)
     def update_walk(self,now):
         elapsed=min(max(0,now-self.walk_start),self.distance/self.config['cm_per_sec'])
         traveled=elapsed*self.config['cm_per_sec']
@@ -56,10 +51,6 @@ class RoutePatrol:
     def pause(self,now=None):
         now=time.monotonic() if now is None else now
         if self.phase=='WALK':self.update_walk(now)
-        elif self.phase=='TURN':
-            angle=self.dog.get_rotation()
-            if isinstance(angle,(int,float)) and math.isfinite(angle) and abs(angle)<=abs(self.turn_angle)+15:
-                self.heading=self.turn_start+angle
         self.dog.move(0);self.dog.gesture(0);self.eyes.restore();self.phase='PLAN'
     def tick(self,now):
         if self.finished:return
@@ -81,15 +72,12 @@ class RoutePatrol:
             if abs(self.turn_angle)<=2:
                 self.heading=self.target_heading;self.phase='WALK_READY';self.deadline=now+.4
             else:
-                self.turn_start=self.heading;self.dog.rotate(self.turn_angle,demo.TURN_SPEED)
-                self.deadline=now+demo.TURN_TIMEOUT;self.turn_requested_at=now;self.phase='TURN'
-        elif self.phase=='TURN':
-            angle=self.dog.get_rotation()
-            if now-self.turn_requested_at>=.3 and isinstance(angle,(int,float)) and abs(angle-self.turn_angle)<=8:
+                # rotate() waits for the relative turn. The route uses the
+                # configured point coordinates and timed straight segments.
+                self.dog.rotate(self.turn_angle,demo.TURN_SPEED)
                 self.dog.move(0);self.dog.gesture(0);self.eyes.restore()
-                self.heading=self.target_heading;self.phase='WALK_READY';self.deadline=now+.4
-            elif now>=self.deadline:
-                self.dog.move(0);raise RuntimeError('회전 확인 실패: 로보독을 정지했습니다.')
+                self.heading=self.target_heading;self.phase='WALK_READY'
+                self.deadline=time.monotonic()+.4
         elif self.phase=='WALK_READY' and now>=self.deadline:
             self.start_x,self.start_y=self.x,self.y;self.walk_start=now
             self.dog.move(demo.MOVE_SPEED);self.deadline=now+self.distance/self.config['cm_per_sec'];self.phase='WALK'
@@ -180,7 +168,7 @@ class PatrolService:
             dog.ai_mode(FACE_RECOGNITION,timeout=1.0)
             nav=RoutePatrol(dog,eyes,config);phase='PATROL';areas=[];area=None;alert=None
             attempts=0;deadline=0;last_publish=0;detected_streak=0
-            hazard=False;hazard_since=0;clear_streak=0
+            class1_seen=False;class1_hits=0;class1_clear_hits=0
             self.emit(state='순찰 중')
             def move_to(target):
                 nonlocal nav
@@ -199,25 +187,14 @@ class PatrolService:
                     self.emit(alert=alert,decision_pending=True,mission='WAIT',state='재난 신호 수신 · 관제 선택 대기',event_id=alert['id'],last_signal=alert['code'])
                 ai_alive=bool(dog.is_ai_alive())
                 ai_class=dog.get_face_recognition_class() if ai_alive else None
-                if ai_class==1 and not hazard:
-                    nav.pause(now);hazard=True;hazard_since=now;clear_streak=0;self.hazard_resume.clear()
-                    dog.bodyLED(0x0F,255,0,0);bark()
-                    self.notify('CLASS1 위험 대상 감지: 로보독이 정지하고 짖었습니다. 현장 확인 후 관제에서 재개하세요.','warning',event='CLASS1')
-                    self.emit(state='CLASS1 감지 · 위험 정지',hazard_wait=True,hazard_clear_confirmed=False,ai_class=1,**nav.position())
-                if hazard:
-                    clear_streak=clear_streak+1 if ai_alive and ai_class!=1 else 0
-                    cleared=clear_streak>=3
-                    if self.hazard_resume.is_set() and cleared:
-                        self.hazard_resume.clear();hazard=False
-                        if phase=='SEARCH':deadline+=now-hazard_since
-                        dog.bodyLED(0x0F,255 if alert else 0,0 if alert else 255,0);eyes.restore()
-                        self.notify('CLASS1 해제 및 관제 확인 완료 · 중단했던 작업을 재개합니다.','info')
-                        self.emit(hazard_wait=False,hazard_clear_confirmed=False,state='위험 정지 해제 · 작업 재개')
-                    else:
-                        self.emit(hazard_wait=True,hazard_clear_confirmed=cleared,ai_class=ai_class,
-                            state='CLASS1 해제 확인 · 관제 재개 대기' if cleared else 'CLASS1 감지 또는 AI 확인 불가 · 정지 유지')
-                        self.stop_event.wait(.03)
-                        continue
+                if phase=='PATROL' and ai_alive and ai_class==1:
+                    class1_hits+=1;class1_clear_hits=0
+                    if class1_hits>=2 and not class1_seen:
+                        class1_seen=True;bark()
+                        self.notify('멧돼지 이미지(CLASS1)를 인식해 짖고 관제에 보고했습니다.','warning',event='CLASS1',**nav.position())
+                else:
+                    class1_hits=0;class1_clear_hits+=1
+                    if class1_clear_hits>=3:class1_seen=False
                 for _ in range(16):
                     try:command=self.commands.get_nowait()
                     except queue.Empty:break
