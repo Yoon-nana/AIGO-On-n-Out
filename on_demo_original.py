@@ -159,10 +159,10 @@ class EyeDisplay:
         else:
             left, right = EYES[self.last_kind]
 
-            # 양쪽 눈의 위치를 교환
+            # 도안의 첫 글자를 왼쪽 눈, 둘째 글자를 오른쪽 눈에 표시합니다.
             self.dog.headLEDDraw(
-                bytearray(right),
-                bytearray(left)
+                bytearray(left),
+                bytearray(right)
             )
 
 
